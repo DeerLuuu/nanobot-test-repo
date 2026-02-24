@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Godot入门教程 - 交互式代码练习</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .logo-icon {
+            font-size: 3rem;
+            color: #478cbf;
+        }
+        
+        h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #a0aec0;
+            font-size: 1.2rem;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .code-section, .output-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-title {
+            color: white;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-icon {
+            color: #478cbf;
+        }
+        
+        .code-editor {
+            width: 100%;
+            min-height: 300px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 1rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #d4d4d4;
+            border: 2px solid #333;
+            resize: vertical;
+            white-space: pre;
+            overflow-x: auto;
+            tab-size: 4;
+        }
+        
+        .code-editor:focus {
+            outline: none;
+            border-color: #478cbf;
+        }
+        
+        .output-area {
+            width: 100%;
+            min-height: 300px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            padding: 1rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #d4d4d4;
+            border: 2px solid #333;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        
+        .output-line {
+            margin-bottom: 0.5rem;
+            padding: 0.25rem 0;
+        }
+        
+        .output-line.info {
+            color: #4ec9b0;
+        }
+        
+        .output-line.error {
+            color: #f48771;
+        }
+        
+        .output-line.success {
+            color: #b5cea8;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #478cbf;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3a7ca5;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .tutorial-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .tutorial-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tutorial-content {
+            color: #a0aec0;
+        }
+        
+        .tutorial-content p {
+            margin-bottom: 1rem;
+        }
+        
+        .tutorial-content code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            color: #f48771;
+        }
+        
+        .tutorial-content ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tutorial-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .example-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .example-card:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: #478cbf;
+            transform: translateY(-2px);
+        }
+        
+        .example-title {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .example-code {
+            font-family: 'Consolas', monospace;
+            font-size: 0.9rem;
+            color: #a0aec0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            color: #a0aec0;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .godot-keyword {
+            color: #569cd6;
+        }
+        
+        .godot-string {
+            color: #ce9178;
+        }
+        
+        .godot-number {
+            color: #b5cea8;
+        }
+        
+        .godot-comment {
+            color: #6a9955;
+        }
+        
+        .godot-function {
+            color: #dcdcaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-gamepad logo-icon"></i>
+                <div>
+                    <h1>Godot入门教程</h1>
+                    <p class="subtitle">交互式代码练习 - 学习Godot脚本编程</p>
+                </div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="code-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-code section-icon"></i>
+                        代码编辑器
+                    </h2>
+                    <div class="btn btn-secondary" onclick="clearCode()">
+                        <i class="fas fa-trash"></i>
+                        清空
+                    </div>
+                </div>
+                <textarea id="codeEditor" class="code-editor" placeholder="在这里输入你的Godot脚本代码..."># Godot GDScript 示例
+# 使用 print() 函数输出信息到控制台
+
+# 示例1: 打印字符串
+print("Hello, Godot!")
+
+# 示例2: 打印变量
+var player_name = "Player1"
+print("玩家名称: " + player_name)
+
+# 示例3: 打印数字计算
+var score = 100
+var bonus = 50
+print("总分: " + str(score + bonus))
+
+# 尝试修改上面的代码，或者添加你自己的print语句</textarea>
+            </div>
+            
+            <div class="output-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-terminal section-icon"></i>
+                        输出控制台
+                    </h2>
+                    <div class="btn btn-secondary" onclick="clearOutput()">
+                        <i class="fas fa-broom"></i>
+                        清空输出
+                    </div>
+                </div>
+                <div id="outputArea" class="output-area">
+                    <div class="output-line info">Godot 脚本执行器已就绪</div>
+                    <div class="output-line info">输入代码后点击"运行代码"按钮执行</div>
+                    <div class="output-line info">支持 print() 函数和基本变量操作</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" onclick="runCode()">
+                <i class="fas fa-play"></i>
+                运行代码
+            </button>
+            <button class="btn btn-secondary" onclick="showExamples()">
+                <i class="fas fa-lightbulb"></i>
+                查看示例
+            </button>
+            <button class="btn btn-secondary" onclick="formatCode()">
+                <i class="fas fa-indent"></i>
+                格式化代码
+            </button>
+        </div>
+        
+        <div class="tutorial-section">
+            <h2 class="tutorial-title">
+                <i class="fas fa-graduation-cap"></i>
+                Godot print() 函数教程
+            </h2>
+            <div class="tutorial-content">
+                <p><strong>print() 函数</strong>是Godot中用于调试和输出信息的基本函数。它可以将文本、变量和表达式的结果输出到控制台。</p>
+                
+                <p><strong>基本用法:</strong></p>
+                <ul>
+                    <li><code>print("Hello World")</code> - 打印字符串</li>
+                    <li><code>print(variable_name)</code> - 打印变量值</li>
+                    <li><code>print("Value: " + str(number))</code> - 拼接字符串和数字</li>
+                </ul>
+                
+                <p><strong>在代码编辑器中尝试以下示例:</strong></p>
+                <div class="examples">
+                    <div class="example-card" onclick="loadExample(0)">
+                        <div class="example-title">基础打印</div>
+                        <div class="example-code">print("欢迎学习Godot!")</div>
+                    </div>
+                    <div class="example-card" onclick="loadExample(1)">
+                        <div class="example-title">变量打印</div>
+                        <div class="example-code">var x = 10; print("x = " + str(x))</div>
+                    </div>
+                    <div class="example-card" onclick="loadExample(2)">
+                        <div class="example-title">数学运算</div>
+                        <div class="example-code">print("5 + 3 = " + str(5 + 3))</div>
+                    </div>
+                    <div class="example-card" onclick="loadExample(3)">
+                        <div class="example-title">条件语句</div>
+                        <div class="example-code">if true: print("条件为真")</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>🐈 nanobot创建的Godot教程交互网站 | 使用JavaScript模拟Godot的print()函数执行</p>
+            <p>GitHub仓库: <a href="https://github.com/DeerLuuu/nanobot-test-repo" style="color: #478cbf;">https://github.com/DeerLuuu/nanobot-test-repo</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // 代码示例库
+        const examples = [
+            `# 示例1: 基础打印
+print("欢迎学习Godot游戏开发!")
+print("这是一个交互式教程")
+print("你可以在这里练习GDScript代码")`,
+            
+            `# 示例2: 变量和打印
+var player_name = "冒险者"
+var health = 100
+var score = 0
+
+print("玩家: " + player_name)
+print("生命值: " + str(health))
+print("分数: " + str(score))
+
+# 更新变量
+health = health - 20
+print("受伤后生命值: " + str(health))`,
+            
+            `# 示例3: 数学运算
+var a = 15
+var b = 7
+
+print("a = " + str(a))
+print("b = " + str(b))
+print("a + b = " + str(a + b))
+print("a - b = " + str(a - b))
+print("a * b = " + str(a * b))
+print("a / b = " + str(a / b))
+print("a % b = " + str(a % b))`,
+            
+            `# 示例4: 条件语句
+var temperature = 25
+
+print("当前温度: " + str(temperature) + "°C")
+
+if temperature > 30:
+    print("天气很热!")
+elif temperature > 20:
+    print("天气温暖舒适")
+elif temperature > 10:
+    print("天气凉爽")
+else:
+    print("天气寒冷")
+
+# 布尔值打印
+var is_raining = false
+print("是否下雨: " + str(is_raining))`
+        ];
+        
+        // 获取DOM元素
+        const codeEditor = document.getElementById('codeEditor');
+        const outputArea = document.getElementById('outputArea');
+        
+        // 添加语法高亮
+        function highlightCode() {
+            let code = codeEditor.value;
+            
+            // 简单的语法高亮替换
+            code = code.replace(/print\(/g, '<span class="godot-function">print</span>(');
+            code = code.replace(/str\(/g, '<span class="godot-function">str</span>(');
+            code = code.replace(/#.*$/gm, '<span class="godot-comment">$&</span>');
+            code = code.replace(/"([^"]*)"/g, '<span class="godot-string">"$1"</span>');
+            code = code.replace(/\b(var|if|elif|else|for|while|func|return)\b/g, '<span class="godot-keyword">$1</span>');
+            code = code.replace(/\b(true|false|null)\b/g, '<span class="godot-keyword">$1</span>');
+            code = code.replace(/\b(\d+\.?\d*)\b/g, '<span class="godot-number">$1</span>');
+            
+            return code;
+        }
+        
+        // 运行代码
+        function runCode() {
+            const code = codeEditor.value;
+            clearOutput();
+            
+            // 添加开始执行消息
+            addOutputLine("🚀 开始执行代码...", "info");
+            addOutputLine("=".repeat(50), "info");
+            
+            try {
+                // 模拟Godot的print函数
+                const mockPrint = (...args) => {
+                    let output = '';
+                    args.forEach((arg, index) => {
+                        if (index > 0) output += ' ';
+                        output += String(arg);
+                    });
+                    addOutputLine(output, "success");
+                };
+                
+                // 模拟Godot的str函数
+                const mockStr = (value) => {
+                    return String(value);
+                };
+                
+                // 创建安全的执行环境
+                const lines = code.split('\n');
+                let lineNumber = 1;
+                let variables = {};
+                
+                for (let line of lines) {
+                    line = line.trim();
+                    
+                    // 跳过空行和注释
+                    if (!line || line.startsWith('#')) {
+                        lineNumber++;
+                        continue;
+                    }
+                    
+                    // 处理变量声明
+                    if (line.startsWith('var ')) {
+                        const varMatch = line.match(/var\s+(\w+)\s*=\s*(.+)/);
+                        if (varMatch) {
+                            const varName = varMatch[1];
+                            let varValue = varMatch[2].replace(/;$/, '');
+                            
+                            // 处理字符串
+                            if (varValue.startsWith('"') && varValue.endsWith('"')) {
+                                varValue = varValue.slice(1, -1);
+                            }
+                            // 处理布尔值
+                            else if (varValue === 'true') {
+                                varValue = true;
+                            }
+                            else if (varValue === 'false') {
+                                varValue = false;
+                            }
+                            // 处理数字
+                            else if (!isNaN(varValue)) {
+                                varValue = parseFloat(varValue);
+                            }
+                            
+                            variables[varName] = varValue;
+                            addOutputLine(`[行 ${lineNumber}] 声明变量: ${varName} = ${varValue}`, "info");
+                        }
+                    }
+                    // 处理print语句
+                    else if (line.includes('print(')) {
+                        const printMatch = line.match(/print\((.+)\)/);
+                        if (printMatch) {
+                            let content = printMatch[1];
+                            
+                            // 替换变量引用
+                            for (const [varName, varValue] of Object.entries(variables)) {
+                                const regex = new RegExp('\\b' + varName + '\\b', 'g');
+                                content = content.replace(regex, JSON.stringify(varValue));
+                            }
+                            
+                            // 替换str()函数调用
+                            content = content.replace(/str\((.+?)\)/g, (match, inner) => {
+                                try {
+                                    // 尝试计算表达式
+                                    const result = eval(inner);
+                                    return JSON.stringify(result);
+                                } catch (e) {
+                                    return inner;
+                                }
+                            });
+                            
+                            // 计算表达式
+                            try {
+                                // 安全地计算表达式
+                                const result = eval(content);
+                                mockPrint(result);
+                            } catch (e) {
+                                // 如果计算失败，直接输出原始内容
+                                mockPrint(content.replace(/"/g, ''));
+                            }
+                        }
+                    }
+                    // 处理变量赋值
+                    else if (line.includes('=') && !line.includes('print')) {
+                        const assignMatch = line.match(/(\w+)\s*=\s*(.+)/);
+                        if (assignMatch && variables[assignMatch[1]] !== undefined) {
+                            const varName = assignMatch[1];
+                            let expression = assignMatch[2].replace(/;$/, '');
+                            
+                            // 替换变量引用
+                            for (const [vName, vValue] of Object.entries(variables)) {
+                                const regex = new RegExp('\\b' + vName + '\\b', 'g');
+                                expression = expression.replace(regex, vValue);
+                            }
+                            
+                            try {
+                                const newValue = eval(expression);
+                                variables[varName] = newValue;
+                                addOutputLine(`[行 ${lineNumber}] 更新变量: ${varName} = ${newValue}`, "info");
+                            } catch (e) {
+                                addOutputLine(`[行 ${lineNumber}] 错误: 无法计算表达式 "${expression}"`, "error");
+                            }
+                        }
+                    }
+                    
+                    lineNumber++;
+                }
+                
+                addOutputLine("=".repeat(50), "info");
+                addOutputLine("✅ 代码执行完成!", "info");
+                
+            } catch (error) {
+                addOutputLine(`❌ 执行错误: ${error.message}`, "error");
+            }
+        }
+        
+        // 添加输出行
+        function addOutputLine(text, type = "info") {
+            const line = document.createElement('div');
+            line.className = `output-line ${type}`;
+            line.textContent = text;
+            outputArea.appendChild(line);
+            outputArea.scrollTop = outputArea.scrollHeight;
+        }
+        
+        // 清空输出
+        function clearOutput() {
+            outputArea.innerHTML = '';
+            addOutputLine("输出已清空", "info");
+            addOutputLine("等待执行代码...", "info");
+        }
+        
+        // 清空代码
+        function clearCode() {
+            codeEditor.value = '';
+            addOutputLine("代码编辑器已清空", "info");
+        }
+        
+        // 加载示例
+        function loadExample(index) {
+            if (index >= 0 && index < examples.length) {
+                codeEditor.value = examples[index];
+                addOutputLine(`已加载示例 ${index + 1}`, "info");
+            }
+        }
+        
+        // 显示示例面板
+        function showExamples() {
+            alert('点击示例卡片可以加载对应的代码示例到编辑器中。');
+        }
+        
+        // 格式化代码
+        function formatCode() {
+            let code = codeEditor.value;
+            
+            // 简单的格式化：确保print语句有适当的缩进
+            const lines = code.split('\n');
+            let formattedLines = [];
+            let indentLevel = 0;
+            
+            for (let line of lines) {
+                line = line.trim();
+                
+                // 减少缩进级别（在特定语句后）
+                if (line.startsWith('elif') || line.startsWith('else') || line === 'pass') {
+                    indentLevel = Math.max(0, indentLevel - 1);
+                }
+                
+                // 添加缩进
+                const indent = '    '.repeat(indentLevel);
+                formattedLines.push(indent + line);
+                
+                // 增加缩进级别（在特定语句后）
+                if (line.endsWith(':') && !line.startsWith('#')) {
+                    indentLevel++;
+                }
+            }
+            
+            codeEditor.value = formattedLines.join('\n');
+            addOutputLine("代码已格式化", "info");
+        }
+        
+        // 初始化代码编辑器
+        function initCodeEditor() {
+            // 添加键盘快捷键
+            codeEditor.addEventListener('keydown', function(e) {
+                // Ctrl+Enter 运行代码
+                if (e.ctrlKey && e.key === 'Enter') {
+                    e.preventDefault();
+                    runCode();
+                }
+                // Tab键处理
+                if (e.key === 'Tab') {
+                    e.preventDefault();
+                    const start = this.selectionStart;
+                    const end = this.selectionEnd;
+                    
+                    // 插入4个空格
+                    this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+                    
+                    // 移动光标位置
+                    this.selectionStart = this.selectionEnd = start + 4;
+                }
+            });
+            
+            // 添加输入时的简单语法高亮提示
+            codeEditor.addEventListener('input', function() {
+                // 这里可以添加实时语法检查或提示
+            });
+            
+            addOutputLine("Godot交互式教程已就绪", "info");
+            addOutputLine("输入GDScript代码并点击'运行代码'按钮", "info");
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', initCodeEditor);
+    </script>
+</body>
+</html>
