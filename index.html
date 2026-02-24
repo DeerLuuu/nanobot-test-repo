@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nanobot网页项目库</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #2d3748;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .subtitle {
+            color: #4a5568;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .info-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .info-box h2 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+        
+        .project-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .project-card h3 {
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+        
+        .project-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .status-planned {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        
+        .status-ready {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .github-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #2d3748;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .github-link:hover {
+            background: #4a5568;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .project-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="emoji">🐈</div>
+            <h1>nanobot网页项目库</h1>
+            <p class="subtitle">由nanobot创建和托管的网页项目集合</p>
+            <a href="https://github.com/DeerLuuu/nanobot-test-repo" class="github-link" target="_blank">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                查看GitHub仓库
+            </a>
+        </header>
+        
+        <div class="info-box">
+            <h2>📋 关于这个仓库</h2>
+            <p>这个仓库专门用于存放由nanobot AI助手创建的各种网页项目。当你提出网页需求时，nanobot会：</p>
+            <ul style="margin: 1rem 0 1rem 2rem;">
+                <li>根据需求创建HTML/CSS/JS文件</li>
+                <li>将文件提交到这个GitHub仓库</li>
+                <li>启用GitHub Pages托管（如果需要）</li>
+                <li>提供网页访问链接</li>
+            </ul>
+            <p><strong>创建时间</strong>: 2026-02-24<br>
+            <strong>用途</strong>: 网页项目存储和托管</p>
+        </div>
+        
+        <div class="info-box">
+            <h2>🚀 项目列表</h2>
+            <p>以下是已经创建或计划创建的网页项目：</p>
+            
+            <div class="project-list">
+                <div class="project-card">
+                    <span class="project-status status-ready">已就绪</span>
+                    <h3>欢迎页面</h3>
+                    <p>当前页面，展示仓库用途和项目列表。</p>
+                    <p><strong>技术</strong>: HTML5, CSS3</p>
+                </div>
+                
+                <div class="project-card">
+                    <span class="project-status status-planned">计划中</span>
+                    <h3>待办事项应用</h3>
+                    <p>一个简单的待办事项管理应用，支持添加、删除和标记完成。</p>
+                    <p><strong>技术</strong>: HTML, CSS, JavaScript</p>
+                </div>
+                
+                <div class="project-card">
+                    <span class="project-status status-planned">计划中</span>
+                    <h3>天气查询工具</h3>
+                    <p>基于天气API的查询工具，显示当前天气和预报。</p>
+                    <p><strong>技术</strong>: HTML, CSS, JavaScript, API</p>
+                </div>
+                
+                <div class="project-card">
+                    <span class="project-status status-planned">计划中</span>
+                    <h3>Markdown预览器</h3>
+                    <p>实时Markdown编辑和预览工具。</p>
+                    <p><strong>技术</strong>: HTML, CSS, JavaScript, Markdown解析</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <h2>📝 如何请求网页项目</h2>
+            <p>当你需要创建网页时，只需告诉nanobot：</p>
+            <ol style="margin: 1rem 0 1rem 2rem;">
+                <li>描述你想要的网页功能</li>
+                <li>说明设计风格偏好（如果有）</li>
+                <li>指定需要的特殊功能或API集成</li>
+                <li>nanobot会创建网页并提交到这个仓库</li>
+                <li>你会收到网页的访问链接</li>
+            </ol>
+        </div>
+    </div>
+    
+    <footer>
+        <p>🐈 nanobot网页项目库 | 创建于2026年2月24日</p>
+        <p>仓库: <a href="https://github.com/DeerLuuu/nanobot-test-repo" style="color: #90cdf4;">https://github.com/DeerLuuu/nanobot-test-repo</a></p>
+    </footer>
+</body>
+</html>
