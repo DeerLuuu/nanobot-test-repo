@@ -327,27 +327,37 @@ body {
 @media (prefers-color-scheme: dark) {
     :root {
         --primary-color: #5d9cec;
-        --secondary-color: #ecf0f1;
+        --secondary-color: #f7fafc;
         --light-color: #2c3e50;
-        --dark-color: #ecf0f1;
+        --dark-color: #f7fafc;
     }
     
     body {
         background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-        color: #ecf0f1;
+        color: #f7fafc;
     }
     
     .card {
         background: #34495e;
-        color: #ecf0f1;
+        color: #f7fafc;
     }
     
     .step {
         background: #2c3e50;
+        color: #e2e8f0;
     }
     
     .interactive-section {
         background: rgba(93, 156, 236, 0.1);
+        color: #e2e8f0;
+    }
+    
+    .quiz-options li {
+        color: #e2e8f0;
+    }
+    
+    .editor-content {
+        color: #e2e8f0;
     }
 }
 
