@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Godot HD2D生存游戏教程 - 第一课时</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #478cbf;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --code-bg: #1e1e1e;
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .header .subtitle {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #eee;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--success-color);
+            width: 20%;
+            transition: var(--transition);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h2 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 i {
+            color: var(--primary-color);
+        }
+
+        .step {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .step h3 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .code-editor {
+            background: var(--code-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .editor-header {
+            background: #2d2d2d;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #ccc;
+            font-family: monospace;
+        }
+
+        .editor-content {
+            padding: 15px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            color: #d4d4d4;
+            white-space: pre-wrap;
+            tab-size: 4;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            text-decoration: none;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background: #357abd;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
+        }
+
+        .btn-danger {
+            background: var(--accent-color);
+        }
+
+        .interactive-section {
+            background: #f0f7ff;
+            border: 2px dashed var(--primary-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin: 20px 0;
+        }
+
+        .quiz {
+            background: #fff8e1;
+            border-left: 4px solid var(--warning-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: var(--border-radius);
+        }
+
+        .quiz-question {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            list-style: none;
+        }
+
+        .quiz-options li {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quiz-options li:hover {
+            background: #f5f5f5;
+        }
+
+        .quiz-options li.correct {
+            background: #d4edda;
+            border-left: 4px solid var(--success-color);
+        }
+
+        .quiz-options li.incorrect {
+            background: #f8d7da;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .download-section {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: var(--border-radius);
+            margin: 30px 0;
+        }
+
+        .download-section h3 {
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            margin-top: 30px;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted #666;
+            cursor: help;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .completion-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background: var(--success-color);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist input[type="checkbox"] {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .checklist label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .checklist .completed {
+            text-decoration: line-through;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-gamepad"></i> Godot HD2D生存游戏教程</h1>
+            <div class="subtitle">第一课时：基础准备与环境搭建</div>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+                <span><i class="fas fa-clock"></i> 预计时间: 2-3小时</span>
+                <span><i class="fas fa-check-circle"></i> 难度: 初级</span>
+                <span><i class="fas fa-user-graduate"></i> 适合: 零基础开始</span>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- 左侧：教程内容 -->
+            <div class="card">
+                <h2><i class="fas fa-book-open"></i> 教程内容</h2>
+                
+                <div class="step">
+                    <h3><span class="step-number">1</span> 学习目标</h3>
+                    <div class="checklist">
+                        <li>
+                            <input type="checkbox" id="goal1" onchange="updateProgress()">
+                            <label for="goal1">完成所有开发工具的安装和配置</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="goal2" onchange="updateProgress()">
+                            <label for="goal2">创建并初始化Godot项目</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="goal3" onchange="updateProgress()">
+                            <label for="goal3">创建项目文件夹格式</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="goal4" onchange="updateProgress()">
+                            <label for="goal4">掌握基础版本控制流程</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="goal5" onchange="updateProgress()">
+                            <label for="goal5">运行第一个Godot程序</label>
+                        </li>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <h3><span class="step-number">2</span> 安装 Godot</h3>
+                    
+                    <div class="interactive-section">
+                        <h4><i class="fas fa-download"></i> 方式1: 从官网下载</h4>
+                        <p>访问 <a href="https://godotengine.org/download" target="_blank">Godot官网</a> 下载最新版本</p>
+                        <button class="btn" onclick="simulateDownload('godot')">
+                            <i class="fas fa-download"></i> 模拟下载Godot
+                        </button>
+                        <div id="download-status" style="margin-top: 10px; padding: 10px; background: #e8f5e8; border-radius: 5px; display: none;">
+                            <i class="fas fa-check-circle" style="color: #27ae60;"></i> 下载完成！解压到合适位置后运行 Godot_v4.6.1-stable_win64.exe
+                        </div>
+                    </div>
+
+                    <div class="interactive-section" style="margin-top: 20px;">
+                        <h4><i class="fab fa-steam"></i> 方式2: 通过Steam安装</h4>
+                        <p>在Steam商店中搜索并安装Godot</p>
+                        <button class="btn btn-success" onclick="simulateSteamInstall()">
+                            <i class="fab fa-steam"></i> 模拟Steam安装
+                        </button>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <h3><span class="step-number">3</span> 安装 Git 和 SourceTree</h3>
+                    
+                    <div class="code-editor">
+                        <div class="editor-header">
+                            <span>安装步骤</span>
+                            <span><i class="fas fa-terminal"></i> 命令行</span>
+                        </div>
+                        <div class="editor-content">
+# 1. 安装 Git
+# 访问: https://git-scm.cn/
+# 点击 Download 按钮
+
+# 2. 安装 SourceTree
+# 访问: https://sourcetreeapp.com/
+# 下载对应平台的版本
+
+# 3. 配置用户信息
+git config --global user.name "你的名字"
+git config --global user.email "你的邮箱"
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="showGitConfig()">
+                        <i class="fas fa-cog"></i> 配置Git用户信息
+                    </button>
+                </div>
+
+                <div class="step">
+                    <h3><span class="step-number">4</span> Git 基础使用</h3>
+                    
+                    <div class="code-editor">
+                        <div class="editor-header">
+                            <span>基础Git命令</span>
+                            <span><i class="fas fa-code"></i> 可交互</span>
+                        </div>
+                        <div class="editor-content" id="git-commands">
+# 克隆仓库到本地
+git clone https://github.com/你的用户名/godot-hd2d-survival.git
+
+# 进入项目目录
+cd godot-hd2d-survival
+
+# 创建新分支
+git checkout -b feature/initial-setup
+
+# 添加文件到暂存区
+git add .
+
+# 提交更改
+git commit -m "初始项目设置"
+
+# 推送到远程仓库
+git push origin feature/initial-setup
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 15px;">
+                        <button class="btn" onclick="executeEnhancedCommand('clone')">
+                            <i class="fas fa-play"></i> 执行 git clone
+                        </button>
+                        <button class="btn" onclick="executeEnhancedCommand('add')">
+                            <i class="fas fa-play"></i> 执行 git add
+                        </button>
+                        <button class="btn" onclick="executeEnhancedCommand('commit')">
+                            <i class="fas fa-play"></i> 执行 git commit
+                        </button>
+                        <button class="btn" onclick="executeEnhancedCommand('status')">
+                            <i class="fas fa-play"></i> 执行 git status
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：交互区域 -->
+            <div class="card">
+                <h2><i class="fas fa-magic"></i> 交互学习区</h2>
+
+                <div class="quiz">
+                    <div class="quiz-question">
+                        <i class="fas fa-question-circle"></i> 问题1: Godot是什么类型的软件？
+                    </div>
+                    <ul class="quiz-options" id="quiz1">
+                        <li onclick="checkAnswer(this, 'correct')">A. 游戏引擎</li>
+                        <li onclick="checkAnswer(this, 'incorrect')">B. 图像编辑器</li>
+                        <li onclick="checkAnswer(this, 'incorrect')">C. 视频播放器</li>
+                        <li onclick="checkAnswer(this, 'incorrect')">D. 音乐制作软件</li>
+                    </ul>
+                </div>
+
+                <div class="quiz">
+                    <div class="quiz-question">
+                        <i class="fas fa-question-circle"></i> 问题2: Git的主要作用是什么？
+                    </div>
+                    <ul class="quiz-options" id="quiz2">
+                        <li onclick="checkAnswer(this, 'incorrect')">A. 编辑代码</li>
+                        <li onclick="checkAnswer(this, 'correct')">B. 版本控制</li>
+                        <li onclick="checkAnswer(this, 'incorrect')">C. 运行程序</li>
+                        <li onclick="checkAnswer(this, 'incorrect')">D. 设计界面</li>
+                    </ul>
+                </div>
+
+                <div class="interactive-section">
+                    <h4><i class="fas fa-folder-open"></i> 项目结构创建器</h4>
+                    <p>点击按钮创建标准的Godot项目结构：</p>
+                    
+                    <div style="margin: 15px 0;">
+                        <button class="btn" onclick="createFolder('scenes')">
+                            <i class="fas fa-folder-plus"></i> 创建 scenes/ 文件夹
+                        </button>
+                        <button class="btn" onclick="createFolder('scripts')">
+                            <i class="fas fa-folder-plus"></i> 创建 scripts/ 文件夹
+                        </button>
+                        <button class="btn" onclick="createFolder('assets')">
+                            <i class="fas fa-folder-plus"></i> 创建 assets/ 文件夹
+                        </button>
+                    </div>
+
+                    <div id="folder-structure" style="background: #f5f5f5; padding: 15px; border-radius: 5px; font-family: monospace; margin-top: 10px;">
+                        godot-hd2d-survival/<br>
+                        ├── project.godot<br>
+                        └── (等待创建文件夹...)
+                    </div>
+                </div>
+
+                <div class="interactive-section">
+                    <h4><i class="fas fa-terminal"></i> 命令行模拟器</h4>
+                    <div style="background: #1e1e1e; color: #fff; padding: 15px; border-radius: 5px; font-family: monospace; height: 200px; overflow-y: auto; margin-bottom: 10px;" id="terminal-output">
+                        $ 等待输入命令...<br>
+                        $ 输入 'help' 查看可用命令
+                    </div>
+                    <div style="display: flex;">
+                        <input type="text" id="terminal-input" placeholder="输入命令..." style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px 0 0 5px;" onkeypress="handleTerminalKey(event)">
+                        <button class="btn" onclick="executeEnhancedTerminalCommand()" style="border-radius: 0 5px 5px 0;">
+                            <i class="fas fa-play"></i> 执行
+                        </button>
+                    </div>
+                </div>
+
+                <div class="interactive-section">
+                    <h4><i class="fas fa-tasks"></i> 学习进度</h4>
+                    <div style="margin: 15px 0;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>环境安装</span>
+                            <span id="progress1">0%</span>
+                        </div>
+                        <div style="height: 10px; background: #eee; border-radius: 5px;">
+                            <div id="progress-bar1" style="height: 100%; background: #27ae60; width: 0%; border-radius: 5px; transition: width 0.3s;"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 15px 0;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>Git掌握</span>
+                            <span id="progress2">0%</span>
+                        </div>
+                        <div style="height: 10px; background: #eee; border-radius: 5px;">
+                            <div id="progress-bar2" style="height: 100%; background: #27ae60; width: 0%; border-radius: 5px; transition: width 0.3s;"></div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-success" onclick="generateCertificate()" style="width: 100%; margin-top: 15px;">
+                        <i class="fas fa-certificate"></i> 生成学习证书
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <h3><i class="fas fa-file-download"></i> 资源下载</h3>
+            <p>下载本课时的完整教程文档和代码示例</p>
+            <div style="margin-top: 20px;">
+                <button class="btn" onclick="downloadResource('tutorial')" style="background: white; color: #667eea;">
+                    <i class="fas fa-file-pdf"></i> 下载教程PDF
+                </button>
+                <button class="btn" onclick="downloadResource('code')" style="background: white; color: #667eea; margin-left: 10px;">
+                    <i class="fas fa-code"></i> 下载示例代码
+                </button>
+                <button class="btn" onclick="downloadResource('checklist')" style="background: white; color: #667eea; margin-left: 10px;">
+                    <i class="fas fa-clipboard-list"></i> 下载检查清单
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-forward"></i> 下一步计划</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                <div style="padding: 15px; background: #f0f7ff; border-radius: 5px;">
+                    <h4><i class="fas fa-user-circle"></i> 第二课时</h4>
+                    <p>创建角色场景和移动系统</p>
+                    <button class="btn" style="margin-top: 10px;" onclick="alert('即将推出！')">
+                        预览内容
+                    </button>
+                </div>
+                <div style="padding: 15px; background: #fff0f0; border-radius: 5px;">
+                    <h4><i class="fas fa-globe"></i> 第三课时</h4>
+                    <p>世界生成和地图系统</p>
+                    <button class="btn" style="margin-top: 10px;" onclick="alert('即将推出！')">
+                        预览内容
+                    </button>
+                </div>
+                <div style="padding: 15px; background: #f0fff0; border-radius: 5px;">
+                    <h4><i class="fas fa-cube"></i> 第四课时</h4>
+                    <p>物品系统和背包界面</p>
+                    <button class="btn" style="margin-top: 10px;" onclick="alert('即将推出！')">
+                        预览内容
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Godot HD2D生存游戏教程 © 2026 | 互动式学习平台</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">
+                <a href="https://github.com/DeerLuuu/nanobot-test-repo" target="_blank" style="color: white; margin: 0 10px;">GitHub仓库</a> |
+                <a href="#" onclick="exportLearningReport()" style="color: white; margin: 0 10px;">导出学习报告</a> |
+                <a href="#" onclick="resetProgress()" style="color: white; margin: 0 10px;">重置进度</a> |
+                <a href="#" style="color: white; margin: 0 10px;">关于作者</a>
+            </p>
+            <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.8;">
+                快捷键: Ctrl+S保存进度 | Ctrl+R导出报告 | Ctrl+L清空终端
+            </p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // 初始化代码高亮
+        hljs.highlightAll();
+
+        // 更新总体进度
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const total = checkboxes.length;
+            const percentage = (checked / total) * 100;
+            
+            document.getElementById('progress').style.width = percentage + '%';
+            
+            // 更新子进度条
+            updateSubProgress();
+        }
+
+        // 更新子进度条
+        function updateSubProgress() {
+            // 环境安装进度（目标1-3）
+            const envGoals = ['goal1', 'goal2', 'goal3'];
+            const envChecked = envGoals.filter(id => document.getElementById(id).checked).length;
+            const envPercentage = (envChecked / envGoals.length) * 100;
+            
+            document.getElementById('progress-bar1').style.width = envPercentage + '%';
+            document.getElementById('progress1').textContent = Math.round(envPercentage) + '%';
+            
+            // Git掌握进度（目标4-5）
+            const gitGoals = ['goal4', 'goal5'];
+            const gitChecked = gitGoals.filter(id => document.getElementById(id).checked).length;
+            const gitPercentage = (gitChecked / gitGoals.length) * 100;
+            
+            document.getElementById('progress-bar2').style.width = gitPercentage + '%';
+            document.getElementById('progress2').textContent = Math.round(gitPercentage) + '%';
+        }
+
+        // 模拟下载
+        function simulateDownload(type) {
+            const status = document.getElementById('download-status');
+            status.style.display = 'block';
+            
+            setTimeout(() => {
+                status.innerHTML = '<i class="fas fa-check-circle" style="color: #27ae60;"></i> 下载完成！解压到合适位置后运行 Godot_v4.6.1-stable_win64.exe';
+                document.getElementById('goal1').checked = true;
+                updateProgress();
+            }, 1000);
+        }
+
+        // 模拟Steam安装
+        function simulateSteamInstall() {
+            alert('Steam安装模拟：\n1. 打开Steam客户端\n2. 搜索 "Godot"\n3. 点击安装\n4. 等待安装完成\n5. 在库中启动Godot');
+            document.getElementById('goal1').checked = true;
+            updateProgress();
+        }
+
+        // 显示Git配置
+        function showGitConfig() {
+            const name = prompt('请输入你的名字（用于Git配置）：', '你的名字');
+            const email = prompt('请输入你的邮箱（用于Git配置）：', 'your.email@example.com');
+            
+            if (name && email) {
+                alert(`Git配置成功！\n用户名: ${name}\n邮箱: ${email}`);
+                document.getElementById('goal4').checked = true;
+                updateProgress();
+            }
+        }
+
+        // 执行Git命令
+        function executeCommand(cmd) {
+            const output = document.getElementById('terminal-output');
+            let message = '';
+            
+            switch(cmd) {
+                case 'clone':
+                    message = '$ git clone https://github.com/你的用户名/godot-hd2d-survival.git\n正在克隆到 \'godot-hd2d-survival\'...\n远程: 枚举对象中: 100% (45/45), 完成。\n接收对象中: 100% (45/45), 15.67 KiB | 2.23 MiB/s, 完成。\n处理 delta 中: 100% (15/15), 完成。';
+                    break;
+                case 'add':
+                    message = '$ git add .\n所有更改已添加到暂存区';
+                    break;
+                case 'commit':
+                    message = '$ git commit -m "初始项目设置"\n[main 1234567] 初始项目设置\n 3 files changed, 150 insertions(+)';
+                    break;
+            }
+            
+            output.innerHTML += '\n' + message;
+            output.scrollTop = output.scrollHeight;
+            
+            if (cmd === 'commit') {
+                document.getElementById('goal4').checked = true;
+                updateProgress();
+            }
+        }
+
+        // 检查答案
+        function checkAnswer(element, type) {
+            const options = element.parentElement.children;
+            
+            // 移除所有现有类
+            for (let option of options) {
+                option.classList.remove('correct', 'incorrect');
+            }
+            
+            // 添加正确/错误类
+            element.classList.add(type);
+            
+            // 如果是正确的，标记目标5为完成
+            if (type === 'correct') {
+                setTimeout(() => {
+                    document.getElementById('goal5').checked = true;
+                    updateProgress();
+                }, 500);
+            }
+        }
+
+        // 创建文件夹
+        function createFolder(folderName) {
+            const structure = document.getElementById('folder-structure');
+            let current = structure.innerHTML;
+            
+            if (!current.includes(folderName + '/')) {
+                // 替换最后一行
+                const lines = current.split('<br>');
+                lines[lines.length - 2] = lines[lines.length - 2].replace('(等待创建文件夹...)', '├── ' + folderName + '/');
+                lines[lines.length - 1] = '└── (等待创建文件夹...)';
+                structure.innerHTML = lines.join('<br>');
+                
+                document.getElementById('goal3').checked = true;
+                updateProgress();
+            }
+        }
+
+        // 终端命令处理
+        function handleTerminalKey(event) {
+            if (event.key === 'Enter') {
+                executeTerminalCommand();
+            }
+        }
+
+        function executeTerminalCommand() {
+            const input = document.getElementById('terminal-input');
+            const output = document.getElementById('terminal-output');
+            const command = input.value.trim();
+            
+            if (command) {
+                output.innerHTML += '\n$ ' + command;
+                
+                let response = '';
+                switch(command.toLowerCase()) {
+                    case 'help':
+                        response = '可用命令:\n  help - 显示帮助\n  pwd - 显示当前目录\n  ls - 列出文件\n  mkdir - 创建目录\n  cd - 切换目录\n  clear - 清屏';
+                        break;
+                    case 'pwd':
+                        response = '/home/user/godot-hd2d-survival';
+                        break;
+                    case 'ls':
+                        response = 'project.godot\nREADME.md\n.gitignore';
+                        break;
+                    case 'mkdir test':
+                        response = '已创建目录 test';
+                        break;
+                    case 'clear':
+                        output.innerHTML = '$ 终端已清空';
+                        input.value = '';
+                        return;
+                    default:
+                        response = '命令未找到: ' + command + '\n输入 help 查看可用命令';
+                }
+                
+                output.innerHTML += '\n' + response;
+                output.scrollTop = output.scrollHeight;
+                input.value = '';
+            }
+        }
+
+        // 下载资源
+        function downloadResource(type) {
+            let filename = '';
+            let content = '';
+            
+            switch(type) {
+                case 'tutorial':
+                    filename = 'godot-tutorial-lesson1.pdf';
+                    content = '这是第一课时的教程PDF内容...';
+                    break;
+                case 'code':
+                    filename = 'lesson1-example-code.zip';
+                    content = '这是示例代码压缩包...';
+                    break;
+                case 'checklist':
+                    filename = 'lesson1-checklist.txt';
+                    content = '第一课时检查清单:\n1. 安装Godot ✓\n2. 安装Git和SourceTree ✓\n3. 配置Git用户信息 ✓\n4. 学习基础Git命令 ✓\n5. 创建项目结构 ✓';
+                    break;
+            }
+            
+            alert(`开始下载: ${filename}\n（在实际应用中，这里会触发文件下载）`);
+        }
+
+        // 生成证书
+        function generateCertificate() {
+            const percentage = parseInt(document.getElementById('progress').style.width);
+            
+            if (percentage >= 80) {
+                const name = prompt('请输入你的名字用于证书：', '学习者');
+                if (name) {
+                    alert(`🎉 恭喜 ${name}！\n\n你已成功完成第一课时的学习！\n\n完成度: ${percentage}%\n\n证书已生成，请查看下载文件夹。`);
+                }
+            } else {
+                alert(`还需要努力哦！\n当前完成度: ${percentage}%\n请完成至少80%的学习内容来获得证书。`);
+            }
+        }
+
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 模拟一些初始进度
+            setTimeout(() => {
+                document.getElementById('goal1').checked = true;
+                updateProgress();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
