@@ -3,63 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Godot入门教程 - 交互式代码练习</title>
+    <title>Godot交互式代码练习 - Godot HD2D生存游戏教程</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .logo-icon {
-            font-size: 3rem;
-            color: #478cbf;
-        }
-        
-        h1 {
-            color: white;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .subtitle {
-            color: #a0aec0;
-            font-size: 1.2rem;
-        }
-        
+        /* 交互式编辑器特定样式 */
         .main-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -283,15 +231,6 @@
             text-overflow: ellipsis;
         }
         
-        footer {
-            text-align: center;
-            margin-top: 3rem;
-            padding: 2rem;
-            color: #a0aec0;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
         .godot-keyword {
             color: #569cd6;
         }
@@ -319,10 +258,14 @@
             <div class="logo">
                 <i class="fas fa-gamepad logo-icon"></i>
                 <div>
-                    <h1>Godot入门教程</h1>
-                    <p class="subtitle">交互式代码练习 - 学习Godot脚本编程</p>
+                    <h1>Godot交互式代码练习</h1>
+                    <p class="subtitle">学习GDScript编程 - HD2D生存游戏教程的一部分</p>
                 </div>
             </div>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> 返回教程主页</a>
+                <a href="https://deerluuu.github.io/nanobot-test-repo/" class="nav-link"><i class="fas fa-globe"></i> 项目库主页</a>
+            </nav>
         </header>
         
         <div class="main-content">
@@ -387,6 +330,10 @@ print("总分: " + str(score + bonus))
                 <i class="fas fa-indent"></i>
                 格式化代码
             </button>
+            <button class="btn btn-secondary" onclick="saveCode()">
+                <i class="fas fa-save"></i>
+                保存代码
+            </button>
         </div>
         
         <div class="tutorial-section">
@@ -423,12 +370,23 @@ print("总分: " + str(score + bonus))
                         <div class="example-code">if true: print("条件为真")</div>
                     </div>
                 </div>
+                
+                <div style="margin-top: 2rem; padding: 1rem; background: rgba(0, 0, 0, 0.2); border-radius: 8px;">
+                    <h3 style="color: white; margin-bottom: 0.5rem;">💡 学习提示</h3>
+                    <p style="margin-bottom: 0.5rem;">这个交互式编辑器是 <a href="index.html" style="color: #478cbf;">Godot HD2D生存游戏教程</a> 的一部分。完成基础练习后，可以继续学习完整的游戏开发教程。</p>
+                    <p>教程包含14个章节，从环境配置到游戏发布，完整学习需要48-62小时。</p>
+                </div>
             </div>
         </div>
         
         <footer>
-            <p>🐈 nanobot创建的Godot教程交互网站 | 使用JavaScript模拟Godot的print()函数执行</p>
+            <p>🐈 nanobot创建的Godot交互式教程 | 使用JavaScript模拟Godot的print()函数执行</p>
             <p>GitHub仓库: <a href="https://github.com/DeerLuuu/nanobot-test-repo" style="color: #478cbf;">https://github.com/DeerLuuu/nanobot-test-repo</a></p>
+            <div class="footer-links">
+                <a href="index.html">返回教程主页</a> | 
+                <a href="https://deerluuu.github.io/nanobot-test-repo/">项目库主页</a> | 
+                <a href="https://github.com/DeerLuuu/nanobot-test-repo/issues">报告问题</a>
+            </div>
         </footer>
     </div>
 
@@ -670,7 +628,7 @@ print("是否下雨: " + str(is_raining))`
         
         // 显示示例面板
         function showExamples() {
-            alert('点击示例卡片可以加载对应的代码示例到编辑器中。');
+            alert('点击示例卡片可以加载对应的代码示例到编辑器中。\n\n当前有4个示例:\n1. 基础打印\n2. 变量和打印\n3. 数学运算\n4. 条件语句');
         }
         
         // 格式化代码
@@ -704,6 +662,32 @@ print("是否下雨: " + str(is_raining))`
             addOutputLine("代码已格式化", "info");
         }
         
+        // 保存代码
+        function saveCode() {
+            const code = codeEditor.value;
+            if (!code.trim()) {
+                alert('代码编辑器为空，无法保存。');
+                return;
+            }
+            
+            // 创建Blob对象
+            const blob = new Blob([code], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            // 创建下载链接
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'godot_script.gd';
+            document.body.appendChild(a);
+            a.click();
+            
+            // 清理
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            addOutputLine("代码已保存为 godot_script.gd 文件", "info");
+        }
+        
         // 初始化代码编辑器
         function initCodeEditor() {
             // 添加键盘快捷键
@@ -727,13 +711,9 @@ print("是否下雨: " + str(is_raining))`
                 }
             });
             
-            // 添加输入时的简单语法高亮提示
-            codeEditor.addEventListener('input', function() {
-                // 这里可以添加实时语法检查或提示
-            });
-            
             addOutputLine("Godot交互式教程已就绪", "info");
             addOutputLine("输入GDScript代码并点击'运行代码'按钮", "info");
+            addOutputLine("使用Ctrl+Enter快捷键快速运行代码", "info");
         }
         
         // 页面加载完成后初始化
