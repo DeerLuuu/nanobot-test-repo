@@ -554,6 +554,51 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
+// 更新进度函数
+function updateProgress() {
+    const checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+    const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+    const total = checkboxes.length;
+    const percentage = (checked / total) * 100;
+    
+    const progressBar = document.getElementById('progress');
+    if (progressBar) {
+        progressBar.style.width = percentage + '%';
+    }
+    
+    // 更新子进度条
+    updateSubProgress();
+}
+
+// 更新子进度条
+function updateSubProgress() {
+    // 环境安装进度（目标1-3）
+    const envGoals = ['goal1', 'goal2', 'goal3'];
+    const envChecked = envGoals.filter(id => {
+        const checkbox = document.getElementById(id);
+        return checkbox ? checkbox.checked : false;
+    }).length;
+    const envPercentage = (envChecked / envGoals.length) * 100;
+    
+    const progressBar1 = document.getElementById('progress-bar1');
+    const progressText1 = document.getElementById('progress1');
+    if (progressBar1) progressBar1.style.width = envPercentage + '%';
+    if (progressText1) progressText1.textContent = Math.round(envPercentage) + '%';
+    
+    // Git掌握进度（目标4-5）
+    const gitGoals = ['goal4', 'goal5'];
+    const gitChecked = gitGoals.filter(id => {
+        const checkbox = document.getElementById(id);
+        return checkbox ? checkbox.checked : false;
+    }).length;
+    const gitPercentage = (gitChecked / gitGoals.length) * 100;
+    
+    const progressBar2 = document.getElementById('progress-bar2');
+    const progressText2 = document.getElementById('progress2');
+    if (progressBar2) progressBar2.style.width = gitPercentage + '%';
+    if (progressText2) progressText2.textContent = Math.round(gitPercentage) + '%';
+}
+
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', initTutorial);
 
