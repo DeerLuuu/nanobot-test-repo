@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Godot HD2D生存游戏教程 - 第一课时课件">
+    <meta name="theme-color" content="#667eea">
+    <title>Godot HD2D生存游戏教程 - 第一课时课件</title>
+    
+    <!-- 使用与Godot教程页面相同的样式 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/shared-theme.css">
+    
+    <style>
+        /* 课件特定样式 */
+        .course-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .course-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .course-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .course-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+        
+        /* 卡片容器 */
+        .card-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-height: 500px;
+        }
+        
+        /* 卡片样式 */
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            max-width: 800px;
+            width: 100%;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-color-light);
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .card-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            opacity: 0.9;
+        }
+        
+        .card-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        
+        .card-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .card-content::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 3px;
+        }
+        
+        .card-content::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+        
+        /* 内容样式 */
+        .content-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .content-title {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .content-title i {
+            color: var(--primary-color);
+        }
+        
+        .content-list {
+            list-style: none;
+            padding-left: 1.5rem;
+        }
+        
+        .content-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1rem;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        .content-list li:before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+            position: absolute;
+            left: -1rem;
+        }
+        
+        .code-block {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--primary-color);
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .code-block code {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .link-item {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .link-item:hover {
+            color: var(--primary-color-light);
+            text-decoration: underline;
+        }
+        
+        .link-item i {
+            font-size: 0.9rem;
+        }
+        
+        /* 导航按钮 */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .nav-button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 120px;
+            justify-content: center;
+        }
+        
+        .nav-button:hover {
+            background: var(--primary-color-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .nav-button:disabled {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .nav-button.prev {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .nav-button.prev:hover:not(:disabled) {
+            background: var(--border-color);
+        }
+        
+        /* 进度指示器 */
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 0 1rem;
+            flex: 1;
+            justify-content: center;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            max-width: 300px;
+            height: 6px;
+            background: var(--bg-secondary);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        /* 卡片编号 */
+        .card-number {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary-color);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .course-container {
+                padding: 1rem;
+            }
+            
+            .course-title {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+                min-height: 350px;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .progress-container {
+                order: -1;
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+            
+            .nav-button {
+                width: 100%;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* 学习目标特殊样式 */
+        .learning-objectives {
+            background: linear-gradient(135deg, var(--primary-color-light) 0%, var(--accent-color) 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .learning-objectives .content-title {
+            color: white;
+        }
+        
+        .learning-objectives .content-list li:before {
+            color: white;
+        }
+        
+        .learning-objectives .content-list li {
+            color: rgba(255, 255, 255, 0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="course-container">
+        <header class="course-header">
+            <h1 class="course-title">Godot HD2D生存游戏教程</h1>
+            <p class="course-subtitle">第一课时：基础准备与环境搭建</p>
+        </header>
+        
+        <main class="card-container">
+            <div class="card" id="current-card">
+                <!-- 卡片内容将通过JavaScript动态加载 -->
+                <div class="card-number" id="card-number">1</div>
+                <div class="card-header">
+                    <h2 class="card-title" id="card-title">加载中...</h2>
+                    <p class="card-subtitle" id="card-subtitle">请稍候</p>
+                </div>
+                <div class="card-content" id="card-content">
+                    <p>课件内容正在加载...</p>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-button prev" id="prev-btn" disabled>
+                        <i class="fas fa-chevron-left"></i> 上一张
+                    </button>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text" id="progress-text">0/0</span>
+                    </div>
+                    
+                    <button class="nav-button next" id="next-btn">
+                        下一张 <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 课件数据
+        const courseData = [
+            {
+                id: 1,
+                title: "本部分概述",
+                subtitle: "第一部分：基础准备与环境搭建",
+                content: `
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fas fa-bullseye"></i> 学习目标</h3>
+                        <ul class="content-list">
+                            <li>完成所有开发工具的安装和配置</li>
+                            <li>创建并初始化Godot项目</li>
+                            <li>创建项目文件夹格式</li>
+                            <li>掌握基础版本控制流程</li>
+                            <li>运行第一个Godot程序</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                title: "安装 Godot",
+                subtitle: "方式1：Godot 官网下载",
+                content: `
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fas fa-download"></i> 下载Godot（方式1 Godot 官网）</h3>
+                        <ul class="content-list">
+                            <li>访问 <a href="https://godotengine.org/download" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Godot官网</a></li>
+                            <li>下载最新版 Godot</li>
+                            <li>解压到合适位置</li>
+                            <li>点击 <em>Godot_v4.6.1-stable_win64.exe</em> 启动 Godot</li>
+                        </ul>
+                    </div>
+                    <div class="content-section">
+                        <p><strong>提示：</strong>建议将Godot添加到系统PATH环境变量，方便从命令行启动。</p>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                title: "安装 Godot",
+                subtitle: "方式2：Steam下载",
+                content: `
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fab fa-steam"></i> 下载Godot（方式2 Steam）</h3>
+                        <ul class="content-list">
+                            <li>打开 <em>Steam</em></li>
+                            <li>搜索 Godot</li>
+                            <li>安装</li>
+                            <li>在 <em>Steam</em> 仓库中启动</li>
+                        </ul>
+                    </div>
+                    <div class="content-section">
+                        <p><strong>优点：</strong>通过Steam安装可以自动更新，适合经常使用Steam的用户。</p>
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                title: "安装 Git 和 SourceTree",
+                subtitle: "版本控制工具安装",
+                content: `
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fab fa-git-alt"></i> 安装 Git</h3>
+                        <ul class="content-list">
+                            <li>打开 <a href="https://git-scm.cn/" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Git - Git 版本控制系统</a></li>
+                            <li>点击 Install</li>
+                            <li>非Windows系统可以参考<a href="https://git-scm.cn/install/windows" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Git - Windows 版安装</a></li>
+                            <li>参考教程：<a href="https://blog.csdn.net/mukes/article/details/115693833" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Git 详细安装教程</a></li>
+                        </ul>
+                    </div>
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fas fa-code-branch"></i> 安装 SourceTree</h3>
+                        <ul class="content-list">
+                            <li>打开 <a href="https://sourcetreeapp.com/" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Sourcetreeapp</a></li>
+                            <li>根据需求安装对应平台的版本</li>
+                            <li>参考安装步骤：<a href="https://zhuanlan.zhihu.com/p/9499120135" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Sourcetree安装教程及使用</a></li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 5,
+                title: "Git 基础使用",
+                subtitle: "命令行版本控制",
+                content: `
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fas fa-terminal"></i> 基础 git 指令教程</h3>
+                        <div class="code-block">
+                            <code>
+# 克隆仓库到本地<br>
+git clone 从你的仓库中复制，或者直接将仓库网址复制过来<br>
+<br>
+# 进入项目目录<br>
+cd godot-hd2d-survival<br>
+<br>
+# 创建新分支<br>
+git checkout -b feature/initial-setup<br>
+<br>
+# 添加文件到暂存区<br>
+git add .<br>
+<br>
+# 提交更改<br>
+git commit -m "初始项目设置"<br>
+<br>
+# 推送到远程仓库<br>
+git push origin feature/initial-setup
+                            </code>
+                        </div>
+                    </div>
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fas fa-mouse-pointer"></i> SourceTree 基础使用</h3>
+                        <ul class="content-list">
+                            <li>学习SourceTree的界面布局</li>
+                            <li>掌握仓库克隆和打开</li>
+                            <li>学习提交、推送和拉取操作</li>
+                            <li>了解分支管理和合并</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 6,
+                title: "创建Godot项目",
+                subtitle: "项目初始化步骤",
+                content: `
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fas fa-folder-plus"></i> 项目创建步骤</h3>
+                        <ul class="content-list">
+                            <li>打开Godot引擎</li>
+                            <li>点击"新建项目"</li>
+                            <li>设置项目名称：<em>godot-hd2d-survival</em></li>
+                            <li>选择项目保存路径</li>
+                            <li>选择渲染器：建议使用Forward+</li>
+                            <li>点击"创建并编辑"</li>
+                        </ul>
+                    </div>
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fas fa-folder-tree"></i> 项目文件夹结构</h3>
+                        <ul class="content-list">
+                            <li><strong>scenes/</strong> - 场景文件</li>
+                            <li><strong>scripts/</strong> - GDScript脚本</li>
+                            <li><strong>assets/</strong> - 资源文件（图片、音频等）</li>
+                            <li><strong>ui/</strong> - 用户界面资源</li>
+                            <li><strong>config/</strong> - 配置文件</li>
+                            <li><strong>docs/</strong> - 文档文件</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 7,
+                title: "版本控制初始化",
+                subtitle: "Git仓库设置",
+                content: `
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fab fa-github"></i> 初始化Git仓库</h3>
+                        <div class="code-block">
+                            <code>
+# 在项目根目录初始化Git<br>
+git init<br>
+<br>
+# 添加.gitignore文件<br>
+echo ".godot/" >> .gitignore<br>
+echo "*.import" >> .gitignore<br>
+echo "export_presets.cfg" >> .gitignore<br>
+<br>
+# 添加所有文件到暂存区<br>
+git add .<br>
+<br>
+# 提交初始版本<br>
+git commit -m "初始提交：Godot HD2D生存游戏项目"
+                            </code>
+                        </div>
+                    </div>
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fas fa-cloud-upload-alt"></i> 连接到远程仓库</h3>
+                        <ul class="content-list">
+                            <li>在GitHub/GitLab上创建新仓库</li>
+                            <li>添加远程仓库地址</li>
+                            <li>推送代码到远程仓库</li>
+                            <li>设置分支保护规则</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 8,
+                title: "运行第一个程序",
+                subtitle: "Hello World in Godot",
+                content: `
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fas fa-play-circle"></i> 创建第一个场景</h3>
+                        <ul class="content-list">
+                            <li>在场景面板中点击"2D场景"</li>
+                            <li>添加一个Label节点</li>
+                            <li>设置Label文本为"Hello Godot!"</li>
+                            <li>调整字体大小和颜色</li>
+                            <li>保存场景为<em>Main.tscn</em></li>
+                        </ul>
+                    </div>
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fas fa-code"></i> 添加简单脚本</h3>
+                        <div class="code-block">
+                            <code>
+extends Label<br>
+<br>
+func _ready():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;# 节点准备就绪时执行<br>
+&nbsp;&nbsp;&nbsp;&nbsp;print("Hello from Godot!")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;text = "Welcome to HD2D Survival Game!"
+                            </code>
+                        </div>
+                    </div>
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fas fa-rocket"></i> 运行项目</h3>
+                        <ul class="content-list">
+                            <li>点击编辑器右上角的"运行"按钮</li>
+                            <li>选择<em>Main.tscn</em>作为主场景</li>
+                            <li>观察控制台输出</li>
+                            <li>恭喜！你的第一个Godot程序运行成功！</li>
+                        </ul>
+                    </div>
+                `
+            },
+            {
+                id: 9,
+                title: "课程总结",
+                subtitle: "第一课时完成",
+                content: `
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fas fa-check-circle"></i> 本课时完成事项</h3>
+                        <ul class="content-list">
+                            <li>✅ 安装了Godot引擎</li>
+                            <li>✅ 安装了Git和SourceTree</li>
+                            <li>✅ 学习了基础Git命令</li>
+                            <li>✅ 创建了Godot项目</li>
+                            <li>✅ 设置了项目文件夹结构</li>
+                            <li>✅ 初始化了版本控制</li>
+                            <li>✅ 运行了第一个Godot程序</li>
+                        </ul>
+                    </div>
+                    <div class="content-section">
+                        <h3 class="content-title"><i class="fas fa-forward"></i> 下一课时预告</h3>
+                        <ul class="content-list">
+                            <li>学习Godot节点系统</li>
+                            <li>创建玩家角色</li>
+                            <li>实现基础移动控制</li>
+                            <li>添加摄像机跟随</li>
+                            <li>创建游戏世界基础</li>
+                        </ul>
+                    </div>
+                    <div class="content-section">
+                        <div class="learning-objectives">
+                            <h3 class="content-title"><i class="fas fa-star"></i> 恭喜完成第一课时！</h3>
+                            <p style="color: white; margin-top: 0.5rem;">你已经成功搭建了开发环境，为后续的HD2D生存游戏开发打下了坚实基础。</p>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        // 当前卡片索引
+        let currentCardIndex = 0;
+        const totalCards = courseData.length;
+
+        // DOM元素
+        const cardNumberElement = document.getElementById('card-number');
+        const cardTitleElement = document.getElementById('card-title');
+        const cardSubtitleElement = document.getElementById('card-subtitle');
+        const cardContentElement = document.getElementById('card-content');
+        const prevButton = document.getElementById('prev-btn');
+        const nextButton = document.getElementById('next-btn');
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+
+        // 更新卡片内容
+        function updateCard() {
+            const card = courseData[currentCardIndex];
+            
+            // 更新卡片信息
+            cardNumberElement.textContent = card.id;
+            cardTitleElement.textContent = card.title;
+            cardSubtitleElement.textContent = card.subtitle;
+            cardContentElement.innerHTML = card.content;
+            
+            // 更新进度
+            const progressPercentage = ((currentCardIndex + 1) / totalCards) * 100;
+            progressFill.style.width = `${progressPercentage}%`;
+            progressText.textContent = `${currentCardIndex + 1}/${totalCards}`;
+            
+            // 更新按钮状态
+            prevButton.disabled = currentCardIndex === 0;
+            nextButton.textContent = currentCardIndex === totalCards - 1 ? '完成' : '下一张';
+            
+            // 添加动画效果
+            cardContentElement.style.opacity = '0';
+            cardContentElement.style.transform = 'translateY(10px)';
+            
+            setTimeout(() => {
+                cardContentElement.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                cardContentElement.style.opacity = '1';
+                cardContentElement.style.transform = 'translateY(0)';
+            }, 50);
+        }
+
+        // 切换到上一张卡片
+        function goToPrevCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateCard();
+            }
+        }
+
+        // 切换到下一张卡片
+        function goToNextCard() {
+            if (currentCardIndex < totalCards - 1) {
+                currentCardIndex++;
+                updateCard();
+            } else {
+                // 如果是最后一张卡片，显示完成消息
+                alert('恭喜！你已经完成了第一课时的所有内容！🎉');
+            }
+        }
+
+        // 键盘导航
+        document.addEventListener('keydown', (event) => {
+            switch(event.key) {
+                case 'ArrowLeft':
+                    goToPrevCard();
+                    break;
+                case 'ArrowRight':
+                case ' ':
+                    goToNextCard();
+                    break;
+            }
+        });
+
+        // 按钮事件监听
+        prevButton.addEventListener('click', goToPrevCard);
+        nextButton.addEventListener('click', goToNextCard);
+
+        // 触摸滑动支持
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        cardContentElement.addEventListener('touchstart', (event) => {
+            touchStartX = event.changedTouches[0].screenX;
+        });
+        
+        cardContentElement.addEventListener('touchend', (event) => {
+            touchEndX = event.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // 向左滑动，下一张
+                    goToNextCard();
+                } else {
+                    // 向右滑动，上一张
+                    goToPrevCard();
+                }
+            }
+        }
+
+        // 初始化
+        updateCard();
+        
+        // 添加页面加载完成提示
+        window.addEventListener('load', () => {
+            console.log('课件页面加载完成！');
+            console.log(`共 ${totalCards} 张卡片`);
+        });
+    </script>
+</body>
+</html>
