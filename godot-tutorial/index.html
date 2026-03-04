@@ -226,6 +226,31 @@
 <body>
     <script src="../js/godot-tutorial/script.js"></script>
     <div class="container">
+        <!-- 统一导航栏 -->
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-gamepad logo-icon"></i>
+                <div>
+                    <h1>Godot HD2D生存游戏教程</h1>
+                    <p class="subtitle">第一课时：基础准备与环境搭建</p>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    项目库主页
+                </a>
+                <a href="interactive.html" class="nav-link">
+                    <i class="fas fa-code"></i>
+                    代码练习
+                </a>
+                <a href="https://github.com/DeerLuuu/nanobot-test-repo" class="nav-link" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+            </div>
+        </nav>
+        
         <header class="header">
             <h1><i class="fas fa-gamepad"></i> Godot HD2D生存游戏教程</h1>
             <div class="subtitle">第一课时：基础准备与环境搭建</div>
@@ -506,12 +531,12 @@ git push origin feature/initial-setup
 
         <footer class="footer">
             <p>Godot HD2D生存游戏教程 © 2026 | 互动式学习平台</p>
-            <p style="margin-top: 10px; font-size: 0.9rem;">
-                <a href="https://github.com/DeerLuuu/nanobot-test-repo" target="_blank" style="color: white; margin: 0 10px;">GitHub仓库</a> |
-                <a href="#" onclick="exportLearningReport()" style="color: white; margin: 0 10px;">导出学习报告</a> |
-                <a href="#" onclick="resetProgress()" style="color: white; margin: 0 10px;">重置进度</a> |
-                <a href="#" style="color: white; margin: 0 10px;">关于作者</a>
-            </p>
+            <div class="footer-links">
+                <a href="../index.html">项目库主页</a> | 
+                <a href="interactive.html">代码练习</a> | 
+                <a href="https://github.com/DeerLuuu/nanobot-test-repo" target="_blank">GitHub仓库</a> | 
+                <a href="https://github.com/DeerLuuu/nanobot-test-repo/issues">报告问题</a>
+            </div>
             <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.8;">
                 快捷键: Ctrl+S保存进度 | Ctrl+R导出报告 | Ctrl+L清空终端
             </p>

@@ -7,13 +7,12 @@
     <meta name="theme-color" content="#667eea">
     <title>nanobot网页项目库 | AI创建的网页项目集合</title>
     
-    <!-- 预加载关键字体 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
+    <!-- 使用与Godot教程页面相同的样式 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/shared-theme.css">
+    <link rel="stylesheet" href="css/godot-tutorial/style.css">
     <style>
-        /* 页面特定样式 */
+        /* 主页面特定样式 - 统一到Godot教程风格 */
 
         /* 跳过链接 - 可访问性 */
         .skip-link {
@@ -33,29 +32,45 @@
             top: 10px;
         }
 
-        /* 容器 */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem clamp(1rem, 5vw, 2rem);
-        }
-
-        /* 页头 */
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding: 2.5rem 2rem;
-            background: rgba(255, 255, 255, 0.95);
+        /* 页头 - 使用Godot教程风格 */
+        .header {
+            background: var(--card-bg);
             border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
             box-shadow: var(--shadow);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        @media (prefers-color-scheme: dark) {
-            header {
-                background: rgba(45, 55, 72, 0.95);
-            }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        .header h1 {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+            opacity: 0.9;
         }
 
         .emoji {
@@ -63,6 +78,8 @@
             margin-bottom: 1rem;
             display: inline-block;
             animation: float 3s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
         }
 
         @keyframes float {
@@ -70,41 +87,22 @@
             50% { transform: translateY(-10px); }
         }
 
-        h1 {
-            color: var(--text-color);
-            font-size: clamp(2rem, 5vw, 3rem);
-            margin-bottom: 0.5rem;
-            font-weight: 800;
-            line-height: 1.2;
-        }
-
-        .subtitle {
-            color: var(--text-light);
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* 按钮样式 */
+        /* 按钮样式 - 使用Godot教程风格 */
         .github-link {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.75rem;
-            background: var(--text-color);
-            color: var(--bg-color);
+            background: var(--primary-color);
+            color: white;
             padding: 1rem 2rem;
-            border-radius: 12px;
+            border-radius: var(--border-radius-sm);
             text-decoration: none;
             font-weight: 600;
-            font-size: 1rem;
             transition: var(--transition);
-            border: 2px solid transparent;
-            min-width: 200px;
             position: relative;
             overflow: hidden;
+            z-index: 1;
         }
 
         .github-link::before {
@@ -122,37 +120,53 @@
             left: 100%;
         }
 
-        .github-link:hover,
-        .github-link:focus {
+        .github-link:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            border-color: var(--primary-color);
         }
 
-        .github-link:focus-visible {
-            outline: 3px solid var(--primary-color);
-            outline-offset: 2px;
+        .github-link i {
+            font-size: 1.2rem;
         }
 
-        .github-link svg {
-            width: 24px;
-            height: 24px;
-            flex-shrink: 0;
-        }
-
-        /* 信息框 */
+        /* 信息框 - 使用Godot教程卡片风格 */
         .info-box {
             background: var(--card-bg);
             border-radius: var(--border-radius);
-            padding: 2.5rem;
+            padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: var(--shadow);
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .info-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .info-box:hover::before {
+            left: 100%;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .info-box {
+                border-color: rgba(255, 255, 255, 0.1);
+            }
         }
 
         .info-box:hover {
-            box-shadow: var(--shadow-hover);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
 
         .info-box h2 {
@@ -220,7 +234,7 @@
             }
         }
 
-        /* 项目卡片 */
+        /* 项目卡片 - 使用Godot教程卡片风格 */
         .project-card {
             background: var(--card-bg);
             border-radius: var(--border-radius);
@@ -231,6 +245,23 @@
             flex-direction: column;
             height: 100%;
             border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .project-card:hover::before {
+            left: 100%;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -240,8 +271,8 @@
         }
 
         .project-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-hover);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
 
         .project-card h3 {
@@ -298,13 +329,30 @@
             justify-content: center;
             gap: 0.5rem;
             padding: 0.75rem 1.5rem;
-            border-radius: 8px;
+            border-radius: var(--border-radius-sm);
             text-decoration: none;
             font-weight: 600;
             font-size: 0.875rem;
             transition: var(--transition);
             border: 2px solid transparent;
             min-width: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .project-link:hover::before {
+            left: 100%;
         }
 
         .project-link-primary {
@@ -332,7 +380,7 @@
             transform: translateY(-2px);
         }
 
-        /* 页脚 */
+        /* 页脚 - 使用Godot教程风格 */
         footer {
             text-align: center;
             margin-top: 4rem;
@@ -367,8 +415,16 @@
                 padding: 1rem;
             }
             
-            header {
+            .header {
                 padding: 1.5rem 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .emoji {
+                font-size: 2.5rem;
             }
             
             .info-box {
@@ -388,6 +444,21 @@
             }
         }
 
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .emoji {
+                font-size: 2rem;
+            }
+            
+            .github-link {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
         /* 减少动画偏好 */
         @media (prefers-reduced-motion: reduce) {
             *,
@@ -400,6 +471,19 @@
             
             .emoji {
                 animation: none;
+            }
+            
+            .project-card:hover,
+            .info-box:hover,
+            .github-link:hover {
+                transform: none;
+            }
+            
+            .project-card::before,
+            .info-box::before,
+            .github-link::before,
+            .project-link::before {
+                display: none;
             }
         }
 
@@ -415,7 +499,8 @@
                 display: none !important;
             }
             
-            .project-card {
+            .project-card,
+            .info-box {
                 break-inside: avoid;
                 box-shadow: none !important;
                 border: 1px solid #ddd !important;
@@ -428,21 +513,44 @@
     <a href="#main-content" class="skip-link">跳转到主要内容</a>
 
     <div class="container">
-        <header>
+        <!-- 统一导航栏 -->
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-cat logo-icon"></i>
+                <div>
+                    <h1>nanobot网页项目库</h1>
+                    <p class="subtitle">AI创建的网页项目集合</p>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="godot-tutorial/index.html" class="nav-link">
+                    <i class="fas fa-gamepad"></i>
+                    Godot教程
+                </a>
+                <a href="godot-tutorial/interactive.html" class="nav-link">
+                    <i class="fas fa-code"></i>
+                    代码练习
+                </a>
+                <a href="https://github.com/DeerLuuu/nanobot-test-repo" class="nav-link" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-github"></i>
+                    GitHub
+                </a>
+            </div>
+        </nav>
+        
+        <header class="header">
             <div class="emoji" aria-hidden="true">🐈</div>
             <h1>nanobot网页项目库</h1>
             <p class="subtitle">由nanobot AI助手创建和托管的网页项目集合</p>
             <a href="https://github.com/DeerLuuu/nanobot-test-repo" class="github-link" target="_blank" rel="noopener noreferrer" aria-label="在GitHub上查看nanobot-test-repo仓库">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
+                <i class="fab fa-github"></i>
                 查看GitHub仓库
             </a>
         </header>
         
         <main id="main-content">
             <div class="info-box">
-                <h2>📋 关于这个仓库</h2>
+                <h2><i class="fas fa-info-circle"></i> 关于这个仓库</h2>
                 <p>这个仓库专门用于存放由nanobot AI助手创建的各种网页项目。当你提出网页需求时，nanobot会：</p>
                 <ul>
                     <li>根据需求创建HTML/CSS/JS文件</li>
@@ -456,13 +564,13 @@
             </div>
             
             <div class="info-box">
-                <h2>🚀 项目列表</h2>
+                <h2><i class="fas fa-rocket"></i> 项目列表</h2>
                 <p>以下是已经创建或计划创建的网页项目：</p>
                 
                 <div class="project-list">
                     <div class="project-card">
                         <span class="project-status status-ready">
-                            <span aria-hidden="true">✅</span>
+                            <i class="fas fa-check-circle"></i>
                             已就绪
                         </span>
                         <h3>欢迎页面</h3>
@@ -472,7 +580,7 @@
                     
                     <div class="project-card">
                         <span class="project-status status-ready">
-                            <span aria-hidden="true">✅</span>
+                            <i class="fas fa-check-circle"></i>
                             已就绪
                         </span>
                         <h3>Godot HD2D生存游戏教程</h3>
@@ -481,17 +589,19 @@
                         <p><strong>功能</strong>: 交互式教程、代码编辑器、进度跟踪、测验系统</p>
                         <div class="project-links">
                             <a href="godot-tutorial/index.html" class="project-link project-link-primary" aria-label="访问Godot教程主页">
-                                教程主页 →
+                                <i class="fas fa-home"></i>
+                                教程主页
                             </a>
                             <a href="godot-tutorial/interactive.html" class="project-link project-link-secondary" aria-label="访问Godot交互式代码练习">
-                                代码练习 →
+                                <i class="fas fa-code"></i>
+                                代码练习
                             </a>
                         </div>
                     </div>
                     
                     <div class="project-card">
                         <span class="project-status status-planned">
-                            <span aria-hidden="true">📅</span>
+                            <i class="fas fa-calendar-alt"></i>
                             计划中
                         </span>
                         <h3>待办事项应用</h3>
@@ -501,7 +611,7 @@
                     
                     <div class="project-card">
                         <span class="project-status status-planned">
-                            <span aria-hidden="true">📅</span>
+                            <i class="fas fa-calendar-alt"></i>
                             计划中
                         </span>
                         <h3>天气查询工具</h3>
@@ -511,7 +621,7 @@
                     
                     <div class="project-card">
                         <span class="project-status status-planned">
-                            <span aria-hidden="true">📅</span>
+                            <i class="fas fa-calendar-alt"></i>
                             计划中
                         </span>
                         <h3>Markdown预览器</h3>
@@ -522,7 +632,7 @@
             </div>
             
             <div class="info-box">
-                <h2>📝 如何请求网页项目</h2>
+                <h2><i class="fas fa-question-circle"></i> 如何请求网页项目</h2>
                 <p>当你需要创建网页时，只需告诉nanobot：</p>
                 <ol>
                     <li>描述你想要的网页功能</li>
@@ -534,9 +644,15 @@
             </div>
         </main>
         
-        <footer>
+        <footer class="footer">
             <p>🐈 nanobot网页项目库 | 创建于2026年2月24日</p>
             <p>仓库: <a href="https://github.com/DeerLuuu/nanobot-test-repo">https://github.com/DeerLuuu/nanobot-test-repo</a></p>
+            <div class="footer-links">
+                <a href="index.html">项目库主页</a> | 
+                <a href="godot-tutorial/index.html">Godot教程</a> | 
+                <a href="godot-tutorial/interactive.html">代码练习</a> | 
+                <a href="https://github.com/DeerLuuu/nanobot-test-repo/issues">报告问题</a>
+            </div>
             <p style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7;">
                 使用现代网页技术构建 | 支持响应式设计 | 优化可访问性 | 暗色模式友好
             </p>
