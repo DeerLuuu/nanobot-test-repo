@@ -1,4 +1,4 @@
-/* Godot教程网站 - 增强样式 */
+/* Godot教程网站 - 特定增强样式 */
 
 /* 动画效果 */
 @keyframes fadeIn {
@@ -23,8 +23,6 @@ body {
 }
 
 .header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
     position: relative;
     overflow: hidden;
 }
@@ -92,7 +90,7 @@ body {
 
 .step-number {
     animation: pulse 2s infinite;
-    box-shadow: 0 0 0 rgba(71, 140, 191, 0.4);
+    box-shadow: 0 0 0 rgba(102, 126, 234, 0.4);
 }
 
 /* 按钮样式增强 */
@@ -143,12 +141,12 @@ body {
 }
 
 .code-editor:hover {
-    border-color: #478cbf;
+    border-color: var(--primary-color);
 }
 
 .editor-header {
     background: linear-gradient(to right, #2d2d2d, #3d3d3d);
-    border-bottom: 1px solid #478cbf;
+    border-bottom: 1px solid var(--primary-color);
 }
 
 /* 交互区域样式增强 */
@@ -158,8 +156,8 @@ body {
 }
 
 .interactive-section:hover {
-    border-color: #478cbf;
-    background: rgba(71, 140, 191, 0.05);
+    border-color: var(--primary-color);
+    background: rgba(102, 126, 234, 0.1);
 }
 
 /* 测验样式增强 */
@@ -209,20 +207,17 @@ body {
     font-family: 'Courier New', monospace;
     line-height: 1.4;
     background: linear-gradient(to bottom, #1e1e1e, #2d2d2d);
-    border: 1px solid #478cbf;
+    border: 1px solid var(--primary-color);
 }
 
 #terminal-input:focus {
     outline: none;
-    border-color: #478cbf;
-    box-shadow: 0 0 0 2px rgba(71, 140, 191, 0.2);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
 }
 
 /* 进度条样式增强 */
 .progress-bar {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
     position: relative;
 }
 
@@ -268,135 +263,6 @@ body {
     100% { transform: translate(-50px, -50px) rotate(360deg); }
 }
 
-/* 响应式设计增强 */
-@media (max-width: 768px) {
-    .header h1 {
-        font-size: 2rem;
-    }
-    
-    .header .subtitle {
-        font-size: 1rem;
-    }
-    
-    .card {
-        padding: 15px;
-    }
-    
-    .step {
-        padding: 15px;
-    }
-    
-    .btn {
-        padding: 8px 16px;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .header h1 {
-        font-size: 1.5rem;
-    }
-    
-    .main-content {
-        gap: 15px;
-    }
-    
-    .interactive-section {
-        padding: 15px;
-    }
-}
-
-/* 打印样式 */
-@media print {
-    .header {
-        background: white !important;
-        color: black !important;
-    }
-    
-    .btn, .interactive-section, .quiz {
-        display: none !important;
-    }
-    
-    .card {
-        box-shadow: none !important;
-        border: 1px solid #ddd !important;
-    }
-}
-
-/* 暗色模式支持 */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --primary-color: #5d9cec;
-        --secondary-color: #f7fafc;
-        --light-color: #2c3e50;
-        --dark-color: #f7fafc;
-    }
-    
-    body {
-        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-        color: #f7fafc;
-    }
-    
-    .card {
-        background: #34495e;
-        color: #f7fafc;
-    }
-    
-    .step {
-        background: #2c3e50;
-        color: #e2e8f0;
-    }
-    
-    .interactive-section {
-        background: rgba(93, 156, 236, 0.1);
-        color: #e2e8f0;
-    }
-    
-    .quiz-options li {
-        color: #e2e8f0;
-    }
-    
-    .editor-content {
-        color: #e2e8f0;
-    }
-}
-
-/* 可访问性增强 */
-.btn:focus,
-input:focus,
-textarea:focus,
-select:focus {
-    outline: 2px solid #478cbf;
-    outline-offset: 2px;
-}
-
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-/* 加载动画 */
-.loading {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(71, 140, 191, 0.3);
-    border-radius: 50%;
-    border-top-color: #478cbf;
-    animation: spin 1s ease-in-out infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
 /* 工具提示增强 */
 .tooltip {
     position: relative;
@@ -437,36 +303,53 @@ select:focus {
     opacity: 1;
 }
 
-/* 滚动条样式 */
-::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+/* 加载动画 */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(102, 126, 234, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--primary-color);
+    animation: spin 1s ease-in-out infinite;
 }
 
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 5px;
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
-::-webkit-scrollbar-thumb {
-    background: #478cbf;
-    border-radius: 5px;
+/* 交互式编辑器特定样式 */
+.code-section, .output-section {
+    backdrop-filter: blur(10px);
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background: #357abd;
+.tutorial-section {
+    backdrop-filter: blur(10px);
 }
 
-/* 选择文本样式 */
-::selection {
-    background-color: rgba(71, 140, 191, 0.3);
-    color: inherit;
+/* 响应式设计增强 */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .header .subtitle {
+        font-size: 1rem;
+    }
 }
 
-/* 焦点可见样式 */
-:focus-visible {
-    outline: 2px solid #478cbf;
-    outline-offset: 2px;
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .main-content {
+        gap: 15px;
+    }
+    
+    .interactive-section {
+        padding: 15px;
+    }
 }
 
 /* 减少动画偏好 */
@@ -477,5 +360,17 @@ select:focus {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+    
+    .step-number {
+        animation: none;
+    }
+    
+    .progress-bar::after {
+        animation: none;
+    }
+    
+    .download-section::before {
+        animation: none;
     }
 }
