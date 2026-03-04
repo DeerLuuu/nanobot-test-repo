@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Godot交互式代码练习 - Godot HD2D生存游戏教程</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../shared-theme.css">
     <link rel="stylesheet" href="style.css">
     <style>
         /* 交互式编辑器特定样式 */
@@ -23,10 +24,17 @@
         
         .code-section, .output-section {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             padding: 1.5rem;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .code-section, .output-section {
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
         }
         
         .section-header {
@@ -39,7 +47,7 @@
         }
         
         .section-title {
-            color: white;
+            color: var(--text-on-dark);
             font-size: 1.5rem;
             display: flex;
             align-items: center;
@@ -47,7 +55,7 @@
         }
         
         .section-icon {
-            color: #478cbf;
+            color: var(--primary-color);
         }
         
         .code-editor {
@@ -55,8 +63,8 @@
             height: 400px;
             min-height: 400px;
             max-height: 500px;
-            background: #1e1e1e;
-            border-radius: 10px;
+            background: var(--code-bg);
+            border-radius: var(--border-radius-sm);
             padding: 1rem;
             font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
             font-size: 14px;
@@ -72,7 +80,7 @@
         
         .code-editor:focus {
             outline: none;
-            border-color: #478cbf;
+            border-color: var(--primary-color);
         }
         
         .output-area {
@@ -80,8 +88,8 @@
             height: 450px;
             min-height: 450px;
             max-height: 600px;
-            background: #1e1e1e;
-            border-radius: 10px;
+            background: var(--code-bg);
+            border-radius: var(--border-radius-sm);
             padding: 1rem;
             font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
             font-size: 14px;
@@ -117,51 +125,24 @@
             margin-top: 1.5rem;
         }
         
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary {
-            background: #478cbf;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #3a7ca5;
-            transform: translateY(-2px);
-        }
-        
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-        
         .tutorial-section {
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
+            border-radius: var(--border-radius);
             padding: 1.5rem;
             margin-top: 2rem;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
+        @media (prefers-color-scheme: dark) {
+            .tutorial-section {
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+        }
+        
         .tutorial-title {
-            color: white;
+            color: var(--text-on-dark);
             font-size: 1.5rem;
             margin-bottom: 1rem;
             display: flex;
@@ -170,7 +151,7 @@
         }
         
         .tutorial-content {
-            color: #e2e8f0;
+            color: var(--text-on-dark);
         }
         
         .tutorial-content p {
@@ -203,21 +184,21 @@
         
         .example-card {
             background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+            border-radius: var(--border-radius-sm);
             padding: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             border: 1px solid transparent;
         }
         
         .example-card:hover {
             background: rgba(0, 0, 0, 0.3);
-            border-color: #478cbf;
+            border-color: var(--primary-color);
             transform: translateY(-2px);
         }
         
         .example-title {
-            color: white;
+            color: var(--text-on-dark);
             font-size: 1rem;
             margin-bottom: 0.5rem;
         }
@@ -225,7 +206,7 @@
         .example-code {
             font-family: 'Consolas', monospace;
             font-size: 0.9rem;
-            color: #cbd5e0;
+            color: var(--text-light);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
