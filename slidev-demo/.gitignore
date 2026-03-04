@@ -1,0 +1,34 @@
+# Slidev项目.gitignore
+
+# 依赖目录
+node_modules/
+dist/
+
+# 环境变量
+.env
+.env.local
+.env.*.local
+
+# 日志文件
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 编辑器目录
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 临时文件
+*.tmp
+*.temp
+
+# 构建产物
+*.zip
+*.tar.gz
