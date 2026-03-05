@@ -1,0 +1,10 @@
+{
+    "files": [
+        "getting-started.md",
+        "gdscript-syntax.md",
+        "signals-tutorial.md",
+        "hd2d-guide.md",
+        "项目检查清单.md",
+        "资源规划与清单.md"
+    ]
+}
