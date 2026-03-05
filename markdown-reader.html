@@ -253,7 +253,7 @@
                 throw new Error(`index.json 加载失败: ${response.status}`);
             }
             const data = await response.json();
-            return data.files.map(f => f.file);  // 返回文件名列表
+            return data.files;  // 返回文件名列表
         }
 
         // ============================================
