@@ -244,9 +244,83 @@
 }
 
 /* 任务列表 */
+.markdown-body .task-list {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.markdown-body .task-list-item {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+    padding: var(--space-3);
+    border-radius: var(--border-radius-sm);
+    transition: var(--transition-base);
+}
+
+.markdown-body .task-list-item:hover {
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.markdown-body .task-checkbox {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-xs);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--card-bg);
+    transition: var(--transition-base);
+    position: relative;
+    top: 2px;
+}
+
+.markdown-body .task-checkbox:hover {
+    border-color: var(--primary-color);
+}
+
+.markdown-body .task-checkbox:checked {
+    background: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.markdown-body .task-checkbox:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.markdown-body .task-text {
+    flex: 1;
+    transition: var(--transition-base);
+}
+
+.markdown-body .task-list-item-checked .task-text {
+    text-decoration: line-through;
+    color: var(--text-light);
+    opacity: 0.7;
+}
+
+/* 兼容旧版任务列表语法 */
 .markdown-body input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
     margin-right: var(--space-2);
     accent-color: var(--primary-color);
+    cursor: pointer;
 }
 
 /* ============================================
