@@ -3,43 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Godot HD2D生存游戏教程 - 第一课时课件">
+    <meta name="description" content="Godot HD2D生存游戏教程 - 第一课时课件演示">
+    <meta name="keywords" content="Godot, 课件, 教程, 演示, HD2D">
+    <meta name="author" content="nanobot AI">
     <meta name="theme-color" content="#667eea">
     <title>Godot HD2D生存游戏教程 - 第一课时课件</title>
     
-    <!-- 使用与Godot教程页面相同的样式 -->
+    <!-- 外部资源 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/shared-theme.css">
     
     <style>
-        /* 课件特定样式 */
+        /* ============================================
+           课件特定样式
+           ============================================ */
+        
         .course-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: var(--space-8);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
         
+        /* 课程头部 */
         .course-header {
             text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--border-color);
+            margin-bottom: var(--space-8);
+            padding-bottom: var(--space-6);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
         }
         
         .course-title {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-            font-weight: 700;
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            color: white;
+            margin-bottom: var(--space-3);
+            font-weight: 800;
         }
         
         .course-subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            opacity: 0.8;
+            font-size: var(--text-lg);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-6);
+            margin-top: var(--space-4);
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: var(--text-sm);
         }
         
         /* 卡片容器 */
@@ -52,75 +73,92 @@
             min-height: 500px;
         }
         
-        /* 卡片样式 */
-        .card {
+        /* 幻灯片卡片 */
+        .slide {
             background: var(--card-bg);
-            border-radius: 16px;
-            padding: 2.5rem;
-            box-shadow: var(--shadow-lg);
+            border-radius: var(--border-radius-lg);
+            padding: var(--space-10);
+            box-shadow: var(--shadow-xl);
             border: 1px solid var(--border-color);
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
-            min-height: 400px;
+            min-height: 450px;
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            transition: transform 0.4s ease, opacity 0.4s ease;
             position: relative;
             overflow: hidden;
         }
-        
-        .card-header {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--primary-color-light);
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
         }
         
-        .card-title {
-            font-size: 1.8rem;
+        .slide-header {
+            margin-bottom: var(--space-6);
+            padding-bottom: var(--space-4);
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        .slide-title {
+            font-size: var(--text-2xl);
             color: var(--primary-color);
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+            margin-bottom: var(--space-2);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .slide-title i {
+            font-size: var(--text-xl);
         }
         
-        .card-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            opacity: 0.9;
+        .slide-subtitle {
+            font-size: var(--text-base);
+            color: var(--text-light);
         }
         
-        .card-content {
+        .slide-content {
             flex: 1;
             overflow-y: auto;
-            padding-right: 0.5rem;
+            padding-right: var(--space-2);
+            color: var(--text-color);
         }
         
-        .card-content::-webkit-scrollbar {
+        .slide-content::-webkit-scrollbar {
             width: 6px;
         }
         
-        .card-content::-webkit-scrollbar-track {
+        .slide-content::-webkit-scrollbar-track {
             background: var(--bg-secondary);
             border-radius: 3px;
         }
         
-        .card-content::-webkit-scrollbar-thumb {
+        .slide-content::-webkit-scrollbar-thumb {
             background: var(--primary-color);
             border-radius: 3px;
         }
         
-        /* 内容样式 */
+        /* 内容区块 */
         .content-section {
-            margin-bottom: 1.5rem;
+            margin-bottom: var(--space-6);
         }
         
         .content-title {
-            font-size: 1.3rem;
-            color: var(--text-primary);
-            margin-bottom: 0.8rem;
+            font-size: var(--text-lg);
+            color: var(--text-color);
+            margin-bottom: var(--space-3);
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: var(--space-2);
         }
         
         .content-title i {
@@ -129,56 +167,76 @@
         
         .content-list {
             list-style: none;
-            padding-left: 1.5rem;
+            padding-left: var(--space-6);
         }
         
         .content-list li {
-            margin-bottom: 0.8rem;
-            padding-left: 1rem;
+            margin-bottom: var(--space-3);
+            padding-left: var(--space-4);
             position: relative;
-            line-height: 1.6;
+            line-height: var(--leading-relaxed);
+            color: var(--text-light);
         }
         
-        .content-list li:before {
-            content: "•";
+        .content-list li::before {
+            content: "▸";
             color: var(--primary-color);
             font-weight: bold;
             position: absolute;
-            left: -1rem;
+            left: 0;
+        }
+
+        .content-list li.completed::before {
+            content: "✓";
+            color: var(--success-color);
         }
         
+        /* 代码块 */
         .code-block {
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            padding: 1.2rem;
-            margin: 1rem 0;
+            background: var(--code-bg);
+            border-radius: var(--border-radius);
+            padding: var(--space-4);
+            margin: var(--space-4) 0;
             border-left: 4px solid var(--primary-color);
-            font-family: 'Courier New', monospace;
+            font-family: 'Consolas', 'Monaco', monospace;
             overflow-x: auto;
         }
         
         .code-block code {
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            line-height: 1.5;
+            color: var(--neutral-200);
+            font-size: var(--text-sm);
+            line-height: 1.6;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-keyword {
+            color: #569cd6;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        .code-function {
+            color: #dcdcaa;
         }
         
+        /* 链接样式 */
         .link-item {
             color: var(--primary-color);
             text-decoration: none;
-            transition: color 0.2s ease;
+            transition: color var(--transition-fast);
             display: inline-flex;
             align-items: center;
-            gap: 0.3rem;
+            gap: var(--space-1);
         }
         
         .link-item:hover {
-            color: var(--primary-color-light);
+            color: var(--primary-dark);
             text-decoration: underline;
-        }
-        
-        .link-item i {
-            font-size: 0.9rem;
         }
         
         /* 导航按钮 */
@@ -186,8 +244,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 2rem;
-            padding-top: 1.5rem;
+            margin-top: var(--space-8);
+            padding-top: var(--space-6);
             border-top: 1px solid var(--border-color);
         }
         
@@ -195,260 +253,443 @@
             background: var(--primary-color);
             color: white;
             border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
-            font-size: 1rem;
+            padding: var(--space-3) var(--space-6);
+            border-radius: var(--border-radius);
+            font-size: var(--text-base);
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all var(--transition-smooth);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: var(--space-2);
             min-width: 120px;
             justify-content: center;
         }
         
-        .nav-button:hover {
-            background: var(--primary-color-light);
+        .nav-button:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            box-shadow: var(--shadow-lg);
         }
         
         .nav-button:disabled {
             background: var(--bg-secondary);
-            color: var(--text-secondary);
+            color: var(--text-light);
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
         
         .nav-button.prev {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--border-color);
         }
         
         .nav-button.prev:hover:not(:disabled) {
-            background: var(--border-color);
+            background: var(--bg-secondary);
+            border-color: var(--primary-color);
         }
         
         /* 进度指示器 */
         .progress-container {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin: 0 1rem;
+            gap: var(--space-4);
             flex: 1;
             justify-content: center;
+            max-width: 300px;
         }
         
         .progress-bar {
             flex: 1;
-            max-width: 300px;
-            height: 6px;
+            height: 8px;
             background: var(--bg-secondary);
-            border-radius: 3px;
+            border-radius: var(--border-radius-full);
             overflow: hidden;
         }
         
         .progress-fill {
             height: 100%;
-            background: var(--primary-color);
-            border-radius: 3px;
-            transition: width 0.3s ease;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--border-radius-full);
+            transition: width var(--transition-smooth);
         }
         
         .progress-text {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            min-width: 60px;
+            font-size: var(--text-sm);
+            color: var(--text-light);
+            min-width: 50px;
             text-align: center;
         }
         
-        /* 卡片编号 */
-        .card-number {
+        /* 幻灯片编号 */
+        .slide-number {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--primary-color);
+            top: var(--space-4);
+            right: var(--space-4);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
             color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--border-radius-full);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: var(--shadow-sm);
+            font-weight: 700;
+            font-size: var(--text-sm);
+            box-shadow: var(--shadow-md);
         }
-        
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .course-container {
-                padding: 1rem;
-            }
-            
-            .course-title {
-                font-size: 2rem;
-            }
-            
-            .card {
-                padding: 1.5rem;
-                min-height: 350px;
-            }
-            
-            .card-title {
-                font-size: 1.5rem;
-            }
-            
-            .nav-buttons {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .progress-container {
-                order: -1;
-                width: 100%;
-                margin-bottom: 1rem;
-            }
-            
-            .nav-button {
-                width: 100%;
-            }
+
+        /* 幻灯片指示器 */
+        .slide-indicators {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-2);
+            margin-top: var(--space-4);
         }
-        
-        /* 动画效果 */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: var(--border-radius-full);
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: var(--transition-base);
         }
-        
-        .card {
-            animation: fadeIn 0.5s ease;
+
+        .indicator.active {
+            background: var(--primary-color);
+            transform: scale(1.2);
+        }
+
+        .indicator:hover {
+            background: rgba(255, 255, 255, 0.5);
         }
         
         /* 学习目标特殊样式 */
         .learning-objectives {
-            background: linear-gradient(135deg, var(--primary-color-light) 0%, var(--accent-color) 100%);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: var(--space-5);
+            border-radius: var(--border-radius);
+            margin-bottom: var(--space-6);
         }
         
         .learning-objectives .content-title {
             color: white;
         }
         
-        .learning-objectives .content-list li:before {
-            color: white;
-        }
-        
         .learning-objectives .content-list li {
             color: rgba(255, 255, 255, 0.95);
+        }
+
+        .learning-objectives .content-list li::before {
+            color: white;
+        }
+
+        /* 提示框 */
+        .tip-box {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: var(--space-4);
+            margin-top: var(--space-4);
+        }
+
+        .tip-box h5 {
+            color: var(--primary-color);
+            margin-bottom: var(--space-2);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .tip-box p {
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        /* 步骤标记 */
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: var(--border-radius-full);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            margin-right: var(--space-2);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .course-container {
+                padding: var(--space-4);
+            }
+            
+            .course-title {
+                font-size: 1.75rem;
+            }
+            
+            .slide {
+                padding: var(--space-6);
+                min-height: 400px;
+            }
+            
+            .slide-title {
+                font-size: var(--text-xl);
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                gap: var(--space-4);
+            }
+            
+            .progress-container {
+                order: -1;
+                width: 100%;
+                max-width: none;
+            }
+            
+            .nav-button {
+                width: 100%;
+            }
+
+            .course-meta {
+                flex-direction: column;
+                gap: var(--space-2);
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+        }
+        
+        .slide {
+            animation: slideIn 0.4s ease;
+        }
+
+        .slide.exit {
+            animation: slideOut 0.3s ease;
+        }
+
+        /* 键盘导航提示 */
+        .keyboard-hint {
+            position: fixed;
+            bottom: var(--space-4);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--border-radius-full);
+            font-size: var(--text-sm);
+            opacity: 0;
+            transition: opacity var(--transition-base);
+            pointer-events: none;
+        }
+
+        .keyboard-hint.visible {
+            opacity: 1;
+        }
+        
+        /* 减少动画偏好 */
+        @media (prefers-reduced-motion: reduce) {
+            .slide {
+                animation: none;
+            }
+            
+            .nav-button:hover:not(:disabled) {
+                transform: none;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- 导航栏 -->
+    <div class="container" style="padding-bottom: 0;">
+        <nav class="navbar" role="navigation" aria-label="主导航">
+            <div class="logo">
+                <i class="fas fa-chalkboard-teacher logo-icon" aria-hidden="true"></i>
+                <div>
+                    <h1>课件演示</h1>
+                    <p class="subtitle">Godot HD2D生存游戏教程</p>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                    <span>项目库主页</span>
+                </a>
+                <a href="godot-tutorial/index.html" class="nav-link">
+                    <i class="fas fa-gamepad" aria-hidden="true"></i>
+                    <span>教程主页</span>
+                </a>
+                <a href="godot-tutorial/interactive.html" class="nav-link">
+                    <i class="fas fa-code" aria-hidden="true"></i>
+                    <span>代码练习</span>
+                </a>
+                <a href="https://github.com/DeerLuuu/nanobot-test-repo" class="nav-link" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-github" aria-hidden="true"></i>
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+
     <div class="course-container">
         <header class="course-header">
             <h1 class="course-title">Godot HD2D生存游戏教程</h1>
             <p class="course-subtitle">第一课时：基础准备与环境搭建</p>
+            <div class="course-meta">
+                <span class="meta-item">
+                    <i class="fas fa-clock"></i>
+                    预计时长：2-3小时
+                </span>
+                <span class="meta-item">
+                    <i class="fas fa-signal"></i>
+                    难度：初级
+                </span>
+                <span class="meta-item">
+                    <i class="fas fa-book"></i>
+                    课时：1/14
+                </span>
+            </div>
         </header>
         
         <main class="card-container">
-            <div class="card" id="current-card">
-                <!-- 卡片内容将通过JavaScript动态加载 -->
-                <div class="card-number" id="card-number">1</div>
-                <div class="card-header">
-                    <h2 class="card-title" id="card-title">加载中...</h2>
-                    <p class="card-subtitle" id="card-subtitle">请稍候</p>
+            <div class="slide" id="current-slide">
+                <div class="slide-number" id="slide-number">1</div>
+                <div class="slide-header">
+                    <h2 class="slide-title" id="slide-title">
+                        <i class="fas fa-bullseye"></i>
+                        加载中...
+                    </h2>
+                    <p class="slide-subtitle" id="slide-subtitle">请稍候</p>
                 </div>
-                <div class="card-content" id="card-content">
+                <div class="slide-content" id="slide-content">
                     <p>课件内容正在加载...</p>
                 </div>
                 
                 <div class="nav-buttons">
-                    <button class="nav-button prev" id="prev-btn" disabled>
-                        <i class="fas fa-chevron-left"></i> 上一张
+                    <button class="nav-button prev" id="prev-btn" disabled aria-label="上一张幻灯片">
+                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                        上一张
                     </button>
                     
                     <div class="progress-container">
                         <div class="progress-bar">
                             <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
                         </div>
-                        <span class="progress-text" id="progress-text">0/0</span>
+                        <span class="progress-text" id="progress-text">1/10</span>
                     </div>
                     
-                    <button class="nav-button next" id="next-btn">
-                        下一张 <i class="fas fa-chevron-right"></i>
+                    <button class="nav-button next" id="next-btn" aria-label="下一张幻灯片">
+                        下一张
+                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
                     </button>
                 </div>
+
+                <!-- 幻灯片指示器 -->
+                <div class="slide-indicators" id="slide-indicators"></div>
             </div>
         </main>
+
+        <!-- 键盘导航提示 -->
+        <div class="keyboard-hint" id="keyboard-hint">
+            <i class="fas fa-keyboard"></i> 使用 ← → 方向键或空格键切换幻灯片
+        </div>
     </div>
 
     <script>
         // 课件数据
-        const courseData = [
+        const slides = [
             {
                 id: 1,
-                title: "本部分概述",
-                subtitle: "第一部分：基础准备与环境搭建",
+                title: "课程概述",
+                subtitle: "第一课时：基础准备与环境搭建",
+                icon: "fas fa-bullseye",
                 content: `
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-bullseye"></i> 学习目标</h3>
-                        <ul class="content-list">
-                            <li>完成所有开发工具的安装和配置</li>
-                            <li>创建并初始化Godot项目</li>
-                            <li>创建项目文件夹格式</li>
-                            <li>掌握基础版本控制流程</li>
-                            <li>运行第一个Godot程序</li>
-                        </ul>
+                        <div class="learning-objectives">
+                            <h3 class="content-title"><i class="fas fa-star"></i> 学习目标</h3>
+                            <ul class="content-list">
+                                <li>完成所有开发工具的安装和配置</li>
+                                <li>创建并初始化Godot项目</li>
+                                <li>创建标准项目文件夹结构</li>
+                                <li>掌握基础版本控制流程</li>
+                                <li>运行第一个Godot程序</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tip-box">
+                        <h5><i class="fas fa-lightbulb"></i> 学习建议</h5>
+                        <p>建议按照顺序完成每个步骤，遇到问题可以在GitHub Issues提问。</p>
                     </div>
                 `
             },
             {
                 id: 2,
-                title: "安装 Godot",
-                subtitle: "方式1：Godot 官网下载",
+                title: "安装 Godot 引擎",
+                subtitle: "方式1：从官网下载",
+                icon: "fas fa-download",
                 content: `
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-download"></i> 下载Godot（方式1 Godot 官网）</h3>
+                        <h3 class="content-title"><i class="fas fa-globe"></i> 下载步骤</h3>
                         <ul class="content-list">
-                            <li>访问 <a href="https://godotengine.org/download" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Godot官网</a></li>
-                            <li>下载最新版 Godot</li>
-                            <li>解压到合适位置</li>
-                            <li>点击 <em>Godot_v4.6.1-stable_win64.exe</em> 启动 Godot</li>
+                            <li><span class="step-badge">1</span>访问 <a href="https://godotengine.org/download" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Godot官网</a></li>
+                            <li><span class="step-badge">2</span>选择 Godot 4.x 版本（推荐最新稳定版）</li>
+                            <li><span class="step-badge">3</span>下载 Standard version（标准版）</li>
+                            <li><span class="step-badge">4</span>解压到合适位置（如 C:\\Godot\\）</li>
+                            <li><span class="step-badge">5</span>双击 Godot_v4.x.x_stable_win64.exe 启动</li>
                         </ul>
                     </div>
-                    <div class="content-section">
-                        <p><strong>提示：</strong>建议将Godot添加到系统PATH环境变量，方便从命令行启动。</p>
+                    <div class="tip-box">
+                        <h5><i class="fas fa-info-circle"></i> 提示</h5>
+                        <p>建议将Godot添加到系统PATH环境变量，方便从命令行启动。</p>
                     </div>
                 `
             },
             {
                 id: 3,
-                title: "安装 Godot",
-                subtitle: "方式2：Steam下载",
+                title: "安装 Godot 引擎",
+                subtitle: "方式2：通过Steam安装",
+                icon: "fab fa-steam",
                 content: `
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fab fa-steam"></i> 下载Godot（方式2 Steam）</h3>
+                        <h3 class="content-title"><i class="fab fa-steam"></i> Steam安装步骤</h3>
                         <ul class="content-list">
-                            <li>打开 <em>Steam</em></li>
-                            <li>搜索 Godot</li>
-                            <li>安装</li>
-                            <li>在 <em>Steam</em> 仓库中启动</li>
+                            <li><span class="step-badge">1</span>打开 Steam 客户端</li>
+                            <li><span class="step-badge">2</span>在商店中搜索 "Godot"</li>
+                            <li><span class="step-badge">3</span>点击"安装"按钮</li>
+                            <li><span class="step-badge">4</span>等待安装完成</li>
+                            <li><span class="step-badge">5</span>在游戏库中启动 Godot</li>
                         </ul>
                     </div>
-                    <div class="content-section">
-                        <p><strong>优点：</strong>通过Steam安装可以自动更新，适合经常使用Steam的用户。</p>
+                    <div class="tip-box">
+                        <h5><i class="fas fa-check-circle"></i> Steam安装优点</h5>
+                        <p>通过Steam安装可以自动更新，适合经常使用Steam的用户。</p>
                     </div>
                 `
             },
@@ -456,128 +697,99 @@
                 id: 4,
                 title: "安装 Git 和 SourceTree",
                 subtitle: "版本控制工具安装",
+                icon: "fab fa-git-alt",
                 content: `
                     <div class="content-section">
                         <h3 class="content-title"><i class="fab fa-git-alt"></i> 安装 Git</h3>
                         <ul class="content-list">
-                            <li>打开 <a href="https://git-scm.cn/" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Git - Git 版本控制系统</a></li>
-                            <li>点击 Install</li>
-                            <li>非Windows系统可以参考<a href="https://git-scm.cn/install/windows" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Git - Windows 版安装</a></li>
-                            <li>参考教程：<a href="https://blog.csdn.net/mukes/article/details/115693833" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Git 详细安装教程</a></li>
+                            <li>访问 <a href="https://git-scm.com/" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Git官网</a></li>
+                            <li>下载对应操作系统的安装包</li>
+                            <li>运行安装程序，使用默认设置即可</li>
                         </ul>
                     </div>
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-code-branch"></i> 安装 SourceTree</h3>
+                        <h3 class="content-title"><i class="fas fa-code-branch"></i> 安装 SourceTree（可选）</h3>
                         <ul class="content-list">
-                            <li>打开 <a href="https://sourcetreeapp.com/" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Sourcetreeapp</a></li>
-                            <li>根据需求安装对应平台的版本</li>
-                            <li>参考安装步骤：<a href="https://zhuanlan.zhihu.com/p/9499120135" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Sourcetree安装教程及使用</a></li>
+                            <li>访问 <a href="https://www.sourcetreeapp.com/" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> SourceTree官网</a></li>
+                            <li>下载对应平台的版本</li>
+                            <li>安装并登录你的Git账户</li>
                         </ul>
                     </div>
                 `
             },
             {
                 id: 5,
-                title: "Git 基础使用",
-                subtitle: "命令行版本控制",
+                title: "Git 基础命令",
+                subtitle: "版本控制核心操作",
+                icon: "fas fa-terminal",
                 content: `
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-terminal"></i> 基础 git 指令教程</h3>
+                        <h3 class="content-title"><i class="fas fa-terminal"></i> 常用Git命令</h3>
                         <div class="code-block">
-                            <code>
-# 克隆仓库到本地<br>
-git clone 从你的仓库中复制，或者直接将仓库网址复制过来<br>
-<br>
-# 进入项目目录<br>
-cd godot-hd2d-survival<br>
-<br>
-# 创建新分支<br>
-git checkout -b feature/initial-setup<br>
-<br>
-# 添加文件到暂存区<br>
-git add .<br>
-<br>
-# 提交更改<br>
-git commit -m "初始项目设置"<br>
-<br>
-# 推送到远程仓库<br>
-git push origin feature/initial-setup
-                            </code>
+                            <code><span class="code-comment"># 克隆仓库</span>
+<span class="code-function">git clone</span> https://github.com/用户名/项目名.git
+
+<span class="code-comment"># 查看状态</span>
+<span class="code-function">git status</span>
+
+<span class="code-comment"># 添加文件到暂存区</span>
+<span class="code-function">git add</span> .
+
+<span class="code-comment"># 提交更改</span>
+<span class="code-function">git commit</span> -m <span class="code-string">"提交说明"</span>
+
+<span class="code-comment"># 推送到远程</span>
+<span class="code-function">git push</span> origin main</code>
                         </div>
-                    </div>
-                    <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-mouse-pointer"></i> SourceTree 基础使用</h3>
-                        <ul class="content-list">
-                            <li>学习SourceTree的界面布局</li>
-                            <li>掌握仓库克隆和打开</li>
-                            <li>学习提交、推送和拉取操作</li>
-                            <li>了解分支管理和合并</li>
-                        </ul>
                     </div>
                 `
             },
             {
                 id: 6,
-                title: "创建Godot项目",
+                title: "创建 Godot 项目",
                 subtitle: "项目初始化步骤",
+                icon: "fas fa-folder-plus",
                 content: `
                     <div class="content-section">
                         <h3 class="content-title"><i class="fas fa-folder-plus"></i> 项目创建步骤</h3>
                         <ul class="content-list">
-                            <li>打开Godot引擎</li>
-                            <li>点击"新建项目"</li>
-                            <li>设置项目名称：<em>godot-hd2d-survival</em></li>
-                            <li>选择项目保存路径</li>
-                            <li>选择渲染器：建议使用Forward+</li>
-                            <li>点击"创建并编辑"</li>
+                            <li><span class="step-badge">1</span>打开Godot引擎</li>
+                            <li><span class="step-badge">2</span>点击"新建项目"</li>
+                            <li><span class="step-badge">3</span>设置项目名称：godot-hd2d-survival</li>
+                            <li><span class="step-badge">4</span>选择项目保存路径</li>
+                            <li><span class="step-badge">5</span>选择渲染器：Forward+</li>
+                            <li><span class="step-badge">6</span>点击"创建并编辑"</li>
                         </ul>
                     </div>
-                    <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-folder-tree"></i> 项目文件夹结构</h3>
-                        <ul class="content-list">
-                            <li><strong>scenes/</strong> - 场景文件</li>
-                            <li><strong>scripts/</strong> - GDScript脚本</li>
-                            <li><strong>assets/</strong> - 资源文件（图片、音频等）</li>
-                            <li><strong>ui/</strong> - 用户界面资源</li>
-                            <li><strong>config/</strong> - 配置文件</li>
-                            <li><strong>docs/</strong> - 文档文件</li>
-                        </ul>
+                    <div class="tip-box">
+                        <h5><i class="fas fa-exclamation-triangle"></i> 注意</h5>
+                        <p>避免使用中文路径，可能导致资源加载问题。</p>
                     </div>
                 `
             },
             {
                 id: 7,
-                title: "版本控制初始化",
-                subtitle: "Git仓库设置",
+                title: "项目文件夹结构",
+                subtitle: "标准化项目组织",
+                icon: "fas fa-folder-tree",
                 content: `
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fab fa-github"></i> 初始化Git仓库</h3>
+                        <h3 class="content-title"><i class="fas fa-folder-tree"></i> 推荐目录结构</h3>
                         <div class="code-block">
-                            <code>
-# 在项目根目录初始化Git<br>
-git init<br>
-<br>
-# 添加.gitignore文件<br>
-echo ".godot/" >> .gitignore<br>
-echo "*.import" >> .gitignore<br>
-echo "export_presets.cfg" >> .gitignore<br>
-<br>
-# 添加所有文件到暂存区<br>
-git add .<br>
-<br>
-# 提交初始版本<br>
-git commit -m "初始提交：Godot HD2D生存游戏项目"
-                            </code>
+                            <code>godot-hd2d-survival/
+├── project.godot     <span class="code-comment"># 项目配置</span>
+├── scenes/           <span class="code-comment"># 场景文件</span>
+│   ├── player/
+│   ├── enemies/
+│   └── world/
+├── scripts/          <span class="code-comment"># GDScript脚本</span>
+├── assets/           <span class="code-comment"># 资源文件</span>
+│   ├── sprites/
+│   ├── audio/
+│   └── fonts/
+├── resources/        <span class="code-comment"># Godot资源</span>
+└── addons/           <span class="code-comment"># 插件</span></code>
                         </div>
-                    </div>
-                    <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-cloud-upload-alt"></i> 连接到远程仓库</h3>
-                        <ul class="content-list">
-                            <li>在GitHub/GitLab上创建新仓库</li>
-                            <li>添加远程仓库地址</li>
-                            <li>推送代码到远程仓库</li>
-                            <li>设置分支保护规则</li>
-                        </ul>
                     </div>
                 `
             },
@@ -585,6 +797,7 @@ git commit -m "初始提交：Godot HD2D生存游戏项目"
                 id: 8,
                 title: "运行第一个程序",
                 subtitle: "Hello World in Godot",
+                icon: "fas fa-play-circle",
                 content: `
                     <div class="content-section">
                         <h3 class="content-title"><i class="fas fa-play-circle"></i> 创建第一个场景</h3>
@@ -593,30 +806,19 @@ git commit -m "初始提交：Godot HD2D生存游戏项目"
                             <li>添加一个Label节点</li>
                             <li>设置Label文本为"Hello Godot!"</li>
                             <li>调整字体大小和颜色</li>
-                            <li>保存场景为<em>Main.tscn</em></li>
+                            <li>保存场景为 Main.tscn</li>
                         </ul>
                     </div>
                     <div class="content-section">
                         <h3 class="content-title"><i class="fas fa-code"></i> 添加简单脚本</h3>
                         <div class="code-block">
-                            <code>
-extends Label<br>
-<br>
-func _ready():<br>
-&nbsp;&nbsp;&nbsp;&nbsp;# 节点准备就绪时执行<br>
-&nbsp;&nbsp;&nbsp;&nbsp;print("Hello from Godot!")<br>
-&nbsp;&nbsp;&nbsp;&nbsp;text = "Welcome to HD2D Survival Game!"
-                            </code>
+                            <code><span class="code-keyword">extends</span> Label
+
+<span class="code-keyword">func</span> <span class="code-function">_ready</span>():
+    <span class="code-comment"># 节点准备就绪时执行</span>
+    <span class="code-function">print</span>(<span class="code-string">"Hello from Godot!"</span>)
+    text = <span class="code-string">"Welcome to HD2D Survival!"</span></code>
                         </div>
-                    </div>
-                    <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-rocket"></i> 运行项目</h3>
-                        <ul class="content-list">
-                            <li>点击编辑器右上角的"运行"按钮</li>
-                            <li>选择<em>Main.tscn</em>作为主场景</li>
-                            <li>观察控制台输出</li>
-                            <li>恭喜！你的第一个Godot程序运行成功！</li>
-                        </ul>
                     </div>
                 `
             },
@@ -624,17 +826,18 @@ func _ready():<br>
                 id: 9,
                 title: "课程总结",
                 subtitle: "第一课时完成",
+                icon: "fas fa-check-circle",
                 content: `
                     <div class="content-section">
                         <h3 class="content-title"><i class="fas fa-check-circle"></i> 本课时完成事项</h3>
                         <ul class="content-list">
-                            <li>✅ 安装了Godot引擎</li>
-                            <li>✅ 安装了Git和SourceTree</li>
-                            <li>✅ 学习了基础Git命令</li>
-                            <li>✅ 创建了Godot项目</li>
-                            <li>✅ 设置了项目文件夹结构</li>
-                            <li>✅ 初始化了版本控制</li>
-                            <li>✅ 运行了第一个Godot程序</li>
+                            <li class="completed">安装了Godot引擎</li>
+                            <li class="completed">安装了Git和SourceTree</li>
+                            <li class="completed">学习了基础Git命令</li>
+                            <li class="completed">创建了Godot项目</li>
+                            <li class="completed">设置了项目文件夹结构</li>
+                            <li class="completed">初始化了版本控制</li>
+                            <li class="completed">运行了第一个Godot程序</li>
                         </ul>
                     </div>
                     <div class="content-section">
@@ -644,111 +847,165 @@ func _ready():<br>
                             <li>创建玩家角色</li>
                             <li>实现基础移动控制</li>
                             <li>添加摄像机跟随</li>
-                            <li>创建游戏世界基础</li>
                         </ul>
                     </div>
-                    <div class="content-section">
-                        <div class="learning-objectives">
-                            <h3 class="content-title"><i class="fas fa-star"></i> 恭喜完成第一课时！</h3>
-                            <p style="color: white; margin-top: 0.5rem;">你已经成功搭建了开发环境，为后续的HD2D生存游戏开发打下了坚实基础。</p>
-                        </div>
+                `
+            },
+            {
+                id: 10,
+                title: "恭喜完成！",
+                subtitle: "第一课时学习结束",
+                icon: "fas fa-trophy",
+                content: `
+                    <div class="learning-objectives">
+                        <h3 class="content-title"><i class="fas fa-star"></i> 恭喜完成第一课时！</h3>
+                        <p style="color: rgba(255,255,255,0.9); margin-top: var(--space-3);">
+                            你已经成功搭建了开发环境，为后续的HD2D生存游戏开发打下了坚实基础。
+                        </p>
+                    </div>
+                    <div class="content-section" style="margin-top: var(--space-6);">
+                        <h3 class="content-title"><i class="fas fa-rocket"></i> 继续学习</h3>
+                        <ul class="content-list">
+                            <li><a href="godot-tutorial/index.html" class="link-item"><i class="fas fa-gamepad"></i> 返回教程主页</a></li>
+                            <li><a href="godot-tutorial/interactive.html" class="link-item"><i class="fas fa-code"></i> 练习代码</a></li>
+                            <li><a href="https://github.com/DeerLuuu/nanobot-test-repo" class="link-item" target="_blank"><i class="fab fa-github"></i> 查看GitHub仓库</a></li>
+                        </ul>
                     </div>
                 `
             }
         ];
 
-        // 当前卡片索引
-        let currentCardIndex = 0;
-        const totalCards = courseData.length;
+        // 当前幻灯片索引
+        let currentSlideIndex = 0;
+        const totalSlides = slides.length;
 
         // DOM元素
-        const cardNumberElement = document.getElementById('card-number');
-        const cardTitleElement = document.getElementById('card-title');
-        const cardSubtitleElement = document.getElementById('card-subtitle');
-        const cardContentElement = document.getElementById('card-content');
-        const prevButton = document.getElementById('prev-btn');
-        const nextButton = document.getElementById('next-btn');
+        const slideNumberEl = document.getElementById('slide-number');
+        const slideTitleEl = document.getElementById('slide-title');
+        const slideSubtitleEl = document.getElementById('slide-subtitle');
+        const slideContentEl = document.getElementById('slide-content');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
         const progressFill = document.getElementById('progress-fill');
         const progressText = document.getElementById('progress-text');
+        const slideIndicators = document.getElementById('slide-indicators');
+        const keyboardHint = document.getElementById('keyboard-hint');
 
-        // 更新卡片内容
-        function updateCard() {
-            const card = courseData[currentCardIndex];
+        // 创建幻灯片指示器
+        function createIndicators() {
+            slideIndicators.innerHTML = '';
+            for (let i = 0; i < totalSlides; i++) {
+                const indicator = document.createElement('div');
+                indicator.className = 'indicator' + (i === 0 ? ' active' : '');
+                indicator.addEventListener('click', () => goToSlide(i));
+                indicator.setAttribute('aria-label', `跳转到第 ${i + 1} 张幻灯片`);
+                slideIndicators.appendChild(indicator);
+            }
+        }
+
+        // 更新幻灯片内容
+        function updateSlide() {
+            const slide = slides[currentSlideIndex];
             
-            // 更新卡片信息
-            cardNumberElement.textContent = card.id;
-            cardTitleElement.textContent = card.title;
-            cardSubtitleElement.textContent = card.subtitle;
-            cardContentElement.innerHTML = card.content;
+            // 更新内容
+            slideNumberEl.textContent = slide.id;
+            slideTitleEl.innerHTML = `<i class="${slide.icon}"></i> ${slide.title}`;
+            slideSubtitleEl.textContent = slide.subtitle;
+            slideContentEl.innerHTML = slide.content;
             
             // 更新进度
-            const progressPercentage = ((currentCardIndex + 1) / totalCards) * 100;
+            const progressPercentage = ((currentSlideIndex + 1) / totalSlides) * 100;
             progressFill.style.width = `${progressPercentage}%`;
-            progressText.textContent = `${currentCardIndex + 1}/${totalCards}`;
+            progressText.textContent = `${currentSlideIndex + 1}/${totalSlides}`;
             
             // 更新按钮状态
-            prevButton.disabled = currentCardIndex === 0;
-            nextButton.textContent = currentCardIndex === totalCards - 1 ? '完成' : '下一张';
+            prevBtn.disabled = currentSlideIndex === 0;
+            nextBtn.innerHTML = currentSlideIndex === totalSlides - 1 
+                ? '完成 <i class="fas fa-check"></i>' 
+                : '下一张 <i class="fas fa-chevron-right"></i>';
             
-            // 添加动画效果
-            cardContentElement.style.opacity = '0';
-            cardContentElement.style.transform = 'translateY(10px)';
-            
-            setTimeout(() => {
-                cardContentElement.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                cardContentElement.style.opacity = '1';
-                cardContentElement.style.transform = 'translateY(0)';
-            }, 50);
+            // 更新指示器
+            const indicators = slideIndicators.querySelectorAll('.indicator');
+            indicators.forEach((ind, index) => {
+                ind.classList.toggle('active', index === currentSlideIndex);
+            });
+
+            // 滚动到内容顶部
+            slideContentEl.scrollTop = 0;
         }
 
-        // 切换到上一张卡片
-        function goToPrevCard() {
-            if (currentCardIndex > 0) {
-                currentCardIndex--;
-                updateCard();
+        // 切换到指定幻灯片
+        function goToSlide(index) {
+            if (index >= 0 && index < totalSlides) {
+                currentSlideIndex = index;
+                updateSlide();
             }
         }
 
-        // 切换到下一张卡片
-        function goToNextCard() {
-            if (currentCardIndex < totalCards - 1) {
-                currentCardIndex++;
-                updateCard();
+        // 上一张
+        function goToPrev() {
+            if (currentSlideIndex > 0) {
+                goToSlide(currentSlideIndex - 1);
+            }
+        }
+
+        // 下一张
+        function goToNext() {
+            if (currentSlideIndex < totalSlides - 1) {
+                goToSlide(currentSlideIndex + 1);
             } else {
-                // 如果是最后一张卡片，显示完成消息
-                alert('恭喜！你已经完成了第一课时的所有内容！🎉');
+                // 最后一张，显示完成提示
+                showCompletionMessage();
             }
+        }
+
+        // 显示完成消息
+        function showCompletionMessage() {
+            alert('🎉 恭喜！你已经完成了第一课时的所有内容！\n\n继续前往下一课时学习更多内容。');
+        }
+
+        // 显示键盘提示
+        function showKeyboardHint() {
+            keyboardHint.classList.add('visible');
+            setTimeout(() => {
+                keyboardHint.classList.remove('visible');
+            }, 3000);
         }
 
         // 键盘导航
         document.addEventListener('keydown', (event) => {
             switch(event.key) {
                 case 'ArrowLeft':
-                    goToPrevCard();
+                    goToPrev();
                     break;
                 case 'ArrowRight':
                 case ' ':
-                    goToNextCard();
+                    event.preventDefault();
+                    goToNext();
+                    break;
+                case 'Home':
+                    event.preventDefault();
+                    goToSlide(0);
+                    break;
+                case 'End':
+                    event.preventDefault();
+                    goToSlide(totalSlides - 1);
                     break;
             }
         });
-
-        // 按钮事件监听
-        prevButton.addEventListener('click', goToPrevCard);
-        nextButton.addEventListener('click', goToNextCard);
 
         // 触摸滑动支持
         let touchStartX = 0;
         let touchEndX = 0;
         
-        cardContentElement.addEventListener('touchstart', (event) => {
+        document.addEventListener('touchstart', (event) => {
             touchStartX = event.changedTouches[0].screenX;
-        });
+        }, { passive: true });
         
-        cardContentElement.addEventListener('touchend', (event) => {
+        document.addEventListener('touchend', (event) => {
             touchEndX = event.changedTouches[0].screenX;
             handleSwipe();
-        });
+        }, { passive: true });
         
         function handleSwipe() {
             const swipeThreshold = 50;
@@ -756,22 +1013,31 @@ func _ready():<br>
             
             if (Math.abs(diff) > swipeThreshold) {
                 if (diff > 0) {
-                    // 向左滑动，下一张
-                    goToNextCard();
+                    goToNext();
                 } else {
-                    // 向右滑动，上一张
-                    goToPrevCard();
+                    goToPrev();
                 }
             }
         }
 
+        // 按钮事件
+        prevBtn.addEventListener('click', goToPrev);
+        nextBtn.addEventListener('click', goToNext);
+
         // 初始化
-        updateCard();
-        
-        // 添加页面加载完成提示
-        window.addEventListener('load', () => {
-            console.log('课件页面加载完成！');
-            console.log(`共 ${totalCards} 张卡片`);
+        document.addEventListener('DOMContentLoaded', () => {
+            createIndicators();
+            updateSlide();
+
+            // 首次显示键盘提示
+            setTimeout(showKeyboardHint, 1000);
+        });
+
+        // 页面可见性变化时的处理
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                // 页面重新可见时，可以恢复某些状态
+            }
         });
     </script>
 </body>
