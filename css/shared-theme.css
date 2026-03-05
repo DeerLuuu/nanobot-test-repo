@@ -415,9 +415,12 @@ body {
    5. 容器和布局
    ============================================ */
 .container {
-    max-width: var(--container-xl);
+    max-width: 1400px;
     margin: 0 auto;
-    padding: var(--space-8) clamp(var(--space-4), 5vw, var(--space-8));
+    padding: var(--space-6);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .container-sm {
@@ -1083,6 +1086,13 @@ pre code {
     );
     animation: shimmer 2s infinite;
     background-size: 200% 100%;
+}
+
+.progress-text {
+    margin-top: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--text-light);
+    text-align: center;
 }
 
 /* ============================================

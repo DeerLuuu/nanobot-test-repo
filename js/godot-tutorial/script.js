@@ -1,22 +1,9 @@
-// Godot教程网站 - 增强交互功能
-
-// 初始化函数
 function initTutorial() {
     console.log('Godot教程网站初始化...');
-    
-    // 检查本地存储的学习进度
     loadProgress();
-    
-    // 设置事件监听器
     setupEventListeners();
-    
-    // 初始化代码编辑器
     initCodeEditors();
-    
-    // 显示欢迎消息
     showWelcomeMessage();
-    
-    // 开始学习计时
     startLearningTimer();
 }
 
@@ -25,8 +12,6 @@ function loadProgress() {
     const savedProgress = localStorage.getItem('godotTutorialProgress');
     if (savedProgress) {
         const progress = JSON.parse(savedProgress);
-        
-        // 恢复复选框状态
         if (progress.checkboxes) {
             progress.checkboxes.forEach((isChecked, index) => {
                 const checkbox = document.querySelector(`.checklist input[type="checkbox"]:nth-child(${index + 1})`);
@@ -35,15 +20,11 @@ function loadProgress() {
                 }
             });
         }
-        
-        // 恢复其他状态
         if (progress.folders) {
             progress.folders.forEach(folder => {
                 createFolderUI(folder);
             });
         }
-        
-        // 更新进度显示
         updateProgress();
         
         console.log('已恢复学习进度:', progress);
@@ -74,7 +55,6 @@ function saveProgress() {
 
 // 设置事件监听器
 function setupEventListeners() {
-    // 复选框变化时保存进度
     document.querySelectorAll('.checklist input[type="checkbox"]').forEach(checkbox => {
         checkbox.addEventListener('change', () => {
             updateProgress();
@@ -82,22 +62,15 @@ function setupEventListeners() {
             showAchievement(checkbox.id);
         });
     });
-    
-    // 按钮点击效果
     document.querySelectorAll('.btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
-            // 添加点击效果
             this.classList.add('btn-clicked');
             setTimeout(() => {
                 this.classList.remove('btn-clicked');
             }, 300);
         });
     });
-    
-    // 页面离开时保存进度
     window.addEventListener('beforeunload', saveProgress);
-    
-    // 页面可见性变化
     document.addEventListener('visibilitychange', function() {
         if (document.hidden) {
             saveProgress();
@@ -107,7 +80,6 @@ function setupEventListeners() {
 
 // 初始化代码编辑器
 function initCodeEditors() {
-    // 为所有代码块添加复制按钮
     document.querySelectorAll('.code-editor').forEach(editor => {
         const copyBtn = document.createElement('button');
         copyBtn.className = 'btn btn-small';
@@ -144,7 +116,6 @@ function showWelcomeMessage() {
     const now = new Date().toISOString();
     
     if (!lastVisit) {
-        // 首次访问
         setTimeout(() => {
             alert('🎉 欢迎来到Godot HD2D生存游戏教程！\n\n开始你的游戏开发之旅吧！');
         }, 1000);
@@ -211,8 +182,6 @@ function showNotification(title, message, type = 'info') {
             <i class="fas fa-times"></i>
         </button>
     `;
-    
-    // 添加样式
     notification.style.cssText = `
         position: fixed;
         top: 20px;
@@ -230,8 +199,6 @@ function showNotification(title, message, type = 'info') {
     `;
     
     document.body.appendChild(notification);
-    
-    // 自动消失
     setTimeout(() => {
         if (notification.parentElement) {
             notification.style.animation = 'slideOutRight 0.3s ease-out';
@@ -248,7 +215,7 @@ function showNotification(title, message, type = 'info') {
 function createFolderUI(folderName) {
     const structure = document.getElementById('folder-structure');
     let current = structure.innerHTML;
-    
+
     if (!current.includes(folderName + '/')) {
         const lines = current.split('<br>');
         const lastLineIndex = lines.length - 2;
@@ -264,8 +231,6 @@ function createFolderUI(folderName) {
         }
         
         structure.innerHTML = lines.join('<br>');
-        
-        // 添加文件夹项标记
         const folderItem = document.createElement('span');
         folderItem.className = 'folder-item';
         folderItem.dataset.folderName = folderName;
@@ -349,14 +314,11 @@ function executeEnhancedTerminalCommand() {
     const command = input.value.trim();
     
     if (command) {
-        // 添加命令到输出
         const commandLine = document.createElement('div');
         commandLine.textContent = '$ ' + command;
         commandLine.style.color = '#4CAF50';
         commandLine.style.fontWeight = 'bold';
         output.appendChild(commandLine);
-        
-        // 处理命令
         let response = '';
         let isError = false;
         
@@ -433,15 +395,11 @@ function executeEnhancedTerminalCommand() {
                 response = `❌ 命令未找到: ${command}\n💡 输入 'help' 查看可用命令`;
                 isError = true;
         }
-        
-        // 添加响应到输出
         const responseLine = document.createElement('div');
         responseLine.textContent = response;
         responseLine.style.color = isError ? '#F44336' : '#FFFFFF';
         responseLine.style.whiteSpace = 'pre-wrap';
         output.appendChild(responseLine);
-        
-        // 滚动到底部
         output.scrollTop = output.scrollHeight;
         input.value = '';
     }
@@ -517,28 +475,21 @@ function resetProgress() {
 
 // 添加键盘快捷键
 document.addEventListener('keydown', function(e) {
-    // Ctrl + S: 保存进度
     if (e.ctrlKey && e.key === 's') {
         e.preventDefault();
         saveProgress();
         showNotification('自动保存', '学习进度已保存！', 'success');
     }
-    
-    // Ctrl + R: 生成报告
     if (e.ctrlKey && e.key === 'r') {
         e.preventDefault();
         exportLearningReport();
     }
-    
-    // Ctrl + L: 清空终端
     if (e.ctrlKey && e.key === 'l') {
         e.preventDefault();
         document.getElementById('terminal-output').innerHTML = 
             '<span style="color: #4CAF50; font-weight: bold;">$</span> 终端已清空\n' +
             '<span style="color: #4CAF50; font-weight: bold;">$</span> 输入 \'help\' 查看可用命令';
     }
-    
-    // Tab键在终端中自动补全
     if (e.key === 'Tab' && document.activeElement.id === 'terminal-input') {
         e.preventDefault();
         const input = document.getElementById('terminal-input');
@@ -565,14 +516,11 @@ function updateProgress() {
     if (progressBar) {
         progressBar.style.width = percentage + '%';
     }
-    
-    // 更新子进度条
     updateSubProgress();
 }
 
 // 更新子进度条
 function updateSubProgress() {
-    // 环境安装进度（目标1-3）
     const envGoals = ['goal1', 'goal2', 'goal3'];
     const envChecked = envGoals.filter(id => {
         const checkbox = document.getElementById(id);
@@ -585,7 +533,6 @@ function updateSubProgress() {
     if (progressBar1) progressBar1.style.width = envPercentage + '%';
     if (progressText1) progressText1.textContent = Math.round(envPercentage) + '%';
     
-    // Git掌握进度（目标4-5）
     const gitGoals = ['goal4', 'goal5'];
     const gitChecked = gitGoals.filter(id => {
         const checkbox = document.getElementById(id);
@@ -599,7 +546,6 @@ function updateSubProgress() {
     if (progressText2) progressText2.textContent = Math.round(gitPercentage) + '%';
 }
 
-// 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', initTutorial);
 
 // 添加CSS动画
@@ -656,7 +602,6 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// 导出函数供HTML使用
 window.executeEnhancedCommand = executeEnhancedCommand;
 window.executeEnhancedTerminalCommand = executeEnhancedTerminalCommand;
 window.exportLearningReport = exportLearningReport;

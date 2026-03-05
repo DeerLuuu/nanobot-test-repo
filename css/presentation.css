@@ -1,0 +1,482 @@
+/* ============================================
+   课件演示页面样式
+   ============================================ */
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    background-attachment: fixed;
+}
+
+/* 顶部导航栏 - 使用components.css中的.navbar */
+.top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-6);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius-lg);
+    margin-bottom: var(--space-6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 幻灯片容器 */
+.slide-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+/* 大幻灯片卡片 */
+.slide-card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius-xl);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    min-height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.slide-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+}
+
+/* 幻灯片头部 */
+.slide-header {
+    padding: var(--space-8) var(--space-10);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+    border-bottom: 2px solid var(--border-color);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.slide-header-left {
+    flex: 1;
+}
+
+.slide-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: var(--border-radius-sm);
+    font-weight: 800;
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-4);
+    box-shadow: var(--shadow-md);
+}
+
+.slide-title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: var(--text-color);
+    margin: 0 0 var(--space-2) 0;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.slide-title i {
+    color: var(--primary-color);
+    font-size: 0.9em;
+}
+
+.slide-subtitle {
+    font-size: var(--text-lg);
+    color: var(--text-light);
+    margin: 0;
+}
+
+.slide-header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-3);
+}
+
+.slide-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: rgba(102, 126, 234, 0.1);
+    color: var(--primary-color);
+    border-radius: var(--border-radius-full);
+    font-size: var(--text-sm);
+    font-weight: 600;
+}
+
+.slide-badge i {
+    font-size: 1rem;
+}
+
+/* 幻灯片内容区 */
+.slide-content {
+    flex: 1;
+    padding: var(--space-8) var(--space-10);
+    overflow-y: auto;
+}
+
+/* 底部导航栏 */
+.slide-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-5) var(--space-10);
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+}
+
+/* 进度区 - 使用components.css中的.progress-bar */
+.progress-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    flex: 1;
+    max-width: 400px;
+}
+
+.progress-bar-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+/* 幻灯片指示器 */
+.slide-indicators {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--border-radius-full);
+    background: var(--border-color);
+    cursor: pointer;
+    transition: var(--transition-base);
+    border: none;
+}
+
+.indicator:hover {
+    background: var(--neutral-400);
+    transform: scale(1.2);
+}
+
+.indicator.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    transform: scale(1.3);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+/* 键盘快捷键提示 */
+.keyboard-hint {
+    position: fixed;
+    bottom: var(--space-6);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--border-radius-full);
+    font-size: var(--text-sm);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+}
+
+.keyboard-hint.visible {
+    opacity: 1;
+}
+
+.keyboard-hint kbd {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: var(--text-xs);
+}
+
+/* 动画效果 */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-card {
+    animation: slideIn 0.4s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .slide-card {
+        animation: none;
+    }
+    
+    .nav-button:hover:not(:disabled) {
+        transform: none;
+    }
+}
+
+/* ============================================
+   内容区块样式
+   ============================================ */
+
+.content-section {
+    margin-bottom: var(--space-8);
+}
+
+.content-section:last-child {
+    margin-bottom: 0;
+}
+
+.section-title {
+    font-size: var(--text-xl);
+    color: var(--text-color);
+    margin-bottom: var(--space-5);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--border-color);
+}
+
+.section-title i {
+    color: var(--primary-color);
+    font-size: 1.2em;
+}
+
+/* 内容列表 */
+.content-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.content-list li {
+    padding: var(--space-4) var(--space-6);
+    margin-bottom: var(--space-3);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.03), rgba(118, 75, 162, 0.03));
+    border-radius: var(--border-radius-sm);
+    border-left: 4px solid var(--primary-color);
+    color: var(--text-color);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    transition: var(--transition-base);
+}
+
+.content-list li:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08));
+    transform: translateX(4px);
+}
+
+.content-list li.completed {
+    border-left-color: var(--success-color);
+    background: linear-gradient(135deg, rgba(39, 174, 96, 0.05), rgba(39, 174, 96, 0.03));
+}
+
+.content-list li.completed::before {
+    content: '✓';
+    color: var(--success-color);
+    font-weight: 700;
+    margin-right: var(--space-3);
+}
+
+/* 步骤标记 */
+.step-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    border-radius: var(--border-radius-full);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    margin-right: var(--space-3);
+    box-shadow: var(--shadow-sm);
+}
+
+/* 学习目标区块 */
+.learning-objectives {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    padding: var(--space-6);
+    border-radius: var(--border-radius-md);
+    margin-bottom: var(--space-6);
+}
+
+.learning-objectives .section-title {
+    color: white;
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+}
+
+.learning-objectives .section-title i {
+    color: white;
+}
+
+.learning-objectives .content-list li {
+    background: rgba(255, 255, 255, 0.1);
+    border-left-color: rgba(255, 255, 255, 0.5);
+    color: white;
+}
+
+.learning-objectives .content-list li:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* 代码块 */
+.code-block {
+    background: #1e1e1e;
+    border-radius: var(--border-radius-md);
+    padding: var(--space-5);
+    margin: var(--space-5) 0;
+    border-left: 4px solid var(--primary-color);
+    overflow-x: auto;
+}
+
+.code-block code {
+    font-family: 'Consolas', 'Monaco', 'Fira Code', monospace;
+    font-size: var(--text-sm);
+    line-height: 1.7;
+    color: #d4d4d4;
+    white-space: pre;
+}
+
+.code-comment { color: #6a9955; }
+.code-keyword { color: #569cd6; font-weight: 500; }
+.code-string { color: #ce9178; }
+.code-function { color: #dcdcaa; }
+.code-type { color: #4ec9b0; }
+.code-number { color: #b5cea8; }
+
+/* 提示框 */
+.tip-box {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08));
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius-md);
+    padding: var(--space-5);
+    margin-top: var(--space-5);
+}
+
+.tip-box.warning {
+    background: linear-gradient(135deg, rgba(243, 156, 18, 0.08), rgba(243, 156, 18, 0.04));
+    border-color: var(--warning-color);
+}
+
+.tip-box.success {
+    background: linear-gradient(135deg, rgba(39, 174, 96, 0.08), rgba(39, 174, 96, 0.04));
+    border-color: var(--success-color);
+}
+
+.tip-box h5 {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-3) 0;
+    font-size: var(--text-base);
+}
+
+.tip-box h5 i { font-size: 1.1em; }
+.tip-box p { margin: 0; color: var(--text-light); }
+.tip-box p a { color: var(--primary-color); }
+
+/* 链接样式 */
+.link-item {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    transition: var(--transition-fast);
+}
+
+.link-item:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+/* 响应式 */
+@media (max-width: 1024px) {
+    .course-container {
+        padding: var(--space-4);
+    }
+    
+    .slide-header,
+    .slide-content,
+    .slide-footer {
+        padding-left: var(--space-6);
+        padding-right: var(--space-6);
+    }
+    
+    .slide-title {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .top-nav {
+        flex-direction: column;
+        gap: var(--space-4);
+        padding: var(--space-4);
+    }
+    
+    .nav-left,
+    .nav-right {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .slide-header {
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+    
+    .slide-header-right {
+        align-items: flex-start;
+    }
+    
+    .slide-footer {
+        flex-direction: column;
+        gap: var(--space-4);
+        padding: var(--space-4);
+    }
+    
+    .progress-area {
+        order: -1;
+        max-width: 100%;
+    }
+    
+    .nav-button {
+        width: 100%;
+    }
+}
