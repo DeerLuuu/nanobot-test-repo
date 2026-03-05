@@ -190,7 +190,33 @@
         // 配置 Marked
         // ============================================
         function configureMarked() {
+            // 自定义渲染器 - 支持任务列表
+            const renderer = new marked.Renderer();
+            
+            // 重写 list 方法，检测是否包含任务列表
+            renderer.list = function(body, ordered, start) {
+                const isTaskList = body.includes('class="task-list-item"');
+                const listClass = isTaskList ? ' class="task-list"' : '';
+                const tag = ordered ? 'ol' : 'ul';
+                const startAttr = ordered && start !== 1 ? ` start="${start}"` : '';
+                return `<${tag}${listClass}${startAttr}>${body}</${tag}>`;
+            };
+            
+            // 重写 listitem 方法，处理任务列表
+            renderer.listitem = function(text, task, checked) {
+                if (task) {
+                    const isChecked = checked ? 'checked' : '';
+                    const checkedClass = checked ? 'task-list-item-checked' : '';
+                    return `<li class="task-list-item ${checkedClass}">
+                        <input type="checkbox" class="task-checkbox" ${isChecked} onclick="toggleTask(this)">
+                        <span class="task-text">${text}</span>
+                    </li>`;
+                }
+                return `<li>${text}</li>`;
+            };
+            
             marked.setOptions({
+                renderer: renderer,
                 highlight: function(code, lang) {
                     if (lang && hljs.getLanguage(lang)) {
                         try {
@@ -206,6 +232,16 @@
                 breaks: true,
                 gfm: true
             });
+        }
+        
+        // ============================================
+        // 任务列表交互
+        // ============================================
+        function toggleTask(checkbox) {
+            const li = checkbox.closest('.task-list-item');
+            if (li) {
+                li.classList.toggle('task-list-item-checked', checkbox.checked);
+            }
         }
 
         // ============================================
