@@ -12,28 +12,162 @@
     <!-- 外部资源 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/shared-theme.css">
-    <link rel="stylesheet" href="../css/godot-tutorial/style.css">
     
     <style>
         /* ============================================
-           交互式编辑器特定样式
+           页面特定样式 - 与主页风格统一
            ============================================ */
         
-        .main-content {
+        /* 页面布局 */
+        .page-layout {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 260px 1fr;
             gap: var(--space-6);
-            margin-bottom: var(--space-8);
+            min-height: calc(100vh - 200px);
         }
         
-        @media (max-width: 900px) {
-            .main-content {
+        @media (max-width: 1024px) {
+            .page-layout {
                 grid-template-columns: 1fr;
             }
         }
         
-        /* 代码区域 */
-        .code-section, .output-section {
+        /* ============================================
+           左侧边栏 - 与主页卡片风格一致
+           ============================================ */
+        
+        .sidebar {
+            position: sticky;
+            top: var(--space-8);
+            height: fit-content;
+        }
+        
+        .sidebar-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--space-4);
+        }
+        
+        .sidebar-title {
+            color: var(--text-color);
+            font-size: var(--text-lg);
+            font-weight: 700;
+            margin-bottom: var(--space-4);
+            padding-bottom: var(--space-3);
+            border-bottom: 2px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        
+        .sidebar-title i {
+            color: var(--primary-color);
+        }
+        
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+        
+        .sidebar-nav-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--border-radius-sm);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-size: var(--text-sm);
+            font-weight: 500;
+        }
+        
+        .sidebar-nav-item:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            transform: translateX(3px);
+        }
+        
+        .sidebar-nav-item.active {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+            color: var(--primary-color);
+        }
+        
+        .sidebar-nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* 子菜单 */
+        .sidebar-submenu {
+            margin-left: var(--space-6);
+            border-left: 2px solid var(--border-color);
+            padding-left: var(--space-3);
+            margin-top: var(--space-2);
+        }
+        
+        .sidebar-submenu-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--border-radius-xs);
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition-base);
+            font-size: var(--text-xs);
+        }
+        
+        .sidebar-submenu-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .sidebar-submenu-item.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        /* 快捷链接 */
+        .sidebar-links {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+            margin-top: var(--space-4);
+        }
+        
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: var(--text-sm);
+            padding: var(--space-2);
+            border-radius: var(--border-radius-xs);
+            transition: var(--transition-base);
+        }
+        
+        .sidebar-link:hover {
+            color: var(--primary-color);
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        /* ============================================
+           主内容区域
+           ============================================ */
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+        }
+        
+        /* 卡片样式 - 与主页一致 */
+        .content-card {
             background: var(--card-bg);
             border-radius: var(--border-radius-lg);
             padding: var(--space-6);
@@ -41,12 +175,12 @@
             border: 1px solid var(--border-color);
             transition: var(--transition-smooth);
         }
-
-        .code-section:hover, .output-section:hover {
+        
+        .content-card:hover {
             box-shadow: var(--shadow-xl);
         }
         
-        .section-header {
+        .card-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -55,381 +189,528 @@
             border-bottom: 2px solid var(--border-color);
         }
         
-        .section-title {
+        .card-title {
             color: var(--text-color);
             font-size: var(--text-lg);
+            font-weight: 700;
             display: flex;
             align-items: center;
             gap: var(--space-2);
         }
         
-        .section-icon {
+        .card-title i {
             color: var(--primary-color);
         }
         
-        /* 代码编辑器 */
-        .code-editor {
-            width: 100%;
-            height: 400px;
-            min-height: 400px;
-            max-height: 500px;
-            background: var(--code-bg);
-            border-radius: var(--border-radius);
-            padding: var(--space-4);
-            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-            font-size: var(--text-sm);
-            line-height: 1.6;
-            color: var(--neutral-200);
-            border: 2px solid var(--neutral-700);
-            resize: vertical;
-            white-space: pre;
-            overflow-x: auto;
-            overflow-y: auto;
-            tab-size: 4;
+        .card-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+        
+        /* ============================================
+           代码编辑器 - 简洁无重影设计
+           ============================================ */
+        
+        .editor-wrapper {
+            position: relative;
+            background: #1e1e1e;
+            border-radius: var(--border-radius-sm);
+            border: 2px solid var(--border-color);
+            overflow: hidden;
             transition: border-color var(--transition-base);
         }
         
-        .code-editor:focus {
-            outline: none;
+        .editor-wrapper:focus-within {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
         }
         
-        /* 输出区域 */
-        .output-area {
-            width: 100%;
-            height: 450px;
-            min-height: 450px;
-            max-height: 600px;
-            background: var(--code-bg);
-            border-radius: var(--border-radius);
+        .editor-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-3) var(--space-4);
+            background: #2d2d2d;
+            border-bottom: 1px solid #3c3c3c;
+        }
+        
+        .editor-tabs {
+            display: flex;
+            gap: var(--space-2);
+        }
+        
+        .editor-tab {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: transparent;
+            border: none;
+            color: #808080;
+            font-size: var(--text-sm);
+            cursor: pointer;
+            border-radius: var(--border-radius-xs);
+            transition: var(--transition-base);
+        }
+        
+        .editor-tab.active {
+            background: #1e1e1e;
+            color: #ffffff;
+        }
+        
+        .editor-tab:hover:not(.active) {
+            color: #cccccc;
+        }
+        
+        .editor-file-icon {
+            color: #519aba;
+        }
+        
+        /* 行号和代码区域 */
+        .editor-content {
+            display: flex;
+            height: 400px;
+            overflow: hidden;
+        }
+        
+        .line-numbers {
+            background: #1e1e1e;
+            padding: var(--space-4) var(--space-3);
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #858585;
+            text-align: right;
+            user-select: none;
+            min-width: 50px;
+            border-right: 1px solid #3c3c3c;
+            overflow: hidden;
+        }
+        
+        .code-editor {
+            flex: 1;
+            background: #1e1e1e;
+            border: none;
             padding: var(--space-4);
             font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #d4d4d4;
+            resize: none;
+            outline: none;
+            tab-size: 4;
+            white-space: pre;
+            overflow: auto;
+        }
+        
+        /* 代码补全下拉 */
+        .autocomplete-dropdown {
+            position: fixed;
+            background: #252526;
+            border: 1px solid #3c3c3c;
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow-xl);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            min-width: 250px;
+        }
+        
+        .autocomplete-dropdown.visible {
+            display: block;
+        }
+        
+        .autocomplete-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            cursor: pointer;
+            font-family: 'Consolas', monospace;
+            font-size: var(--text-sm);
+            color: #d4d4d4;
+        }
+        
+        .autocomplete-item:hover,
+        .autocomplete-item.selected {
+            background: #094771;
+        }
+        
+        .autocomplete-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        
+        .autocomplete-icon.keyword { background: #569cd6; color: white; }
+        .autocomplete-icon.function { background: #dcdcaa; color: black; }
+        .autocomplete-icon.builtin { background: #c586c0; color: white; }
+        .autocomplete-icon.type { background: #4ec9b0; color: black; }
+        
+        .autocomplete-detail {
+            color: #858585;
+            font-size: var(--text-xs);
+            margin-left: auto;
+        }
+        
+        /* ============================================
+           输出控制台
+           ============================================ */
+        
+        .output-wrapper {
+            background: #0c0c0c;
+            border-radius: var(--border-radius-sm);
+            border: 2px solid var(--border-color);
+            overflow: hidden;
+        }
+        
+        .output-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-3) var(--space-4);
+            background: #1a1a1a;
+            border-bottom: 1px solid #3c3c3c;
+        }
+        
+        .output-title {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            color: #cccccc;
+            font-size: var(--text-sm);
+            font-weight: 600;
+        }
+        
+        .output-title i {
+            color: var(--success-color);
+        }
+        
+        .output-area {
+            height: 250px;
+            padding: var(--space-4);
+            font-family: 'Consolas', 'Monaco', monospace;
             font-size: var(--text-sm);
             line-height: 1.6;
-            color: var(--neutral-200);
-            border: 2px solid var(--neutral-700);
-            overflow-y: auto;
-            overflow-x: hidden;
+            color: #cccccc;
+            overflow: auto;
             white-space: pre-wrap;
             word-wrap: break-word;
         }
         
         .output-line {
-            margin-bottom: var(--space-2);
-            padding: var(--space-1) 0;
+            margin-bottom: var(--space-1);
         }
         
-        .output-line.info {
-            color: #4ec9b0;
-        }
+        .output-line.info { color: #4ec9b0; }
+        .output-line.error { color: #f48771; }
+        .output-line.success { color: #b5cea8; }
+        .output-line.warning { color: #dcdcaa; }
         
-        .output-line.error {
-            color: #f48771;
-        }
+        /* ============================================
+           控制按钮 - 与主页按钮风格一致
+           ============================================ */
         
-        .output-line.success {
-            color: #b5cea8;
-        }
-        
-        .output-line.warning {
-            color: #dcdcaa;
-        }
-        
-        /* 控制按钮 */
         .controls {
             display: flex;
             gap: var(--space-3);
-            margin-top: var(--space-6);
             flex-wrap: wrap;
+            align-items: center;
         }
         
-        /* 教程区域 */
-        .tutorial-section {
-            background: var(--card-bg);
-            border-radius: var(--border-radius-lg);
-            padding: var(--space-6);
-            margin-top: var(--space-8);
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-5);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-family: var(--font-sans);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
             box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-color);
             border: 1px solid var(--border-color);
         }
         
-        .tutorial-title {
+        .btn-secondary:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-sm {
+            padding: var(--space-2) var(--space-3);
+            font-size: var(--text-xs);
+        }
+        
+        .shortcut-hints {
+            display: flex;
+            gap: var(--space-4);
+            margin-left: auto;
+            font-size: var(--text-xs);
+            color: var(--text-light);
+        }
+        
+        .shortcut-hints kbd {
+            background: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            border: 1px solid var(--border-color);
+        }
+        
+        /* ============================================
+           示例下拉菜单
+           ============================================ */
+        
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        
+        .dropdown-toggle .fa-chevron-down {
+            transition: transform var(--transition-base);
+        }
+        
+        .dropdown.open .dropdown-toggle .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + var(--space-2));
+            right: 0;
+            min-width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow-xl);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all var(--transition-base);
+            z-index: 100;
+        }
+        
+        .dropdown.open .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-header {
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            font-size: var(--text-sm);
             color: var(--text-color);
-            font-size: var(--text-xl);
-            margin-bottom: var(--space-6);
+        }
+        
+        .dropdown-item {
             display: flex;
             align-items: center;
             gap: var(--space-3);
-            padding-bottom: var(--space-3);
-            border-bottom: 3px solid var(--primary-color);
-        }
-        
-        .tutorial-content {
-            color: var(--text-color);
-        }
-        
-        .tutorial-content p {
-            color: var(--text-light);
-            margin-bottom: var(--space-4);
-            line-height: var(--leading-relaxed);
-        }
-        
-        .tutorial-content code {
-            background: var(--bg-secondary);
-            padding: var(--space-1) var(--space-2);
-            border-radius: var(--border-radius-xs);
-            font-family: 'Consolas', monospace;
-            color: var(--primary-color);
-            font-size: var(--text-sm);
-        }
-        
-        .tutorial-content ul {
-            margin-left: var(--space-6);
-            margin-bottom: var(--space-4);
-        }
-        
-        .tutorial-content li {
-            margin-bottom: var(--space-2);
-            color: var(--text-light);
-        }
-        
-        /* 示例卡片 */
-        .examples {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: var(--space-4);
-            margin-top: var(--space-6);
-        }
-        
-        .example-card {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
-            border-radius: var(--border-radius);
-            padding: var(--space-5);
+            padding: var(--space-3) var(--space-4);
             cursor: pointer;
-            transition: var(--transition-smooth);
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .example-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
-            opacity: 0;
-            transition: opacity var(--transition-base);
-        }
-
-        .example-card:hover::before {
-            opacity: 1;
+            transition: var(--transition-base);
+            border-left: 3px solid transparent;
         }
         
-        .example-card:hover {
+        .dropdown-item:hover {
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-            border-color: var(--primary-color);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
+            border-left-color: var(--primary-color);
         }
         
-        .example-title {
-            color: var(--text-color);
-            font-size: var(--text-base);
-            margin-bottom: var(--space-2);
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-
-        .example-title i {
+        .dropdown-item i {
             color: var(--primary-color);
+            width: 20px;
         }
         
-        .example-code {
-            font-family: 'Consolas', monospace;
+        .dropdown-item-content {
+            flex: 1;
+        }
+        
+        .dropdown-item-title {
             font-size: var(--text-sm);
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        
+        .dropdown-item-preview {
+            font-size: var(--text-xs);
             color: var(--text-light);
+            font-family: 'Consolas', monospace;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            background: var(--bg-secondary);
-            padding: var(--space-2);
-            border-radius: var(--border-radius-xs);
+            max-width: 180px;
         }
-
-        .example-difficulty {
-            display: inline-block;
-            margin-top: var(--space-2);
-            padding: var(--space-1) var(--space-2);
+        
+        .dropdown-item-badge {
             font-size: var(--text-xs);
+            padding: 2px 8px;
             border-radius: var(--border-radius-full);
             font-weight: 600;
         }
-
-        .difficulty-easy {
-            background: rgba(39, 174, 96, 0.2);
+        
+        .badge-easy {
+            background: rgba(39, 174, 96, 0.15);
             color: var(--success-color);
         }
-
-        .difficulty-medium {
-            background: rgba(243, 156, 18, 0.2);
+        
+        .badge-medium {
+            background: rgba(243, 156, 18, 0.15);
             color: var(--warning-color);
         }
-
-        .difficulty-hard {
-            background: rgba(231, 76, 60, 0.2);
+        
+        .badge-hard {
+            background: rgba(231, 76, 60, 0.15);
             color: var(--error-color);
         }
         
-        /* GDScript语法高亮 */
-        .gd-keyword { color: #569cd6; }
-        .gd-string { color: #ce9178; }
-        .gd-number { color: #b5cea8; }
-        .gd-comment { color: #6a9955; }
-        .gd-function { color: #dcdcaa; }
-        .gd-type { color: #4ec9b0; }
-        .gd-operator { color: #d4d4d4; }
-        .gd-builtin { color: #c586c0; }
-
-        /* 知识点卡片 */
-        .knowledge-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: var(--space-6);
-            margin-top: var(--space-6);
+        /* ============================================
+           教程面板
+           ============================================ */
+        
+        .tutorial-panel {
+            display: none;
         }
-
-        .knowledge-card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: var(--space-5);
+        
+        .tutorial-panel.visible {
+            display: block;
+        }
+        
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--space-4);
+            margin-top: var(--space-4);
+        }
+        
+        .knowledge-item {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
             border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            padding: var(--space-4);
             transition: var(--transition-smooth);
         }
-
-        .knowledge-card:hover {
+        
+        .knowledge-item:hover {
             border-color: var(--primary-color);
+            transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
-
-        .knowledge-card h4 {
-            color: var(--text-color);
-            margin-bottom: var(--space-3);
+        
+        .knowledge-item h4 {
             display: flex;
             align-items: center;
             gap: var(--space-2);
+            color: var(--text-color);
+            font-size: var(--text-base);
+            margin-bottom: var(--space-3);
         }
-
-        .knowledge-card h4 i {
+        
+        .knowledge-item h4 i {
             color: var(--primary-color);
         }
-
-        .knowledge-card p {
+        
+        .knowledge-item p {
             color: var(--text-light);
             font-size: var(--text-sm);
             margin-bottom: var(--space-3);
         }
-
-        .knowledge-card code {
-            display: block;
-            background: var(--code-bg);
-            padding: var(--space-3);
+        
+        .knowledge-item pre {
+            background: #1e1e1e;
             border-radius: var(--border-radius-xs);
+            padding: var(--space-3);
             font-family: 'Consolas', monospace;
             font-size: var(--text-sm);
-            color: var(--neutral-200);
+            color: #d4d4d4;
             overflow-x: auto;
+            margin: 0;
         }
-
-        /* 学习路径 */
-        .learning-path {
-            display: flex;
-            gap: var(--space-2);
-            flex-wrap: wrap;
-            margin: var(--space-4) 0;
-        }
-
-        .path-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            padding: var(--space-2) var(--space-3);
-            background: var(--bg-secondary);
-            border-radius: var(--border-radius-full);
-            font-size: var(--text-sm);
-            color: var(--text-light);
-            transition: var(--transition-base);
-        }
-
-        .path-item.active {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .path-item.completed {
-            background: rgba(39, 174, 96, 0.2);
-            color: var(--success-color);
-        }
-
-        .path-arrow {
-            color: var(--text-light);
-        }
-
-        /* 快捷键提示 */
-        .shortcut-hint {
-            display: flex;
-            gap: var(--space-4);
-            justify-content: center;
-            margin-top: var(--space-4);
-            flex-wrap: wrap;
-        }
-
-        .shortcut-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            font-size: var(--text-sm);
-            color: var(--text-light);
-        }
-
-        .shortcut-item kbd {
-            background: var(--bg-secondary);
-            padding: var(--space-1) var(--space-2);
-            border-radius: var(--border-radius-xs);
-            font-family: monospace;
-            font-size: var(--text-xs);
-            border: 1px solid var(--border-color);
-        }
-
-        /* 响应式 */
-        @media (max-width: 768px) {
-            .code-section, .output-section {
-                padding: var(--space-4);
+        
+        /* ============================================
+           响应式设计
+           ============================================ */
+        
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: static;
             }
-
-            .code-editor, .output-area {
+            
+            .page-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .editor-content {
                 height: 300px;
-                min-height: 300px;
             }
-
+            
+            .output-area {
+                height: 200px;
+            }
+        }
+        
+        @media (max-width: 768px) {
             .controls {
                 flex-direction: column;
+                align-items: stretch;
             }
-
-            .controls .btn {
-                width: 100%;
+            
+            .shortcut-hints {
+                margin-left: 0;
                 justify-content: center;
             }
+            
+            .btn {
+                justify-content: center;
+            }
+            
+            .dropdown-menu {
+                position: fixed;
+                left: var(--space-4);
+                right: var(--space-4);
+                min-width: auto;
+            }
+        }
+        
+        /* 隐藏代码面板 */
+        .code-panel.hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <script src="../js/godot-tutorial/script.js"></script>
     <div class="container">
         <!-- 统一导航栏 -->
         <nav class="navbar" role="navigation" aria-label="主导航">
@@ -469,48 +750,104 @@
             <span class="current" aria-current="page">代码练习</span>
         </nav>
         
-        <!-- 学习路径 -->
-        <div class="learning-path">
-            <span class="path-item completed"><i class="fas fa-check"></i> 基础语法</span>
-            <i class="fas fa-chevron-right path-arrow"></i>
-            <span class="path-item active"><i class="fas fa-code"></i> 变量与数据类型</span>
-            <i class="fas fa-chevron-right path-arrow"></i>
-            <span class="path-item"><i class="fas fa-code-branch"></i> 控制流</span>
-            <i class="fas fa-chevron-right path-arrow"></i>
-            <span class="path-item"><i class="fas fa-cube"></i> 函数</span>
-            <i class="fas fa-chevron-right path-arrow"></i>
-            <span class="path-item"><i class="fas fa-gamepad"></i> 游戏对象</span>
-        </div>
-        
-        <div class="main-content">
-            <!-- 代码编辑区 -->
-            <div class="code-section animate-fadeInUp">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-code section-icon" aria-hidden="true"></i>
-                        代码编辑器
-                    </h2>
-                    <div style="display: flex; gap: var(--space-2);">
-                        <button class="btn btn-secondary" onclick="loadExample(0)" title="加载示例代码">
-                            <i class="fas fa-file-code" aria-hidden="true"></i>
-                            <span>示例</span>
-                        </button>
-                        <button class="btn btn-secondary" onclick="clearCode()" title="清空代码">
-                            <i class="fas fa-trash" aria-hidden="true"></i>
-                            <span>清空</span>
-                        </button>
+        <!-- 页面布局：侧边栏 + 主内容 -->
+        <div class="page-layout">
+            <!-- 左侧边栏 -->
+            <aside class="sidebar">
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-list"></i>
+                        练习模块
+                    </h3>
+                    <nav class="sidebar-nav">
+                        <div class="sidebar-nav-item active" data-panel="code" onclick="switchPanel('code')">
+                            <i class="fas fa-terminal"></i>
+                            <span>代码测试</span>
+                        </div>
+                        <div class="sidebar-nav-item" data-panel="tutorial" onclick="switchPanel('tutorial')">
+                            <i class="fas fa-book"></i>
+                            <span>GDScript 基础</span>
+                        </div>
+                        
+                        <!-- 子菜单 -->
+                        <div class="sidebar-submenu" id="tutorialSubmenu">
+                            <div class="sidebar-submenu-item" onclick="scrollToSection('variables')">
+                                <i class="fas fa-tag"></i> 变量声明
+                            </div>
+                            <div class="sidebar-submenu-item" onclick="scrollToSection('types')">
+                                <i class="fas fa-font"></i> 数据类型
+                            </div>
+                            <div class="sidebar-submenu-item" onclick="scrollToSection('print')">
+                                <i class="fas fa-print"></i> print() 函数
+                            </div>
+                            <div class="sidebar-submenu-item" onclick="scrollToSection('conversion')">
+                                <i class="fas fa-exchange-alt"></i> 类型转换
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                
+                <div class="sidebar-card">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-link"></i>
+                        快捷链接
+                    </h3>
+                    <div class="sidebar-links">
+                        <a href="../index.html" class="sidebar-link">
+                            <i class="fas fa-home"></i> 返回项目主页
+                        </a>
+                        <a href="index.html" class="sidebar-link">
+                            <i class="fas fa-gamepad"></i> 返回教程主页
+                        </a>
+                        <a href="https://github.com/DeerLuuu/nanobot-test-repo" target="_blank" class="sidebar-link">
+                            <i class="fab fa-github"></i> GitHub 仓库
+                        </a>
                     </div>
                 </div>
-                <textarea id="codeEditor" class="code-editor" placeholder="在这里输入你的GDScript代码..." spellcheck="false"># ==========================================
+            </aside>
+            
+            <!-- 主内容区域 -->
+            <main class="main-content">
+                <!-- 代码测试面板 -->
+                <div class="code-panel" id="codePanel">
+                    <!-- 代码编辑器卡片 -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-code"></i>
+                                代码编辑器
+                            </h2>
+                            <div class="card-actions">
+                                <!-- 示例下拉 -->
+                                <div class="dropdown" id="exampleDropdown">
+                                    <button class="btn btn-secondary btn-sm dropdown-toggle" onclick="toggleDropdown('exampleDropdown')">
+                                        <i class="fas fa-file-code"></i>
+                                        <span>示例代码</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </button>
+                                    <div class="dropdown-menu" id="exampleMenu">
+                                        <div class="dropdown-header">选择示例代码</div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-secondary btn-sm" onclick="clearCode()" title="清空代码">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="editor-wrapper">
+                            <div class="editor-content">
+                                <div class="line-numbers" id="lineNumbers">1</div>
+                                <textarea class="code-editor" id="codeEditor" placeholder="在这里输入你的GDScript代码..." spellcheck="false"># ==========================================
 # GDScript 基础教程 - 变量与数据类型
 # ==========================================
 
 # 1. 变量声明与基本数据类型
-var player_name = "冒险者"        # 字符串
-var health = 100                  # 整数
-var speed = 5.5                   # 浮点数
-var is_alive = true               # 布尔值
-var position = Vector2(10, 20)    # Godot内置类型
+var player_name = "冒险者"
+var health = 100
+var speed = 5.5
+var is_alive = true
+var position = Vector2(10, 20)
 
 # 2. 打印输出
 print("=== 玩家信息 ===")
@@ -526,220 +863,176 @@ print("\n=== 背包内容 ===")
 print("物品数量: " + str(inventory.size()))
 print("第一个物品: " + inventory[0])
 
-# 4. 字典
-var stats = {
-    "攻击力": 25,
-    "防御力": 15,
-    "魔法值": 50
-}
-print("\n=== 属性面板 ===")
-print("攻击力: " + str(stats["攻击力"]))
-
 # 尝试修改上面的代码，观察输出变化！</textarea>
-            </div>
-            
-            <!-- 输出区 -->
-            <div class="output-section animate-fadeInUp" style="animation-delay: 0.1s;">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-terminal section-icon" aria-hidden="true"></i>
-                        输出控制台
-                    </h2>
-                    <button class="btn btn-secondary" onclick="clearOutput()">
-                        <i class="fas fa-broom" aria-hidden="true"></i>
-                        <span>清空</span>
-                    </button>
-                </div>
-                <div id="outputArea" class="output-area">
-                    <div class="output-line info">🚀 GDScript 模拟执行器已就绪</div>
-                    <div class="output-line info">📝 输入代码后点击"运行代码"按钮执行</div>
-                    <div class="output-line info">⌨️ 使用 Ctrl+Enter 快捷运行</div>
-                    <div class="output-line info">────────────────────────────────────</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- 控制按钮 -->
-        <div class="controls animate-fadeInUp" style="animation-delay: 0.2s;">
-            <button class="btn btn-primary" onclick="runCode()">
-                <i class="fas fa-play" aria-hidden="true"></i>
-                运行代码
-            </button>
-            <button class="btn btn-secondary" onclick="formatCode()">
-                <i class="fas fa-indent" aria-hidden="true"></i>
-                格式化代码
-            </button>
-            <button class="btn btn-secondary" onclick="saveCode()">
-                <i class="fas fa-save" aria-hidden="true"></i>
-                保存代码
-            </button>
-            <button class="btn btn-secondary" onclick="shareCode()">
-                <i class="fas fa-share-alt" aria-hidden="true"></i>
-                分享代码
-            </button>
-        </div>
-
-        <!-- 快捷键提示 -->
-        <div class="shortcut-hint animate-fadeInUp" style="animation-delay: 0.3s;">
-            <span class="shortcut-item"><kbd>Ctrl</kbd>+<kbd>Enter</kbd> 运行代码</span>
-            <span class="shortcut-item"><kbd>Tab</kbd> 插入缩进</span>
-            <span class="shortcut-item"><kbd>Ctrl</kbd>+<kbd>S</kbd> 保存代码</span>
-        </div>
-        
-        <!-- GDScript教程 -->
-        <section class="tutorial-section animate-fadeInUp" style="animation-delay: 0.4s;">
-            <h2 class="tutorial-title">
-                <i class="fas fa-graduation-cap" aria-hidden="true"></i>
-                GDScript 基础教程
-            </h2>
-            
-            <div class="tutorial-content">
-                <h3 style="color: var(--text-color); margin-bottom: var(--space-3);">什么是 GDScript？</h3>
-                <p>
-                    <strong>GDScript</strong> 是 Godot 引擎专用的脚本语言，语法类似 Python，但针对游戏开发进行了优化。
-                    它与 Godot 引擎深度集成，可以轻松访问节点、资源和场景。
-                </p>
-                
-                <!-- 知识点卡片 -->
-                <div class="knowledge-cards">
-                    <div class="knowledge-card">
-                        <h4><i class="fas fa-tag" aria-hidden="true"></i> 变量声明</h4>
-                        <p>使用 <code>var</code> 关键字声明变量，支持类型推断和显式类型。</p>
-                        <code>var name = "玩家"  # 类型推断<br>var score: int = 100  # 显式类型</code>
+                            </div>
+                        </div>
+                        
+                        <!-- 代码补全下拉 -->
+                        <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
                     </div>
                     
-                    <div class="knowledge-card">
-                        <h4><i class="fas fa-font" aria-hidden="true"></i> 数据类型</h4>
-                        <p>GDScript 支持多种内置数据类型，包括基础类型和 Godot 特有类型。</p>
-                        <code>int, float, bool, String<br>Array, Dictionary<br>Vector2, Vector3, Color</code>
+                    <!-- 输出控制台卡片 -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-terminal"></i>
+                                输出控制台
+                            </h2>
+                            <div class="card-actions">
+                                <button class="btn btn-secondary btn-sm" onclick="clearOutput()" title="清空输出">
+                                    <i class="fas fa-broom"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="output-wrapper">
+                            <div class="output-area" id="outputArea">
+                                <div class="output-line info">🚀 GDScript 模拟执行器已就绪</div>
+                                <div class="output-line info">📝 输入代码后点击"运行代码"按钮执行</div>
+                                <div class="output-line info">⌨️ 使用 Ctrl+Enter 快捷运行</div>
+                                <div class="output-line info">────────────────────────────────────</div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="knowledge-card">
-                        <h4><i class="fas fa-print" aria-hidden="true"></i> print() 函数</h4>
-                        <p>用于在控制台输出调试信息，支持字符串拼接和格式化。</p>
-                        <code>print("Hello Godot!")<br>print("分数: " + str(100))<br>print("x=%d, y=%d" % [10, 20])</code>
+                    <!-- 控制按钮 -->
+                    <div class="content-card">
+                        <div class="controls">
+                            <button class="btn btn-primary" onclick="runCode()">
+                                <i class="fas fa-play"></i>
+                                运行代码
+                            </button>
+                            <button class="btn btn-secondary" onclick="formatCode()">
+                                <i class="fas fa-indent"></i>
+                                格式化代码
+                            </button>
+                            <button class="btn btn-secondary" onclick="saveCode()">
+                                <i class="fas fa-save"></i>
+                                保存代码
+                            </button>
+                            <button class="btn btn-secondary" onclick="shareCode()">
+                                <i class="fas fa-share-alt"></i>
+                                分享代码
+                            </button>
+                            <div class="shortcut-hints">
+                                <span><kbd>Ctrl</kbd>+<kbd>Enter</kbd> 运行</span>
+                                <span><kbd>Tab</kbd> 缩进</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 教程面板 -->
+                <div class="tutorial-panel" id="tutorialPanel">
+                    <div class="content-card" id="variables">
+                        <h2 class="card-title" style="margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 2px solid var(--primary-color);">
+                            <i class="fas fa-tag"></i>
+                            变量声明
+                        </h2>
+                        <p style="color: var(--text-light); margin-bottom: var(--space-4);">
+                            在 GDScript 中，使用 <code>var</code> 关键字声明变量。GDScript 支持类型推断，也支持显式类型声明。
+                        </p>
+                        <div class="knowledge-grid">
+                            <div class="knowledge-item">
+                                <h4><i class="fas fa-magic"></i> 类型推断</h4>
+                                <p>让 GDScript 自动推断变量类型</p>
+                                <pre>var name = "玩家"
+var score = 100
+var speed = 5.5</pre>
+                            </div>
+                            <div class="knowledge-item">
+                                <h4><i class="fas fa-tag"></i> 显式类型</h4>
+                                <p>明确指定变量类型</p>
+                                <pre>var name: String = "玩家"
+var score: int = 100
+var speed: float = 5.5</pre>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="knowledge-card">
-                        <h4><i class="fas fa-exchange-alt" aria-hidden="true"></i> 类型转换</h4>
-                        <p>使用内置函数在不同类型之间转换。</p>
-                        <code>str(100)    # 整数转字符串<br>int("50")    # 字符串转整数<br>float("3.14") # 字符串转浮点</code>
+                    <div class="content-card" id="types">
+                        <h2 class="card-title" style="margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 2px solid var(--primary-color);">
+                            <i class="fas fa-font"></i>
+                            数据类型
+                        </h2>
+                        <p style="color: var(--text-light); margin-bottom: var(--space-4);">
+                            GDScript 支持多种内置数据类型：
+                        </p>
+                        <div class="knowledge-grid">
+                            <div class="knowledge-item">
+                                <h4><i class="fas fa-hashtag"></i> 基础类型</h4>
+                                <p>数字、布尔值、字符串</p>
+                                <pre>int      # 整数: 1, 100, -50
+float    # 浮点: 3.14, -0.5
+bool     # 布尔: true, false
+String   # 字符串: "Hello"</pre>
+                            </div>
+                            <div class="knowledge-item">
+                                <h4><i class="fas fa-cube"></i> Godot 类型</h4>
+                                <p>Godot 引擎特有类型</p>
+                                <pre>Vector2  # 2D向量
+Vector3  # 3D向量
+Color    # 颜色
+Array    # 数组
+Dictionary # 字典</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="content-card" id="print">
+                        <h2 class="card-title" style="margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 2px solid var(--primary-color);">
+                            <i class="fas fa-print"></i>
+                            print() 函数
+                        </h2>
+                        <p style="color: var(--text-light); margin-bottom: var(--space-4);">
+                            <code>print()</code> 是最常用的调试函数，用于在控制台输出信息。
+                        </p>
+                        <div class="knowledge-grid">
+                            <div class="knowledge-item">
+                                <h4><i class="fas fa-font"></i> 基本用法</h4>
+                                <p>输出字符串或变量</p>
+                                <pre>print("Hello Godot!")
+print(player_name)
+print("分数: " + str(score))</pre>
+                            </div>
+                            <div class="knowledge-item">
+                                <h4><i class="fas fa-list"></i> 多参数</h4>
+                                <p>输出多个值（用逗号分隔）</p>
+                                <pre>print("名称:", name)
+print("x:", x, "y:", y)
+print("HP:", hp, "/", max_hp)</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="content-card" id="conversion">
+                        <h2 class="card-title" style="margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 2px solid var(--primary-color);">
+                            <i class="fas fa-exchange-alt"></i>
+                            类型转换
+                        </h2>
+                        <p style="color: var(--text-light); margin-bottom: var(--space-4);">
+                            使用内置函数在不同类型之间转换：
+                        </p>
+                        <div class="knowledge-grid">
+                            <div class="knowledge-item">
+                                <h4><i class="fas fa-font"></i> 转字符串</h4>
+                                <p>将其他类型转为字符串</p>
+                                <pre>str(100)      # "100"
+str(3.14)     # "3.14"
+str(true)     # "true"</pre>
+                            </div>
+                            <div class="knowledge-item">
+                                <h4><i class="fas fa-hashtag"></i> 转数字</h4>
+                                <p>将字符串转为数字</p>
+                                <pre>int("100")    # 100
+float("3.14") # 3.14
+int(3.9)      # 3 (截断)</pre>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- 代码示例 -->
-        <section class="tutorial-section animate-fadeInUp" style="animation-delay: 0.5s;">
-            <h2 class="tutorial-title">
-                <i class="fas fa-lightbulb" aria-hidden="true"></i>
-                练习示例
-            </h2>
-            
-            <p style="color: var(--text-light); margin-bottom: var(--space-4);">点击卡片加载代码到编辑器中：</p>
-            
-            <div class="examples">
-                <div class="example-card" onclick="loadExample(0)">
-                    <div class="example-title">
-                        <i class="fas fa-play-circle" aria-hidden="true"></i>
-                        基础打印
-                    </div>
-                    <div class="example-code">print("Hello Godot!")</div>
-                    <span class="example-difficulty difficulty-easy">简单</span>
-                </div>
-                
-                <div class="example-card" onclick="loadExample(1)">
-                    <div class="example-title">
-                        <i class="fas fa-database" aria-hidden="true"></i>
-                        变量与数据类型
-                    </div>
-                    <div class="example-code">var name = "玩家"; print(name)</div>
-                    <span class="example-difficulty difficulty-easy">简单</span>
-                </div>
-                
-                <div class="example-card" onclick="loadExample(2)">
-                    <div class="example-title">
-                        <i class="fas fa-calculator" aria-hidden="true"></i>
-                        数学运算
-                    </div>
-                    <div class="example-code">var a = 10; print(a + 5)</div>
-                    <span class="example-difficulty difficulty-easy">简单</span>
-                </div>
-                
-                <div class="example-card" onclick="loadExample(3)">
-                    <div class="example-title">
-                        <i class="fas fa-code-branch" aria-hidden="true"></i>
-                        条件语句
-                    </div>
-                    <div class="example-code">if health > 0: print("存活")</div>
-                    <span class="example-difficulty difficulty-medium">中等</span>
-                </div>
-                
-                <div class="example-card" onclick="loadExample(4)">
-                    <div class="example-title">
-                        <i class="fas fa-redo" aria-hidden="true"></i>
-                        循环语句
-                    </div>
-                    <div class="example-code">for i in range(5): print(i)</div>
-                    <span class="example-difficulty difficulty-medium">中等</span>
-                </div>
-                
-                <div class="example-card" onclick="loadExample(5)">
-                    <div class="example-title">
-                        <i class="fas fa-cubes" aria-hidden="true"></i>
-                        数组操作
-                    </div>
-                    <div class="example-code">var items = ["剑", "盾"]; items.append("药水")</div>
-                    <span class="example-difficulty difficulty-medium">中等</span>
-                </div>
-                
-                <div class="example-card" onclick="loadExample(6)">
-                    <div class="example-title">
-                        <i class="fas fa-cog" aria-hidden="true"></i>
-                        函数定义
-                    </div>
-                    <div class="example-code">func add(a, b): return a + b</div>
-                    <span class="example-difficulty difficulty-medium">中等</span>
-                </div>
-                
-                <div class="example-card" onclick="loadExample(7)">
-                    <div class="example-title">
-                        <i class="fas fa-dragon" aria-hidden="true"></i>
-                        玩家类
-                    </div>
-                    <div class="example-code">class_name Player; var health = 100</div>
-                    <span class="example-difficulty difficulty-hard">困难</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- 学习提示 -->
-        <section class="tutorial-section animate-fadeInUp" style="animation-delay: 0.6s;">
-            <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); padding: var(--space-6); border-radius: var(--border-radius); border: 1px solid var(--primary-color);">
-                <h3 style="color: var(--text-color); margin-bottom: var(--space-3); display: flex; align-items: center; gap: var(--space-2);">
-                    <i class="fas fa-info-circle" style="color: var(--primary-color);"></i>
-                    学习提示
-                </h3>
-                <p style="margin-bottom: var(--space-3);">
-                    这个交互式编辑器是 <a href="index.html" style="color: var(--primary-color); font-weight: 600;">Godot HD2D生存游戏教程</a> 的一部分。
-                    完成基础练习后，可以继续学习完整的游戏开发教程。
-                </p>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4);">
-                    <div>
-                        <strong style="color: var(--text-color);">📚 教程内容</strong>
-                        <p style="font-size: var(--text-sm);">14个章节</p>
-                    </div>
-                    <div>
-                        <strong style="color: var(--text-color);">⏱️ 预计时长</strong>
-                        <p style="font-size: var(--text-sm);">48-62小时</p>
-                    </div>
-                    <div>
-                        <strong style="color: var(--text-color);">🎯 学习目标</strong>
-                        <p style="font-size: var(--text-sm);">完成HD2D生存游戏</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+            </main>
+        </div>
         
         <!-- 页脚 -->
         <footer class="footer">
@@ -760,9 +1053,16 @@ print("攻击力: " + str(stats["攻击力"]))
     </button>
 
     <script>
-        // 代码示例库
+        // ============================================
+        // 示例代码库
+        // ============================================
         const examples = [
-            `# 示例1: 基础打印
+            {
+                title: "基础打印",
+                icon: "fas fa-play-circle",
+                preview: 'print("Hello Godot!")',
+                difficulty: "easy",
+                code: `# 示例1: 基础打印
 # print() 是GDScript中最常用的调试函数
 
 print("欢迎来到 Godot 游戏开发世界！")
@@ -774,9 +1074,14 @@ print("版本:", "1.0.0")
 
 # 打印空行分隔
 print()
-print("准备开始学习...")`,
-            
-            `# 示例2: 变量与数据类型
+print("准备开始学习...")`
+            },
+            {
+                title: "变量与数据类型",
+                icon: "fas fa-database",
+                preview: 'var name = "玩家"',
+                difficulty: "easy",
+                code: `# 示例2: 变量与数据类型
 # GDScript 支持多种数据类型
 
 # 字符串 (String)
@@ -784,9 +1089,9 @@ var game_title = "HD2D生存游戏"
 var developer = "nanobot工作室"
 
 # 数字 (int 和 float)
-var player_count = 100        # 整数
-var version = 1.0             # 浮点数
-var temperature = -5.5        # 负数
+var player_count = 100
+var version = 1.0
+var temperature = -5.5
 
 # 布尔值 (bool)
 var is_running = true
@@ -797,9 +1102,14 @@ print("游戏名称:", game_title)
 print("开发者:", developer)
 print("玩家数量:", player_count)
 print("版本:", version)
-print("运行中:", is_running)`,
-            
-            `# 示例3: 数学运算
+print("运行中:", is_running)`
+            },
+            {
+                title: "数学运算",
+                icon: "fas fa-calculator",
+                preview: "var a = 10; print(a + 5)",
+                difficulty: "easy",
+                code: `# 示例3: 数学运算
 # GDScript 支持所有基本数学运算
 
 var a = 15
@@ -813,57 +1123,43 @@ print("乘法: a * b =", a * b)
 print("除法: a / b =", a / b)
 print("取余: a % b =", a % b)
 
-print("\n=== 复合运算 ===")
-var score = 100
-score += 50    # 等同于 score = score + 50
-print("加分后:", score)
-score -= 30
-print("扣分后:", score)
-
-print("\n=== 数学函数 ===")
+print()
+print("=== 数学函数 ===")
 print("绝对值:", abs(-10))
 print("最大值:", max(5, 10))
 print("最小值:", min(5, 10))
 print("平方根:", sqrt(16))
-print("随机数:", randi() % 100)`,
-            
-            `# 示例4: 条件语句
+print("随机数:", randi() % 100)`
+            },
+            {
+                title: "条件语句",
+                icon: "fas fa-code-branch",
+                preview: "if health > 0: print('存活')",
+                difficulty: "medium",
+                code: `# 示例4: 条件语句
 # 使用 if/elif/else 控制程序流程
 
 var health = 75
 var max_health = 100
 
 print("玩家生命值:", health, "/", max_health)
-print()
 
 # 基本条件判断
 if health <= 0:
-    print("💔 玩家已死亡！")
+    print("玩家已死亡！")
 elif health < 30:
-    print("⚠️ 危险！生命值过低！")
+    print("危险！生命值过低！")
 elif health < 70:
-    print("💛 生命值偏低，请注意")
+    print("生命值偏低，请注意")
 else:
-    print("💚 生命值健康")
-
-# 嵌套条件
-var has_potion = true
-if health < 50:
-    if has_potion:
-        print("🧪 建议使用药水恢复生命")
-    else:
-        print("🏃 请寻找治疗点")
-
-# 逻辑运算符
-var is_alive = health > 0
-var is_in_combat = true
-if is_alive and is_in_combat:
-    print("⚔️ 正在战斗中...")
-
-if not is_in_combat or health > 80:
-    print("💤 可以安全休息")`,
-            
-            `# 示例5: 循环语句
+    print("生命值健康")`
+            },
+            {
+                title: "循环语句",
+                icon: "fas fa-redo",
+                preview: "for i in range(5): print(i)",
+                difficulty: "medium",
+                code: `# 示例5: 循环语句
 # for 和 while 循环
 
 print("=== For 循环 ===")
@@ -877,61 +1173,46 @@ var items = ["剑", "盾", "药水", "钥匙"]
 for item in items:
     print("物品:", item)
 
-print("\n=== While 循环 ===")
+print()
+print("=== While 循环 ===")
 # 条件循环
 var countdown = 3
 while countdown > 0:
     print("倒计时:", countdown)
     countdown -= 1
-print("🚀 发射！")
-
-print("\n=== 循环控制 ===")
-# break 和 continue
-for i in range(10):
-    if i == 3:
-        continue  # 跳过3
-    if i == 7:
-        break     # 在7停止
-    print("值:", i)`,
-            
-            `# 示例6: 数组操作
+print("发射！")`
+            },
+            {
+                title: "数组操作",
+                icon: "fas fa-cubes",
+                preview: 'var items = ["剑", "盾"]',
+                difficulty: "medium",
+                code: `# 示例6: 数组操作
 # 数组是存储多个值的容器
 
 # 创建数组
 var inventory = ["木剑", "布甲", "面包"]
-var stats = [100, 50, 25, 10]  # 生命, 魔法, 攻击, 防御
 
 print("=== 背包内容 ===")
 print("物品数量:", inventory.size())
 print("背包:", inventory)
 
-print("\n=== 数组操作 ===")
+print()
+print("=== 数组操作 ===")
 # 添加元素
 inventory.append("药水")
 print("添加药水后:", inventory)
 
-# 删除元素
-inventory.erase("布甲")
-print("丢弃布甲后:", inventory)
-
 # 访问元素
 print("第一个物品:", inventory[0])
-print("最后一个物品:", inventory[-1])
-
-# 查找
-var index = inventory.find("面包")
-print("面包的位置:", index)
-
-print("\n=== 遍历数组 ===")
-for i in range(inventory.size()):
-    print("格子" + str(i + 1) + ":", inventory[i])
-
-# 排序
-var numbers = [5, 2, 8, 1, 9]
-numbers.sort()
-print("\n排序后:", numbers)`,
-            
-            `# 示例7: 函数定义
+print("最后一个物品:", inventory[-1])`
+            },
+            {
+                title: "函数定义",
+                icon: "fas fa-cog",
+                preview: "func add(a, b): return a + b",
+                difficulty: "medium",
+                code: `# 示例7: 函数定义
 # 函数是可重用的代码块
 
 # 基本函数
@@ -946,34 +1227,20 @@ func greet(name):
 func add(a, b):
     return a + b
 
-# 带默认参数的函数
-func create_enemy(name = "哥布林", health = 50):
-    print("创建敌人:", name, "生命值:", health)
-    return {"name": name, "health": health}
-
 # 调用函数
 print("=== 函数调用 ===")
 say_hello()
 greet("勇者")
 
 var sum = add(10, 20)
-print("10 + 20 =", sum)
-
-var enemy1 = create_enemy()
-var enemy2 = create_enemy("龙", 500)
-
-print("\n=== 实用函数示例 ===")
-func calculate_damage(attack, defense):
-    var damage = max(1, attack - defense)
-    return damage
-
-func is_critical_hit(chance = 0.2):
-    return randf() < chance
-
-var dmg = calculate_damage(100, 30)
-print("造成伤害:", dmg)`,
-            
-            `# 示例8: 玩家类定义
+print("10 + 20 =", sum)`
+            },
+            {
+                title: "玩家类",
+                icon: "fas fa-dragon",
+                preview: "class_name Player",
+                difficulty: "hard",
+                code: `# 示例8: 玩家类定义
 # 类是面向对象编程的基础
 
 # 定义玩家类
@@ -985,10 +1252,8 @@ var health: int = 100
 var max_health: int = 100
 var attack_power: int = 25
 var defense: int = 10
-var level: int = 1
-var experience: int = 0
 
-# 构造函数（在Godot中通常是_init）
+# 构造函数
 func _init(player_name = "勇者"):
     name = player_name
     print("玩家", name, "已创建！")
@@ -998,49 +1263,333 @@ func take_damage(amount: int):
     var actual_damage = max(1, amount - defense)
     health -= actual_damage
     print(name, "受到了", actual_damage, "点伤害")
-    
-    if health <= 0:
-        health = 0
-        print(name, "已阵亡！")
 
 func heal(amount: int):
     health = min(max_health, health + amount)
     print(name, "恢复了", amount, "点生命值")
 
-func gain_exp(amount: int):
-    experience += amount
-    print(name, "获得了", amount, "点经验值")
-    
-    if experience >= level * 100:
-        level_up()
-
-func level_up():
-    level += 1
-    max_health += 10
-    attack_power += 5
-    health = max_health
-    print("🎉", name, "升级了！现在是", level, "级")
-
 # 创建并测试玩家
 print("=== 创建角色 ===")
 var hero = Player.new("艾登")
 
-print("\n=== 战斗测试 ===")
+print()
+print("=== 战斗测试 ===")
 hero.take_damage(30)
-hero.heal(20)
-hero.gain_exp(150)
-
-print("\n=== 角色状态 ===")
-print("名称:", hero.name)
-print("等级:", hero.level)
-print("生命:", hero.health, "/", hero.max_health)`
+hero.heal(20)`
+            }
         ];
         
-        // DOM元素
-        const codeEditor = document.getElementById('codeEditor');
-        const outputArea = document.getElementById('outputArea');
+        // ============================================
+        // 代码补全数据
+        // ============================================
+        const completions = [
+            // 关键字
+            { text: "var", type: "keyword", detail: "声明变量" },
+            { text: "func", type: "keyword", detail: "定义函数" },
+            { text: "class", type: "keyword", detail: "定义类" },
+            { text: "class_name", type: "keyword", detail: "类名声明" },
+            { text: "extends", type: "keyword", detail: "继承" },
+            { text: "if", type: "keyword", detail: "条件判断" },
+            { text: "elif", type: "keyword", detail: "否则如果" },
+            { text: "else", type: "keyword", detail: "否则" },
+            { text: "for", type: "keyword", detail: "for循环" },
+            { text: "while", type: "keyword", detail: "while循环" },
+            { text: "return", type: "keyword", detail: "返回值" },
+            { text: "pass", type: "keyword", detail: "占位符" },
+            { text: "true", type: "keyword", detail: "布尔真" },
+            { text: "false", type: "keyword", detail: "布尔假" },
+            { text: "null", type: "keyword", detail: "空值" },
+            { text: "and", type: "keyword", detail: "逻辑与" },
+            { text: "or", type: "keyword", detail: "逻辑或" },
+            { text: "not", type: "keyword", detail: "逻辑非" },
+            { text: "const", type: "keyword", detail: "常量" },
+            { text: "enum", type: "keyword", detail: "枚举" },
+            // 内置函数
+            { text: "print", type: "builtin", detail: "输出到控制台" },
+            { text: "str", type: "builtin", detail: "转字符串" },
+            { text: "int", type: "builtin", detail: "转整数" },
+            { text: "float", type: "builtin", detail: "转浮点" },
+            { text: "bool", type: "builtin", detail: "转布尔" },
+            { text: "range", type: "builtin", detail: "数字范围" },
+            { text: "len", type: "builtin", detail: "获取长度" },
+            { text: "abs", type: "builtin", detail: "绝对值" },
+            { text: "min", type: "builtin", detail: "最小值" },
+            { text: "max", type: "builtin", detail: "最大值" },
+            { text: "sqrt", type: "builtin", detail: "平方根" },
+            { text: "randi", type: "builtin", detail: "随机整数" },
+            { text: "randf", type: "builtin", detail: "随机浮点" },
+            // 类型
+            { text: "String", type: "type", detail: "字符串类型" },
+            { text: "int", type: "type", detail: "整数类型" },
+            { text: "float", type: "type", detail: "浮点类型" },
+            { text: "bool", type: "type", detail: "布尔类型" },
+            { text: "Array", type: "type", detail: "数组类型" },
+            { text: "Dictionary", type: "type", detail: "字典类型" },
+            { text: "Vector2", type: "type", detail: "2D向量" },
+            { text: "Vector3", type: "type", detail: "3D向量" },
+            { text: "Color", type: "type", detail: "颜色" },
+            // Godot函数
+            { text: "_ready", type: "function", detail: "节点进入场景树时调用" },
+            { text: "_process", type: "function", detail: "每帧调用" },
+            { text: "_physics_process", type: "function", detail: "物理帧调用" },
+            { text: "get_node", type: "function", detail: "获取节点" },
+            { text: "queue_free", type: "function", detail: "延迟释放" },
+        ];
         
-        // 运行代码
+        // ============================================
+        // DOM 元素
+        // ============================================
+        let codeEditor = null;
+        let outputArea = null;
+        let lineNumbers = null;
+        let autocompleteDropdown = null;
+        let autocompleteItems = [];
+        let selectedIndex = 0;
+        
+        // ============================================
+        // 初始化
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            codeEditor = document.getElementById('codeEditor');
+            outputArea = document.getElementById('outputArea');
+            lineNumbers = document.getElementById('lineNumbers');
+            autocompleteDropdown = document.getElementById('autocompleteDropdown');
+            
+            initEditor();
+            initExampleDropdown();
+            initBackToTop();
+            updateLineNumbers();
+        });
+        
+        // ============================================
+        // 编辑器功能
+        // ============================================
+        
+        function initEditor() {
+            // 输入事件
+            codeEditor.addEventListener('input', function() {
+                updateLineNumbers();
+            });
+            
+            // 滚动同步
+            codeEditor.addEventListener('scroll', function() {
+                lineNumbers.scrollTop = codeEditor.scrollTop;
+            });
+            
+            // 键盘事件
+            codeEditor.addEventListener('keydown', function(e) {
+                // Ctrl+Enter 运行代码
+                if (e.ctrlKey && e.key === 'Enter') {
+                    e.preventDefault();
+                    runCode();
+                    return;
+                }
+                
+                // Ctrl+S 保存代码
+                if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                    saveCode();
+                    return;
+                }
+                
+                // Tab键处理
+                if (e.key === 'Tab') {
+                    e.preventDefault();
+                    insertAtCursor('    ');
+                    return;
+                }
+                
+                // 处理自动补全导航
+                if (autocompleteDropdown.classList.contains('visible')) {
+                    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        navigateAutocomplete(e.key === 'ArrowDown' ? 1 : -1);
+                        return;
+                    }
+                    if (e.key === 'Enter' || e.key === 'Tab') {
+                        e.preventDefault();
+                        selectAutocompleteItem();
+                        return;
+                    }
+                    if (e.key === 'Escape') {
+                        hideAutocomplete();
+                        return;
+                    }
+                }
+            });
+            
+            // 输入时触发补全
+            codeEditor.addEventListener('input', function(e) {
+                const cursorPos = codeEditor.selectionStart;
+                const textBefore = codeEditor.value.substring(0, cursorPos);
+                const lastWord = textBefore.match(/[\w]*$/)?.[0] || '';
+                
+                if (lastWord.length >= 2) {
+                    showAutocomplete(lastWord);
+                } else {
+                    hideAutocomplete();
+                }
+            });
+            
+            // 点击其他地方关闭补全
+            document.addEventListener('click', function(e) {
+                if (!autocompleteDropdown.contains(e.target) && e.target !== codeEditor) {
+                    hideAutocomplete();
+                }
+            });
+        }
+        
+        // 更新行号
+        function updateLineNumbers() {
+            const lines = codeEditor.value.split('\n').length;
+            let numbers = '';
+            for (let i = 1; i <= lines; i++) {
+                numbers += i + '\n';
+            }
+            lineNumbers.textContent = numbers;
+        }
+        
+        // 在光标位置插入文本
+        function insertAtCursor(text) {
+            const start = codeEditor.selectionStart;
+            const end = codeEditor.selectionEnd;
+            codeEditor.value = codeEditor.value.substring(0, start) + text + codeEditor.value.substring(end);
+            codeEditor.selectionStart = codeEditor.selectionEnd = start + text.length;
+            updateLineNumbers();
+        }
+        
+        // ============================================
+        // 代码补全
+        // ============================================
+        
+        function showAutocomplete(prefix) {
+            const filtered = completions.filter(item => 
+                item.text.toLowerCase().startsWith(prefix.toLowerCase())
+            );
+            
+            if (filtered.length === 0) {
+                hideAutocomplete();
+                return;
+            }
+            
+            autocompleteItems = filtered;
+            selectedIndex = 0;
+            
+            let html = '';
+            filtered.forEach((item, index) => {
+                html += `
+                    <div class="autocomplete-item ${index === 0 ? 'selected' : ''}" 
+                         data-index="${index}" 
+                         onclick="selectAutocompleteByIndex(${index})">
+                        <div class="autocomplete-icon ${item.type}">${item.text.charAt(0).toUpperCase()}</div>
+                        <span>${item.text}</span>
+                        <span class="autocomplete-detail">${item.detail}</span>
+                    </div>
+                `;
+            });
+            
+            autocompleteDropdown.innerHTML = html;
+            
+            // 定位
+            const rect = codeEditor.getBoundingClientRect();
+            autocompleteDropdown.style.left = Math.min(rect.left + 60, window.innerWidth - 270) + 'px';
+            autocompleteDropdown.style.top = (rect.top + 100) + 'px';
+            
+            autocompleteDropdown.classList.add('visible');
+        }
+        
+        function hideAutocomplete() {
+            autocompleteDropdown.classList.remove('visible');
+        }
+        
+        function navigateAutocomplete(direction) {
+            const items = autocompleteDropdown.querySelectorAll('.autocomplete-item');
+            items[selectedIndex].classList.remove('selected');
+            selectedIndex = (selectedIndex + direction + autocompleteItems.length) % autocompleteItems.length;
+            items[selectedIndex].classList.add('selected');
+            items[selectedIndex].scrollIntoView({ block: 'nearest' });
+        }
+        
+        function selectAutocompleteItem() {
+            if (autocompleteItems.length === 0) return;
+            selectAutocompleteByIndex(selectedIndex);
+        }
+        
+        function selectAutocompleteByIndex(index) {
+            const item = autocompleteItems[index];
+            if (!item) return;
+            
+            const cursorPos = codeEditor.selectionStart;
+            const textBefore = codeEditor.value.substring(0, cursorPos);
+            const wordMatch = textBefore.match(/([\w]*)$/);
+            const wordStart = wordMatch ? cursorPos - wordMatch[1].length : cursorPos;
+            
+            const textAfter = codeEditor.value.substring(cursorPos);
+            codeEditor.value = codeEditor.value.substring(0, wordStart) + item.text + textAfter;
+            
+            const newPos = wordStart + item.text.length;
+            codeEditor.selectionStart = codeEditor.selectionEnd = newPos;
+            
+            hideAutocomplete();
+            updateLineNumbers();
+            codeEditor.focus();
+        }
+        
+        // ============================================
+        // 示例下拉菜单
+        // ============================================
+        
+        function initExampleDropdown() {
+            const menu = document.getElementById('exampleMenu');
+            let html = '<div class="dropdown-header">选择示例代码</div>';
+            
+            examples.forEach((ex, index) => {
+                html += `
+                    <div class="dropdown-item" onclick="loadExample(${index})">
+                        <i class="${ex.icon}"></i>
+                        <div class="dropdown-item-content">
+                            <div class="dropdown-item-title">${ex.title}</div>
+                            <div class="dropdown-item-preview">${ex.preview}</div>
+                        </div>
+                        <span class="dropdown-item-badge badge-${ex.difficulty}">
+                            ${ex.difficulty === 'easy' ? '简单' : ex.difficulty === 'medium' ? '中等' : '困难'}
+                        </span>
+                    </div>
+                `;
+            });
+            
+            menu.innerHTML = html;
+        }
+        
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id);
+            dropdown.classList.toggle('open');
+        }
+        
+        // 点击其他地方关闭下拉
+        document.addEventListener('click', function(e) {
+            document.querySelectorAll('.dropdown').forEach(d => {
+                if (!d.contains(e.target)) {
+                    d.classList.remove('open');
+                }
+            });
+        });
+        
+        function loadExample(index) {
+            if (index >= 0 && index < examples.length) {
+                codeEditor.value = examples[index].code;
+                updateLineNumbers();
+                clearOutput();
+                addOutputLine("✅ 已加载示例: " + examples[index].title, "info");
+                addOutputLine("点击 '运行代码' 按钮执行", "info");
+                document.getElementById('exampleDropdown').classList.remove('open');
+            }
+        }
+        
+        // ============================================
+        // 代码执行
+        // ============================================
+        
         function runCode() {
             const code = codeEditor.value;
             clearOutput();
@@ -1050,81 +1599,37 @@ print("生命:", hero.health, "/", hero.max_health)`
             
             try {
                 const lines = code.split('\n');
-                let lineNumber = 1;
                 let variables = {};
-                let functions = {};
                 
-                for (let line of lines) {
-                    line = line.trim();
+                for (let i = 0; i < lines.length; i++) {
+                    let line = lines[i].trim();
                     
                     // 跳过空行和注释
-                    if (!line || line.startsWith('#')) {
-                        lineNumber++;
-                        continue;
-                    }
+                    if (!line || line.startsWith('#')) continue;
                     
-                    // 处理函数定义
-                    if (line.startsWith('func ')) {
-                        const funcMatch = line.match(/func\s+(\w+)\s*\(([^)]*)\)(?:\s*->\s*(\w+))?:/);
-                        if (funcMatch) {
-                            const funcName = funcMatch[1];
-                            const params = funcMatch[2].split(',').map(p => p.trim()).filter(p => p);
-                            functions[funcName] = { params, body: [] };
-                            addOutputLine(`[函数定义] ${funcName}(${params.join(', ')})`, "info");
-                        }
+                    // 处理 print 语句
+                    if (line.startsWith('print(') || line.includes('print(')) {
+                        handlePrint(line, variables);
                     }
                     // 处理变量声明
                     else if (line.startsWith('var ')) {
-                        const varMatch = line.match(/var\s+(\w+)(?::\s*(\w+))?\s*(?:=\s*(.+))?/);
-                        if (varMatch) {
-                            const varName = varMatch[1];
-                            let varValue = varMatch[3] ? evaluateExpression(varMatch[3], variables) : null;
-                            variables[varName] = varValue;
-                        }
-                    }
-                    // 处理 print 语句
-                    else if (line.includes('print(')) {
-                        const printMatch = line.match(/print\((.+)\)/);
-                        if (printMatch) {
-                            let content = printMatch[1];
-                            // 处理多个参数
-                            if (content.includes(',')) {
-                                const parts = content.split(',').map(p => p.trim());
-                                let result = '';
-                                parts.forEach((part, index) => {
-                                    if (index > 0) result += ' ';
-                                    result += evaluateExpression(part, variables);
-                                });
-                                addOutputLine(result, "success");
-                            } else {
-                                const result = evaluateExpression(content, variables);
-                                addOutputLine(String(result), "success");
-                            }
-                        }
+                        handleVarDeclaration(line, variables);
                     }
                     // 处理赋值
-                    else if (line.includes('=') && !line.includes('==') && !line.includes('>=') && !line.includes('<=')) {
-                        const assignMatch = line.match(/^(\w+(?:\.\w+)?)\s*([+\-*/]?=)\s*(.+)$/);
-                        if (assignMatch) {
-                            const varPath = assignMatch[1];
-                            const operator = assignMatch[2];
-                            let value = evaluateExpression(assignMatch[3], variables);
-                            
-                            if (operator === '+=') {
-                                variables[varPath] += value;
-                            } else if (operator === '-=') {
-                                variables[varPath] -= value;
-                            } else if (operator === '*=') {
-                                variables[varPath] *= value;
-                            } else if (operator === '/=') {
-                                variables[varPath] /= value;
-                            } else {
-                                variables[varPath] = value;
-                            }
+                    else if (line.match(/^\w+\s*[+\-*/]?=/) && !line.includes('==')) {
+                        handleAssignment(line, variables);
+                    }
+                    // 处理函数定义
+                    else if (line.startsWith('func ')) {
+                        const funcMatch = line.match(/func\s+(\w+)\s*\(([^)]*)\)/);
+                        if (funcMatch) {
+                            addOutputLine(`[函数定义] ${funcMatch[1]}(${funcMatch[2]})`, "info");
                         }
                     }
-                    
-                    lineNumber++;
+                    // 处理类定义
+                    else if (line.startsWith('class_name ')) {
+                        addOutputLine(`[类定义] ${line.substring(11)}`, "info");
+                    }
                 }
                 
                 addOutputLine("═".repeat(50), "info");
@@ -1136,7 +1641,93 @@ print("生命:", hero.health, "/", hero.max_health)`
             }
         }
         
-        // 表达式求值
+        function handlePrint(line, variables) {
+            const printMatch = line.match(/print\s*\((.+)\)/s);
+            if (!printMatch) return;
+            
+            let content = printMatch[1];
+            
+            // 处理多参数
+            if (content.includes(',')) {
+                const parts = splitPrintArgs(content);
+                let result = '';
+                parts.forEach((part, index) => {
+                    if (index > 0) result += ' ';
+                    result += evaluateExpression(part.trim(), variables);
+                });
+                addOutputLine(result, "success");
+            } else {
+                const result = evaluateExpression(content.trim(), variables);
+                addOutputLine(String(result), "success");
+            }
+        }
+        
+        function splitPrintArgs(content) {
+            const parts = [];
+            let current = '';
+            let depth = 0;
+            let inString = false;
+            let stringChar = '';
+            
+            for (let i = 0; i < content.length; i++) {
+                const char = content[i];
+                
+                if ((char === '"' || char === "'") && content[i-1] !== '\\') {
+                    if (!inString) {
+                        inString = true;
+                        stringChar = char;
+                    } else if (char === stringChar) {
+                        inString = false;
+                    }
+                }
+                
+                if (char === '(' || char === '[') depth++;
+                if (char === ')' || char === ']') depth--;
+                
+                if (char === ',' && !inString && depth === 0) {
+                    parts.push(current);
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            if (current) parts.push(current);
+            
+            return parts;
+        }
+        
+        function handleVarDeclaration(line, variables) {
+            const match = line.match(/var\s+(\w+)(?::\s*\w+)?\s*(?:=\s*(.+))?$/);
+            if (match) {
+                const varName = match[1];
+                const valueExpr = match[2];
+                if (valueExpr) {
+                    variables[varName] = evaluateExpression(valueExpr, variables);
+                }
+            }
+        }
+        
+        function handleAssignment(line, variables) {
+            const match = line.match(/^(\w+)\s*([+\-*/]?=)\s*(.+)$/);
+            if (match) {
+                const varName = match[1];
+                const operator = match[2];
+                const value = evaluateExpression(match[3], variables);
+                
+                if (operator === '+=') {
+                    variables[varName] = (variables[varName] || 0) + value;
+                } else if (operator === '-=') {
+                    variables[varName] = (variables[varName] || 0) - value;
+                } else if (operator === '*=') {
+                    variables[varName] = (variables[varName] || 0) * value;
+                } else if (operator === '/=') {
+                    variables[varName] = (variables[varName] || 0) / value;
+                } else {
+                    variables[varName] = value;
+                }
+            }
+        }
+        
         function evaluateExpression(expr, variables) {
             expr = expr.trim();
             
@@ -1151,69 +1742,59 @@ print("生命:", hero.health, "/", hero.max_health)`
             if (expr === 'false') return false;
             
             // 数字
-            if (!isNaN(expr)) {
+            if (!isNaN(expr) && expr !== '') {
                 return parseFloat(expr);
             }
             
-            // str() 函数
+            // 内置函数
             if (expr.startsWith('str(')) {
                 const inner = expr.match(/str\((.+)\)/)?.[1];
-                return String(evaluateExpression(inner, variables));
+                return inner ? String(evaluateExpression(inner, variables)) : '';
             }
-            
-            // int() 函数
             if (expr.startsWith('int(')) {
                 const inner = expr.match(/int\((.+)\)/)?.[1];
-                return parseInt(evaluateExpression(inner, variables));
+                return inner ? parseInt(evaluateExpression(inner, variables)) : 0;
             }
-            
-            // randi() 函数
-            if (expr === 'randi()') {
-                return Math.floor(Math.random() * 1000000);
+            if (expr.startsWith('float(')) {
+                const inner = expr.match(/float\((.+)\)/)?.[1];
+                return inner ? parseFloat(evaluateExpression(inner, variables)) : 0;
             }
-            
-            // randf() 函数
-            if (expr === 'randf()') {
-                return Math.random();
-            }
-            
-            // max() 函数
+            if (expr === 'randi()') return Math.floor(Math.random() * 1000000);
+            if (expr === 'randf()') return Math.random();
             if (expr.startsWith('max(')) {
-                const args = expr.match(/max\((.+)\)/)?.[1].split(',').map(a => evaluateExpression(a.trim(), variables));
-                return Math.max(...args);
+                const argsMatch = expr.match(/max\((.+)\)/);
+                if (argsMatch) {
+                    const args = splitPrintArgs(argsMatch[1]).map(a => evaluateExpression(a.trim(), variables));
+                    return Math.max(...args);
+                }
             }
-            
-            // min() 函数
             if (expr.startsWith('min(')) {
-                const args = expr.match(/min\((.+)\)/)?.[1].split(',').map(a => evaluateExpression(a.trim(), variables));
-                return Math.min(...args);
+                const argsMatch = expr.match(/min\((.+)\)/);
+                if (argsMatch) {
+                    const args = splitPrintArgs(argsMatch[1]).map(a => evaluateExpression(a.trim(), variables));
+                    return Math.min(...args);
+                }
             }
-            
-            // abs() 函数
             if (expr.startsWith('abs(')) {
                 const inner = expr.match(/abs\((.+)\)/)?.[1];
-                return Math.abs(evaluateExpression(inner, variables));
+                return inner ? Math.abs(evaluateExpression(inner, variables)) : 0;
             }
-            
-            // sqrt() 函数
             if (expr.startsWith('sqrt(')) {
                 const inner = expr.match(/sqrt\((.+)\)/)?.[1];
-                return Math.sqrt(evaluateExpression(inner, variables));
+                return inner ? Math.sqrt(evaluateExpression(inner, variables)) : 0;
             }
             
             // 字符串拼接
-            if (expr.includes('" + ')) {
+            if (expr.includes(' + ')) {
                 const parts = expr.split(' + ').map(p => evaluateExpression(p.trim(), variables));
-                return parts.join('');
+                if (parts.every(p => typeof p === 'string' || typeof p === 'number')) {
+                    return parts.join('');
+                }
             }
             
             // 数学运算
-            if (/^[\d\s+\-*/.()]+$/.test(expr)) {
-                try {
-                    return eval(expr);
-                } catch (e) {
-                    return expr;
-                }
+            if (/^[\d\s+\-*/.]+$/.test(expr)) {
+                try { return eval(expr); } catch (e) { return expr; }
             }
             
             // 变量引用
@@ -1221,19 +1802,9 @@ print("生命:", hero.health, "/", hero.max_health)`
                 return variables[expr];
             }
             
-            // 数组
-            if (expr.startsWith('[') && expr.endsWith(']')) {
-                try {
-                    return JSON.parse(expr.replace(/'/g, '"'));
-                } catch (e) {
-                    return expr;
-                }
-            }
-            
             return expr;
         }
         
-        // 添加输出行
         function addOutputLine(text, type = "info") {
             const line = document.createElement('div');
             line.className = 'output-line ' + type;
@@ -1242,57 +1813,65 @@ print("生命:", hero.health, "/", hero.max_health)`
             outputArea.scrollTop = outputArea.scrollHeight;
         }
         
-        // 清空输出
         function clearOutput() {
             outputArea.innerHTML = '';
         }
         
-        // 清空代码
         function clearCode() {
             codeEditor.value = '';
+            updateLineNumbers();
             addOutputLine("📝 代码编辑器已清空", "info");
         }
         
-        // 加载示例
-        function loadExample(index) {
-            if (index >= 0 && index < examples.length) {
-                codeEditor.value = examples[index];
-                clearOutput();
-                addOutputLine("✅ 已加载示例 " + (index + 1), "info");
-                addOutputLine("点击 '运行代码' 按钮执行", "info");
-            }
-        }
-        
+        // ============================================
         // 格式化代码
+        // ============================================
+        
         function formatCode() {
             let code = codeEditor.value;
             const lines = code.split('\n');
             let formattedLines = [];
             let indentLevel = 0;
+            const indentStr = '    ';
             
-            for (let line of lines) {
+            const decreaseKeywords = ['elif', 'else', 'except', 'finally'];
+            
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
                 const trimmedLine = line.trim();
                 
-                // 减少缩进
-                if (trimmedLine.startsWith('elif') || trimmedLine.startsWith('else') || trimmedLine === 'pass') {
-                    indentLevel = Math.max(0, indentLevel - 1);
+                if (!trimmedLine) {
+                    formattedLines.push('');
+                    continue;
                 }
                 
-                // 添加缩进
-                const indent = '    '.repeat(indentLevel);
-                formattedLines.push(indent + trimmedLine);
+                if (trimmedLine.startsWith('#')) {
+                    formattedLines.push(indentStr.repeat(indentLevel) + trimmedLine);
+                    continue;
+                }
                 
-                // 增加缩进
+                let shouldDecrease = decreaseKeywords.some(kw => 
+                    trimmedLine.startsWith(kw + ':') || trimmedLine.startsWith(kw + ' ')
+                );
+                
+                let currentIndent = shouldDecrease && indentLevel > 0 ? indentLevel - 1 : indentLevel;
+                
+                formattedLines.push(indentStr.repeat(currentIndent) + trimmedLine);
+                
                 if (trimmedLine.endsWith(':') && !trimmedLine.startsWith('#')) {
                     indentLevel++;
                 }
             }
             
             codeEditor.value = formattedLines.join('\n');
+            updateLineNumbers();
             addOutputLine("✨ 代码已格式化", "info");
         }
         
-        // 保存代码
+        // ============================================
+        // 保存和分享
+        // ============================================
+        
         function saveCode() {
             const code = codeEditor.value;
             if (!code.trim()) {
@@ -1313,7 +1892,6 @@ print("生命:", hero.health, "/", hero.max_health)`
             addOutputLine("💾 代码已保存为 script.gd", "info");
         }
         
-        // 分享代码
         function shareCode() {
             const code = codeEditor.value;
             if (!code.trim()) {
@@ -1321,58 +1899,71 @@ print("生命:", hero.health, "/", hero.max_health)`
                 return;
             }
             
-            // 使用 base64 编码代码
-            const encoded = btoa(unescape(encodeURIComponent(code)));
-            const shareUrl = window.location.href.split('?')[0] + '?code=' + encoded;
-            
-            // 复制到剪贴板
-            navigator.clipboard.writeText(shareUrl).then(() => {
-                alert('分享链接已复制到剪贴板！');
-            }).catch(() => {
-                alert('分享链接:\n' + shareUrl);
-            });
-        }
-        
-        // 初始化代码编辑器
-        function initCodeEditor() {
-            // 键盘快捷键
-            codeEditor.addEventListener('keydown', function(e) {
-                // Ctrl+Enter 运行代码
-                if (e.ctrlKey && e.key === 'Enter') {
-                    e.preventDefault();
-                    runCode();
-                }
-                // Ctrl+S 保存代码
-                if (e.ctrlKey && e.key === 's') {
-                    e.preventDefault();
-                    saveCode();
-                }
-                // Tab键处理
-                if (e.key === 'Tab') {
-                    e.preventDefault();
-                    const start = this.selectionStart;
-                    const end = this.selectionEnd;
-                    this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
-                    this.selectionStart = this.selectionEnd = start + 4;
-                }
-            });
-            
-            // 检查 URL 参数加载代码
-            const urlParams = new URLSearchParams(window.location.search);
-            const codeParam = urlParams.get('code');
-            if (codeParam) {
-                try {
-                    codeEditor.value = decodeURIComponent(escape(atob(codeParam)));
-                } catch (e) {
-                    console.error('无法解析分享的代码');
-                }
+            try {
+                const encoded = btoa(unescape(encodeURIComponent(code)));
+                const shareUrl = window.location.href.split('?')[0] + '?code=' + encoded;
+                
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    alert('分享链接已复制到剪贴板！');
+                }).catch(() => {
+                    prompt('分享链接:', shareUrl);
+                });
+            } catch (e) {
+                alert('分享链接生成失败');
             }
         }
         
-        // 返回顶部按钮
-        document.addEventListener('DOMContentLoaded', function() {
-            initCodeEditor();
+        // ============================================
+        // 面板切换
+        // ============================================
+        
+        function switchPanel(panel) {
+            const codePanel = document.getElementById('codePanel');
+            const tutorialPanel = document.getElementById('tutorialPanel');
+            const tutorialSubmenu = document.getElementById('tutorialSubmenu');
             
+            // 更新导航状态
+            document.querySelectorAll('.sidebar-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.closest('.sidebar-nav-item').classList.add('active');
+            
+            if (panel === 'code') {
+                codePanel.classList.remove('hidden');
+                tutorialPanel.classList.remove('visible');
+            } else if (panel === 'tutorial') {
+                codePanel.classList.add('hidden');
+                tutorialPanel.classList.add('visible');
+            }
+        }
+        
+        function scrollToSection(sectionId) {
+            // 切换到教程面板
+            const codePanel = document.getElementById('codePanel');
+            const tutorialPanel = document.getElementById('tutorialPanel');
+            
+            codePanel.classList.add('hidden');
+            tutorialPanel.classList.add('visible');
+            
+            // 更新导航状态
+            document.querySelectorAll('.sidebar-nav-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.sidebar-submenu-item').forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 滚动到指定部分
+            setTimeout(() => {
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 100);
+        }
+        
+        // ============================================
+        // 返回顶部
+        // ============================================
+        
+        function initBackToTop() {
             const backToTop = document.getElementById('backToTop');
             
             window.addEventListener('scroll', function() {
@@ -1382,32 +1973,11 @@ print("生命:", hero.health, "/", hero.max_health)`
                     backToTop.classList.remove('visible');
                 }
             });
-
+            
             backToTop.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
-
-            // 页面加载动画
-            const animatedElements = document.querySelectorAll('.animate-fadeInUp');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            animatedElements.forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(20px)';
-                el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                observer.observe(el);
-            });
-        });
+        }
     </script>
 </body>
 </html>
