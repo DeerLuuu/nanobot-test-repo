@@ -3,42 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="nanobot网页项目库 - 由AI助手创建和托管的网页项目集合">
+    <meta name="description" content="nanobot网页项目库 - 由AI助手创建和托管的网页项目集合，包含Godot游戏开发教程等优质内容">
+    <meta name="keywords" content="nanobot, AI, 网页开发, Godot教程, 游戏开发, HD2D">
+    <meta name="author" content="nanobot AI">
     <meta name="theme-color" content="#667eea">
+    <meta property="og:title" content="nanobot网页项目库">
+    <meta property="og:description" content="由AI助手创建和托管的网页项目集合">
+    <meta property="og:type" content="website">
     <title>nanobot网页项目库 | AI创建的网页项目集合</title>
     
-    <!-- 使用与Godot教程页面相同的样式 -->
+    <!-- 外部资源 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/shared-theme.css">
     <link rel="stylesheet" href="css/godot-tutorial/style.css">
+    
     <style>
-        /* 主页面特定样式 - 统一到Godot教程风格 */
-
-        /* 跳过链接 - 可访问性 */
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: var(--primary-color);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            z-index: 1000;
-            transition: top 0.3s;
-        }
-
-        .skip-link:focus {
-            top: 10px;
-        }
-
-        /* 页头 - 使用Godot教程风格 */
+        /* ============================================
+           主页面特定样式
+           ============================================ */
+        
+        /* 页头区域 */
         .header {
             background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow);
+            border-radius: var(--border-radius-lg);
+            padding: var(--space-10);
+            margin-bottom: var(--space-8);
+            box-shadow: var(--shadow-lg);
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -51,55 +41,93 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.05)"/></svg>');
             background-size: cover;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .header h1 {
             color: var(--text-color);
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
+            margin-bottom: var(--space-2);
+            font-size: clamp(2rem, 5vw, 2.5rem);
             position: relative;
             z-index: 1;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .header .subtitle {
             color: var(--text-light);
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
+            font-size: var(--text-lg);
+            margin-bottom: var(--space-6);
             position: relative;
             z-index: 1;
             opacity: 0.9;
         }
 
         .emoji {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
+            font-size: 4rem;
+            margin-bottom: var(--space-4);
             display: inline-block;
             animation: float 3s ease-in-out infinite;
             position: relative;
             z-index: 1;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        /* 统计信息 */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-8);
+            margin-top: var(--space-6);
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
         }
 
-        /* 按钮样式 - 使用Godot教程风格 */
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: var(--text-3xl);
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: var(--text-sm);
+            color: var(--text-light);
+            margin-top: var(--space-1);
+        }
+
+        /* GitHub链接按钮 */
         .github-link {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.75rem;
-            background: var(--primary-color);
+            gap: var(--space-3);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             color: white;
-            padding: 1rem 2rem;
+            padding: var(--space-4) var(--space-8);
             border-radius: var(--border-radius-sm);
             text-decoration: none;
             font-weight: 600;
-            transition: var(--transition);
+            font-size: var(--text-lg);
+            transition: var(--transition-smooth);
             position: relative;
             overflow: hidden;
             z-index: 1;
@@ -113,7 +141,7 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+            transition: left 0.5s ease;
         }
 
         .github-link:hover::before {
@@ -121,26 +149,25 @@
         }
 
         .github-link:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl), var(--shadow-glow);
         }
 
         .github-link i {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
 
-        /* 信息框 - 使用Godot教程卡片风格 */
+        /* 信息框 */
         .info-box {
             background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
+            border-radius: var(--border-radius-lg);
+            padding: var(--space-8);
+            margin-bottom: var(--space-8);
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-smooth);
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
         }
 
         .info-box::before {
@@ -150,101 +177,82 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
         }
 
         .info-box:hover::before {
             left: 100%;
         }
 
-        @media (prefers-color-scheme: dark) {
-            .info-box {
-                border-color: rgba(255, 255, 255, 0.1);
-            }
-        }
-
         .info-box:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
         }
 
         .info-box h2 {
             color: var(--text-color);
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-6);
+            padding-bottom: var(--space-3);
             border-bottom: 3px solid var(--primary-color);
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: var(--space-3);
+        }
+
+        .info-box h2 i {
+            color: var(--primary-color);
         }
 
         .info-box p {
             color: var(--text-light);
-            margin-bottom: 1rem;
-            line-height: 1.7;
+            margin-bottom: var(--space-4);
+            line-height: var(--leading-relaxed);
         }
 
         .info-box ul,
         .info-box ol {
             color: var(--text-light);
-            margin: 1rem 0 1rem 2rem;
-            line-height: 1.7;
+            margin: var(--space-4) 0 var(--space-4) var(--space-8);
+            line-height: var(--leading-relaxed);
         }
 
         .info-box li {
-            margin-bottom: 0.5rem;
+            margin-bottom: var(--space-2);
         }
 
         .info-box a {
             color: var(--primary-color);
             text-decoration: none;
             font-weight: 600;
-            transition: color 0.3s;
-            position: relative;
+            transition: color var(--transition-fast);
         }
 
-        .info-box a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-color);
-            transition: width 0.3s;
+        .info-box a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
         }
 
-        .info-box a:hover::after {
-            width: 100%;
-        }
-
-        /* 项目列表 */
+        /* 项目列表网格 */
         .project-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: var(--space-6);
+            margin-top: var(--space-8);
         }
 
-        @media (max-width: 768px) {
-            .project-list {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* 项目卡片 - 使用Godot教程卡片风格 */
+        /* 项目卡片 */
         .project-card {
             background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
+            border-radius: var(--border-radius-lg);
+            padding: var(--space-6);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-smooth);
             display: flex;
             flex-direction: column;
             height: 100%;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
             position: relative;
             overflow: hidden;
         }
@@ -253,62 +261,72 @@
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: opacity var(--transition-base);
         }
 
         .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .project-card:hover::after {
             left: 100%;
         }
 
-        @media (prefers-color-scheme: dark) {
-            .project-card {
-                border-color: rgba(255, 255, 255, 0.1);
-            }
-        }
-
         .project-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
         }
 
         .project-card h3 {
             color: var(--text-color);
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-3);
             font-weight: 700;
         }
 
         .project-status {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.875rem;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--border-radius-full);
+            font-size: var(--text-sm);
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: var(--space-4);
             align-self: flex-start;
         }
 
         .status-ready {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, var(--success-color) 0%, var(--success-dark) 100%);
             color: white;
         }
 
         .status-planned {
-            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            background: linear-gradient(135deg, var(--neutral-500) 0%, var(--neutral-600) 100%);
             color: white;
         }
 
         .project-card p {
             color: var(--text-light);
-            margin-bottom: 1.5rem;
+            margin-bottom: var(--space-4);
             flex-grow: 1;
-            line-height: 1.6;
+            line-height: var(--leading-relaxed);
         }
 
         .project-card strong {
@@ -316,9 +334,24 @@
             font-weight: 600;
         }
 
+        .project-tags {
+            display: flex;
+            gap: var(--space-2);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-4);
+        }
+
+        .project-tag {
+            padding: var(--space-1) var(--space-2);
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius-xs);
+            font-size: var(--text-xs);
+            color: var(--text-light);
+        }
+
         .project-links {
             display: flex;
-            gap: 0.75rem;
+            gap: var(--space-3);
             flex-wrap: wrap;
             margin-top: auto;
         }
@@ -327,44 +360,27 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-5);
             border-radius: var(--border-radius-sm);
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.875rem;
-            transition: var(--transition);
+            font-size: var(--text-sm);
+            transition: var(--transition-smooth);
             border: 2px solid transparent;
             min-width: 120px;
             position: relative;
             overflow: hidden;
         }
 
-        .project-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .project-link:hover::before {
-            left: 100%;
-        }
-
         .project-link-primary {
-            background: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             color: white;
         }
 
-        .project-link-primary:hover,
-        .project-link-primary:focus {
-            background: var(--primary-dark);
+        .project-link-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: var(--shadow-md);
         }
 
         .project-link-secondary {
@@ -373,66 +389,79 @@
             border-color: var(--primary-color);
         }
 
-        .project-link-secondary:hover,
-        .project-link-secondary:focus {
+        .project-link-secondary:hover {
             background: var(--primary-color);
             color: white;
             transform: translateY(-2px);
         }
 
-        /* 页脚 - 使用Godot教程风格 */
-        footer {
-            text-align: center;
-            margin-top: 4rem;
-            padding: 2.5rem 2rem;
+        /* 特色项目卡片 */
+        .project-card.featured {
+            grid-column: span 2;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        }
+
+        @media (max-width: 768px) {
+            .project-card.featured {
+                grid-column: span 1;
+            }
+        }
+
+        /* 快速导航区 */
+        .quick-nav {
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+            margin-top: var(--space-6);
+            justify-content: center;
+        }
+
+        .quick-nav-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-5);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-sm);
             color: white;
-            font-size: 0.9rem;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: var(--border-radius);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        footer p {
-            margin-bottom: 0.5rem;
-            opacity: 0.9;
-        }
-
-        footer a {
-            color: #90cdf4;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(5px);
         }
 
-        footer a:hover {
-            color: #63b3ed;
-            text-decoration: underline;
+        .quick-nav-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .quick-nav-item i {
+            font-size: 1.2rem;
         }
 
         /* 响应式设计 */
-        @media (max-width: 640px) {
-            .container {
-                padding: 1rem;
-            }
-            
+        @media (max-width: 768px) {
             .header {
-                padding: 1.5rem 1rem;
+                padding: var(--space-6);
             }
             
             .header h1 {
-                font-size: 2rem;
+                font-size: 1.75rem;
             }
             
             .emoji {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
             
             .info-box {
-                padding: 1.5rem;
+                padding: var(--space-5);
+            }
+            
+            .project-list {
+                grid-template-columns: 1fr;
             }
             
             .project-card {
-                padding: 1.5rem;
+                padding: var(--space-5);
             }
             
             .project-links {
@@ -442,6 +471,14 @@
             .project-link {
                 width: 100%;
             }
+            
+            .stats-container {
+                gap: var(--space-4);
+            }
+            
+            .stat-value {
+                font-size: var(--text-2xl);
+            }
         }
 
         @media (max-width: 480px) {
@@ -450,27 +487,28 @@
             }
             
             .emoji {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
             
             .github-link {
-                padding: 0.75rem 1.5rem;
-                font-size: 0.9rem;
+                padding: var(--space-3) var(--space-6);
+                font-size: var(--text-base);
+            }
+            
+            .quick-nav {
+                flex-direction: column;
+            }
+            
+            .quick-nav-item {
+                justify-content: center;
             }
         }
 
         /* 减少动画偏好 */
         @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-            
-            .emoji {
-                animation: none;
+            .emoji,
+            .header::after {
+                animation: none !important;
             }
             
             .project-card:hover,
@@ -480,9 +518,9 @@
             }
             
             .project-card::before,
+            .project-card::after,
             .info-box::before,
-            .github-link::before,
-            .project-link::before {
+            .github-link::before {
                 display: none;
             }
         }
@@ -495,7 +533,8 @@
             }
             
             .github-link,
-            .project-link {
+            .project-link,
+            .back-to-top {
                 display: none !important;
             }
             
@@ -514,163 +553,235 @@
 
     <div class="container">
         <!-- 统一导航栏 -->
-        <nav class="navbar">
+        <nav class="navbar" role="navigation" aria-label="主导航">
             <div class="logo">
-                <i class="fas fa-cat logo-icon"></i>
+                <i class="fas fa-cat logo-icon" aria-hidden="true"></i>
                 <div>
                     <h1>nanobot网页项目库</h1>
                     <p class="subtitle">AI创建的网页项目集合</p>
                 </div>
             </div>
             <div class="nav-links">
-                <a href="godot-tutorial/index.html" class="nav-link">
-                    <i class="fas fa-gamepad"></i>
-                    Godot教程
+                <a href="godot-tutorial/index.html" class="nav-link" aria-label="访问Godot教程">
+                    <i class="fas fa-gamepad" aria-hidden="true"></i>
+                    <span>Godot教程</span>
                 </a>
-                <a href="godot-tutorial/interactive.html" class="nav-link">
-                    <i class="fas fa-code"></i>
-                    代码练习
+                <a href="godot-tutorial/interactive.html" class="nav-link" aria-label="访问代码练习">
+                    <i class="fas fa-code" aria-hidden="true"></i>
+                    <span>代码练习</span>
                 </a>
-                <a href="course-presentation.html" class="nav-link">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                    课件演示
+                <a href="course-presentation.html" class="nav-link" aria-label="访问课件演示">
+                    <i class="fas fa-chalkboard-teacher" aria-hidden="true"></i>
+                    <span>课件演示</span>
                 </a>
-                <a href="https://github.com/DeerLuuu/nanobot-test-repo" class="nav-link" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-github"></i>
-                    GitHub
+                <a href="https://github.com/DeerLuuu/nanobot-test-repo" class="nav-link" target="_blank" rel="noopener noreferrer" aria-label="在GitHub上查看仓库">
+                    <i class="fab fa-github" aria-hidden="true"></i>
+                    <span>GitHub</span>
                 </a>
             </div>
         </nav>
         
+        <!-- 页面头部 -->
         <header class="header">
             <div class="emoji" aria-hidden="true">🐈</div>
             <h1>nanobot网页项目库</h1>
-            <p class="subtitle">由nanobot AI助手创建和托管的网页项目集合</p>
+            <p class="subtitle">由 nanobot AI 助手创建和托管的网页项目集合</p>
             <a href="https://github.com/DeerLuuu/nanobot-test-repo" class="github-link" target="_blank" rel="noopener noreferrer" aria-label="在GitHub上查看nanobot-test-repo仓库">
-                <i class="fab fa-github"></i>
-                查看GitHub仓库
+                <i class="fab fa-github" aria-hidden="true"></i>
+                查看 GitHub 仓库
             </a>
+            
+            <!-- 统计信息 -->
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-value">3+</div>
+                    <div class="stat-label">已完成项目</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">14</div>
+                    <div class="stat-label">教程章节</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">48+</div>
+                    <div class="stat-label">学习小时</div>
+                </div>
+            </div>
+            
+            <!-- 快速导航 -->
+            <nav class="quick-nav" aria-label="快速导航">
+                <a href="godot-tutorial/index.html" class="quick-nav-item">
+                    <i class="fas fa-gamepad" aria-hidden="true"></i>
+                    <span>开始学习 Godot</span>
+                </a>
+                <a href="godot-tutorial/interactive.html" class="quick-nav-item">
+                    <i class="fas fa-code" aria-hidden="true"></i>
+                    <span>练习代码</span>
+                </a>
+                <a href="#projects" class="quick-nav-item">
+                    <i class="fas fa-folder-open" aria-hidden="true"></i>
+                    <span>浏览项目</span>
+                </a>
+            </nav>
         </header>
         
         <main id="main-content">
-            <div class="info-box">
-                <h2><i class="fas fa-info-circle"></i> 关于这个仓库</h2>
-                <p>这个仓库专门用于存放由nanobot AI助手创建的各种网页项目。当你提出网页需求时，nanobot会：</p>
+            <!-- 关于介绍 -->
+            <section class="info-box animate-fadeInUp">
+                <h2><i class="fas fa-info-circle" aria-hidden="true"></i> 关于这个仓库</h2>
+                <p>这个仓库专门用于存放由 <strong>nanobot AI 助手</strong> 创建的各种网页项目。当你提出网页需求时，nanobot 会：</p>
                 <ul>
-                    <li>根据需求创建HTML/CSS/JS文件</li>
-                    <li>将文件提交到这个GitHub仓库</li>
-                    <li>启用GitHub Pages托管（如果需要）</li>
-                    <li>提供网页访问链接</li>
+                    <li>📝 根据需求创建 HTML/CSS/JS 文件</li>
+                    <li>🔄 将文件提交到 GitHub 仓库</li>
+                    <li>🌐 启用 GitHub Pages 托管（如果需要）</li>
+                    <li>🔗 提供网页访问链接</li>
                 </ul>
-                <p><strong>创建时间</strong>: 2026-02-24<br>
-                <strong>用途</strong>: 网页项目存储和托管<br>
-                <strong>最新项目</strong>: <a href="godot-tutorial/interactive.html">Godot交互式代码练习</a> - 支持print方法执行的代码编辑器</p>
-            </div>
+                <p>
+                    <strong>创建时间</strong>: 2026-02-24<br>
+                    <strong>用途</strong>: 网页项目存储和托管<br>
+                    <strong>最新项目</strong>: <a href="godot-tutorial/interactive.html">Godot 交互式代码练习</a> - 支持 print 方法执行的代码编辑器
+                </p>
+            </section>
             
-            <div class="info-box">
-                <h2><i class="fas fa-rocket"></i> 项目列表</h2>
+            <!-- 项目列表 -->
+            <section class="info-box" id="projects">
+                <h2><i class="fas fa-rocket" aria-hidden="true"></i> 项目列表</h2>
                 <p>以下是已经创建或计划创建的网页项目：</p>
                 
                 <div class="project-list">
-                    <div class="project-card">
+                    <!-- 欢迎页面卡片 -->
+                    <article class="project-card">
                         <span class="project-status status-ready">
-                            <i class="fas fa-check-circle"></i>
+                            <i class="fas fa-check-circle" aria-hidden="true"></i>
                             已就绪
                         </span>
                         <h3>欢迎页面</h3>
                         <p>当前页面，展示仓库用途和项目列表。采用现代网页设计最佳实践，包括响应式设计、可访问性优化和暗色模式支持。</p>
-                        <p><strong>技术</strong>: HTML5, CSS3, 现代CSS特性</p>
-                    </div>
+                        <div class="project-tags">
+                            <span class="project-tag">HTML5</span>
+                            <span class="project-tag">CSS3</span>
+                            <span class="project-tag">响应式</span>
+                        </div>
+                        <p><strong>特点</strong>: 响应式布局、暗色模式、动画效果</p>
+                    </article>
                     
-                    <div class="project-card">
+                    <!-- Godot教程卡片 - 特色项目 -->
+                    <article class="project-card featured">
                         <span class="project-status status-ready">
-                            <i class="fas fa-check-circle"></i>
+                            <i class="fas fa-check-circle" aria-hidden="true"></i>
                             已就绪
                         </span>
-                        <h3>Godot HD2D生存游戏教程</h3>
-                        <p>完整的Godot游戏开发教程，包含交互式学习系统和代码练习。从零开始学习Godot游戏开发。</p>
-                        <p><strong>技术</strong>: HTML5, CSS3, JavaScript, Godot</p>
-                        <p><strong>功能</strong>: 交互式教程、代码编辑器、进度跟踪、测验系统</p>
+                        <h3>Godot HD2D 生存游戏教程</h3>
+                        <p>完整的 Godot 游戏开发教程，包含交互式学习系统和代码练习。从零开始学习 Godot 游戏开发，打造类似《饥荒》的 HD2D 生存游戏。教程涵盖角色系统、世界生成、物品系统、战斗系统等核心模块。</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Godot 4</span>
+                            <span class="project-tag">GDScript</span>
+                            <span class="project-tag">游戏开发</span>
+                            <span class="project-tag">HD2D</span>
+                        </div>
+                        <p><strong>课程体系</strong>: 14个章节 | 48-62小时学习时长</p>
                         <div class="project-links">
                             <a href="godot-tutorial/index.html" class="project-link project-link-primary" aria-label="访问Godot教程主页">
-                                <i class="fas fa-home"></i>
+                                <i class="fas fa-home" aria-hidden="true"></i>
                                 教程主页
                             </a>
-                            <a href="godot-tutorial/interactive.html" class="project-link project-link-secondary" aria-label="访问Godot交互式代码练习">
-                                <i class="fas fa-code"></i>
+                            <a href="godot-tutorial/interactive.html" class="project-link project-link-secondary" aria-label="访问交互式代码练习">
+                                <i class="fas fa-code" aria-hidden="true"></i>
                                 代码练习
                             </a>
                             <a href="course-presentation.html" class="project-link project-link-secondary" aria-label="访问课件演示">
-                                <i class="fas fa-chalkboard-teacher"></i>
+                                <i class="fas fa-chalkboard-teacher" aria-hidden="true"></i>
                                 课件演示
                             </a>
                         </div>
-                    </div>
+                    </article>
                     
-                    <div class="project-card">
+                    <!-- 待办事项应用 -->
+                    <article class="project-card">
                         <span class="project-status status-planned">
-                            <i class="fas fa-calendar-alt"></i>
+                            <i class="fas fa-calendar-alt" aria-hidden="true"></i>
                             计划中
                         </span>
                         <h3>待办事项应用</h3>
-                        <p>一个简单的待办事项管理应用，支持添加、删除和标记完成。使用本地存储保存数据。</p>
-                        <p><strong>技术</strong>: HTML, CSS, JavaScript, LocalStorage</p>
-                    </div>
+                        <p>一个简洁高效的待办事项管理应用，支持添加、删除、标记完成和分类管理。使用本地存储保存数据，支持数据导出。</p>
+                        <div class="project-tags">
+                            <span class="project-tag">JavaScript</span>
+                            <span class="project-tag">LocalStorage</span>
+                        </div>
+                        <p><strong>特点</strong>: 离线可用、数据持久化</p>
+                    </article>
                     
-                    <div class="project-card">
+                    <!-- 天气查询工具 -->
+                    <article class="project-card">
                         <span class="project-status status-planned">
-                            <i class="fas fa-calendar-alt"></i>
+                            <i class="fas fa-calendar-alt" aria-hidden="true"></i>
                             计划中
                         </span>
                         <h3>天气查询工具</h3>
-                        <p>基于天气API的查询工具，显示当前天气和预报。支持位置搜索和温度单位切换。</p>
-                        <p><strong>技术</strong>: HTML, CSS, JavaScript, Weather API</p>
-                    </div>
+                        <p>基于天气 API 的查询工具，显示当前天气和多日预报。支持位置搜索、温度单位切换和天气动画效果。</p>
+                        <div class="project-tags">
+                            <span class="project-tag">API</span>
+                            <span class="project-tag">天气</span>
+                        </div>
+                        <p><strong>特点</strong>: 实时数据、位置定位</p>
+                    </article>
                     
-                    <div class="project-card">
+                    <!-- Markdown预览器 -->
+                    <article class="project-card">
                         <span class="project-status status-planned">
-                            <i class="fas fa-calendar-alt"></i>
+                            <i class="fas fa-calendar-alt" aria-hidden="true"></i>
                             计划中
                         </span>
-                        <h3>Markdown预览器</h3>
-                        <p>实时Markdown编辑和预览工具。支持语法高亮和导出功能。</p>
-                        <p><strong>技术</strong>: HTML, CSS, JavaScript, Markdown解析</p>
-                    </div>
+                        <h3>Markdown 预览器</h3>
+                        <p>实时 Markdown 编辑和预览工具，支持语法高亮、代码块渲染、表格支持和导出功能。</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Markdown</span>
+                            <span class="project-tag">编辑器</span>
+                        </div>
+                        <p><strong>特点</strong>: 实时预览、语法高亮</p>
+                    </article>
                 </div>
-            </div>
+            </section>
             
-            <div class="info-box">
-                <h2><i class="fas fa-question-circle"></i> 如何请求网页项目</h2>
-                <p>当你需要创建网页时，只需告诉nanobot：</p>
+            <!-- 使用指南 -->
+            <section class="info-box">
+                <h2><i class="fas fa-question-circle" aria-hidden="true"></i> 如何请求网页项目</h2>
+                <p>当你需要创建网页时，只需告诉 nanobot：</p>
                 <ol>
-                    <li>描述你想要的网页功能</li>
-                    <li>说明设计风格偏好（如果有）</li>
-                    <li>指定需要的特殊功能或API集成</li>
-                    <li>nanobot会创建网页并提交到这个仓库</li>
-                    <li>你会收到网页的访问链接</li>
+                    <li><strong>描述功能</strong> - 详细描述你想要的网页功能</li>
+                    <li><strong>说明风格</strong> - 说明设计风格偏好（如果有）</li>
+                    <li><strong>指定功能</strong> - 指定需要的特殊功能或 API 集成</li>
+                    <li><strong>等待创建</strong> - nanobot 会创建网页并提交到仓库</li>
+                    <li><strong>获取链接</strong> - 你会收到网页的访问链接</li>
                 </ol>
-            </div>
+            </section>
         </main>
         
+        <!-- 页脚 -->
         <footer class="footer">
-            <p>🐈 nanobot网页项目库 | 创建于2026年2月24日</p>
+            <p>🐈 nanobot 网页项目库 | 创建于 2026 年 2 月 24 日</p>
             <p>仓库: <a href="https://github.com/DeerLuuu/nanobot-test-repo">https://github.com/DeerLuuu/nanobot-test-repo</a></p>
             <div class="footer-links">
-                <a href="index.html">项目库主页</a> | 
-                <a href="godot-tutorial/index.html">Godot教程</a> | 
-                <a href="godot-tutorial/interactive.html">代码练习</a> | 
-                <a href="course-presentation.html">课件演示</a> | 
+                <a href="index.html">项目库主页</a>
+                <a href="godot-tutorial/index.html">Godot教程</a>
+                <a href="godot-tutorial/interactive.html">代码练习</a>
+                <a href="course-presentation.html">课件演示</a>
                 <a href="https://github.com/DeerLuuu/nanobot-test-repo/issues">报告问题</a>
             </div>
-            <p style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7;">
+            <p style="margin-top: var(--space-4); font-size: var(--text-sm); opacity: 0.7;">
                 使用现代网页技术构建 | 支持响应式设计 | 优化可访问性 | 暗色模式友好
             </p>
         </footer>
     </div>
 
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" id="backToTop" aria-label="返回页面顶部">
+        <i class="fas fa-chevron-up" aria-hidden="true"></i>
+    </button>
+
     <script>
         // 增强可访问性：为所有外部链接添加 rel="noopener noreferrer"
         document.addEventListener('DOMContentLoaded', function() {
+            // 外部链接处理
             const externalLinks = document.querySelectorAll('a[href^="http"]:not([href*="' + window.location.host + '"])');
             externalLinks.forEach(link => {
                 link.setAttribute('rel', 'noopener noreferrer');
@@ -679,32 +790,58 @@
             // 检测用户的首选颜色方案
             const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
             
-            // 更新主题颜色meta标签
+            // 更新主题颜色 meta 标签
             function updateThemeColor() {
                 const themeColor = document.querySelector('meta[name="theme-color"]');
-                if (prefersDarkScheme.matches) {
-                    themeColor.setAttribute('content', '#1a202c');
-                } else {
-                    themeColor.setAttribute('content', '#667eea');
+                if (themeColor) {
+                    themeColor.setAttribute('content', prefersDarkScheme.matches ? '#1a202c' : '#667eea');
                 }
             }
 
-            // 监听颜色方案变化
             prefersDarkScheme.addEventListener('change', updateThemeColor);
             updateThemeColor();
 
             // 键盘导航支持
             document.addEventListener('keydown', function(e) {
-                // Tab键导航时添加焦点样式
                 if (e.key === 'Tab') {
                     document.body.classList.add('keyboard-navigation');
                 }
             });
 
-            // 鼠标点击时移除键盘导航样式
             document.addEventListener('mousedown', function() {
                 document.body.classList.remove('keyboard-navigation');
             });
+
+            // 返回顶部按钮
+            const backToTop = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            backToTop.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            // 页面加载动画
+            const animatedElements = document.querySelectorAll('.info-box, .project-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fadeInUp');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            animatedElements.forEach(el => observer.observe(el));
 
             // 打印友好
             window.addEventListener('beforeprint', function() {
@@ -715,25 +852,6 @@
                 document.body.classList.remove('printing');
             });
         });
-
-        // 添加键盘导航样式
-        const style = document.createElement('style');
-        style.textContent = `
-            .keyboard-navigation a:focus,
-            .keyboard-navigation button:focus,
-            .keyboard-navigation input:focus,
-            .keyboard-navigation select:focus,
-            .keyboard-navigation textarea:focus {
-                outline: 3px solid var(--primary-color) !important;
-                outline-offset: 2px !important;
-            }
-            
-            .printing .github-link,
-            .printing .project-link {
-                display: none !important;
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
