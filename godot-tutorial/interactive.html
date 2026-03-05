@@ -15,10 +15,9 @@
     
     <style>
         /* ============================================
-           页面特定样式 - 与主页风格统一
+           页面布局
            ============================================ */
         
-        /* 页面布局 */
         .page-layout {
             display: grid;
             grid-template-columns: 260px 1fr;
@@ -33,7 +32,7 @@
         }
         
         /* ============================================
-           左侧边栏 - 与主页卡片风格一致
+           左侧边栏
            ============================================ */
         
         .sidebar {
@@ -63,9 +62,7 @@
             gap: var(--space-2);
         }
         
-        .sidebar-title i {
-            color: var(--primary-color);
-        }
+        .sidebar-title i { color: var(--primary-color); }
         
         .sidebar-nav {
             display: flex;
@@ -96,12 +93,8 @@
             color: var(--primary-color);
         }
         
-        .sidebar-nav-item i {
-            width: 20px;
-            text-align: center;
-        }
+        .sidebar-nav-item i { width: 20px; text-align: center; }
         
-        /* 子菜单 */
         .sidebar-submenu {
             margin-left: var(--space-6);
             border-left: 2px solid var(--border-color);
@@ -126,12 +119,6 @@
             color: var(--primary-color);
         }
         
-        .sidebar-submenu-item.active {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-        
-        /* 快捷链接 */
         .sidebar-links {
             display: flex;
             flex-direction: column;
@@ -166,7 +153,6 @@
             gap: var(--space-6);
         }
         
-        /* 卡片样式 - 与主页一致 */
         .content-card {
             background: var(--card-bg);
             border-radius: var(--border-radius-lg);
@@ -176,9 +162,7 @@
             transition: var(--transition-smooth);
         }
         
-        .content-card:hover {
-            box-shadow: var(--shadow-xl);
-        }
+        .content-card:hover { box-shadow: var(--shadow-xl); }
         
         .card-header {
             display: flex;
@@ -198,17 +182,12 @@
             gap: var(--space-2);
         }
         
-        .card-title i {
-            color: var(--primary-color);
-        }
+        .card-title i { color: var(--primary-color); }
         
-        .card-actions {
-            display: flex;
-            gap: var(--space-2);
-        }
+        .card-actions { display: flex; gap: var(--space-2); }
         
         /* ============================================
-           代码编辑器 - 简洁无重影设计
+           代码编辑器 - 使用 overlay 实现语法高亮
            ============================================ */
         
         .editor-wrapper {
@@ -220,56 +199,12 @@
             transition: border-color var(--transition-base);
         }
         
-        .editor-wrapper:focus-within {
-            border-color: var(--primary-color);
-        }
+        .editor-wrapper:focus-within { border-color: var(--primary-color); }
         
-        .editor-toolbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: var(--space-3) var(--space-4);
-            background: #2d2d2d;
-            border-bottom: 1px solid #3c3c3c;
-        }
-        
-        .editor-tabs {
-            display: flex;
-            gap: var(--space-2);
-        }
-        
-        .editor-tab {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            padding: var(--space-2) var(--space-3);
-            background: transparent;
-            border: none;
-            color: #808080;
-            font-size: var(--text-sm);
-            cursor: pointer;
-            border-radius: var(--border-radius-xs);
-            transition: var(--transition-base);
-        }
-        
-        .editor-tab.active {
-            background: #1e1e1e;
-            color: #ffffff;
-        }
-        
-        .editor-tab:hover:not(.active) {
-            color: #cccccc;
-        }
-        
-        .editor-file-icon {
-            color: #519aba;
-        }
-        
-        /* 行号和代码区域 */
         .editor-content {
-            display: flex;
+            position: relative;
             height: 400px;
-            overflow: hidden;
+            display: flex;
         }
         
         .line-numbers {
@@ -286,15 +221,44 @@
             overflow: hidden;
         }
         
-        .code-editor {
+        .editor-area {
             flex: 1;
-            background: #1e1e1e;
-            border: none;
+            position: relative;
+        }
+        
+        /* 高亮显示层 */
+        .highlight-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             padding: var(--space-4);
             font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
             font-size: 14px;
             line-height: 1.6;
             color: #d4d4d4;
+            white-space: pre;
+            overflow: auto;
+            pointer-events: none;
+            tab-size: 4;
+        }
+        
+        /* 实际编辑层 */
+        .code-editor {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: transparent;
+            border: none;
+            padding: var(--space-4);
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: transparent;
+            caret-color: #ffffff;
             resize: none;
             outline: none;
             tab-size: 4;
@@ -302,61 +266,16 @@
             overflow: auto;
         }
         
-        /* 代码补全下拉 */
-        .autocomplete-dropdown {
-            position: fixed;
-            background: #252526;
-            border: 1px solid #3c3c3c;
-            border-radius: var(--border-radius-sm);
-            box-shadow: var(--shadow-xl);
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 1000;
-            display: none;
-            min-width: 250px;
-        }
-        
-        .autocomplete-dropdown.visible {
-            display: block;
-        }
-        
-        .autocomplete-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            padding: var(--space-2) var(--space-3);
-            cursor: pointer;
-            font-family: 'Consolas', monospace;
-            font-size: var(--text-sm);
-            color: #d4d4d4;
-        }
-        
-        .autocomplete-item:hover,
-        .autocomplete-item.selected {
-            background: #094771;
-        }
-        
-        .autocomplete-icon {
-            width: 18px;
-            height: 18px;
-            border-radius: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: 700;
-        }
-        
-        .autocomplete-icon.keyword { background: #569cd6; color: white; }
-        .autocomplete-icon.function { background: #dcdcaa; color: black; }
-        .autocomplete-icon.builtin { background: #c586c0; color: white; }
-        .autocomplete-icon.type { background: #4ec9b0; color: black; }
-        
-        .autocomplete-detail {
-            color: #858585;
-            font-size: var(--text-xs);
-            margin-left: auto;
-        }
+        /* GDScript 语法高亮颜色 */
+        .hl-keyword { color: #569cd6; font-weight: 500; }
+        .hl-string { color: #ce9178; }
+        .hl-number { color: #b5cea8; }
+        .hl-comment { color: #6a9955; font-style: italic; }
+        .hl-function { color: #dcdcaa; }
+        .hl-type { color: #4ec9b0; }
+        .hl-operator { color: #d4d4d4; }
+        .hl-builtin { color: #c586c0; }
+        .hl-class { color: #4ec9b0; }
         
         /* ============================================
            输出控制台
@@ -367,28 +286,6 @@
             border-radius: var(--border-radius-sm);
             border: 2px solid var(--border-color);
             overflow: hidden;
-        }
-        
-        .output-toolbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: var(--space-3) var(--space-4);
-            background: #1a1a1a;
-            border-bottom: 1px solid #3c3c3c;
-        }
-        
-        .output-title {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            color: #cccccc;
-            font-size: var(--text-sm);
-            font-weight: 600;
-        }
-        
-        .output-title i {
-            color: var(--success-color);
         }
         
         .output-area {
@@ -403,17 +300,14 @@
             word-wrap: break-word;
         }
         
-        .output-line {
-            margin-bottom: var(--space-1);
-        }
-        
+        .output-line { margin-bottom: var(--space-1); }
         .output-line.info { color: #4ec9b0; }
         .output-line.error { color: #f48771; }
         .output-line.success { color: #b5cea8; }
         .output-line.warning { color: #dcdcaa; }
         
         /* ============================================
-           控制按钮 - 与主页按钮风格一致
+           控制按钮
            ============================================ */
         
         .controls {
@@ -459,10 +353,7 @@
             border-color: var(--primary-color);
         }
         
-        .btn-sm {
-            padding: var(--space-2) var(--space-3);
-            font-size: var(--text-xs);
-        }
+        .btn-sm { padding: var(--space-2) var(--space-3); font-size: var(--text-xs); }
         
         .shortcut-hints {
             display: flex;
@@ -481,26 +372,14 @@
         }
         
         /* ============================================
-           示例下拉菜单
+           下拉菜单
            ============================================ */
         
-        .dropdown {
-            position: relative;
-        }
+        .dropdown { position: relative; }
         
-        .dropdown-toggle {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-        
-        .dropdown-toggle .fa-chevron-down {
-            transition: transform var(--transition-base);
-        }
-        
-        .dropdown.open .dropdown-toggle .fa-chevron-down {
-            transform: rotate(180deg);
-        }
+        .dropdown-toggle { display: flex; align-items: center; gap: var(--space-2); }
+        .dropdown-toggle .fa-chevron-down { transition: transform var(--transition-base); }
+        .dropdown.open .dropdown-toggle .fa-chevron-down { transform: rotate(180deg); }
         
         .dropdown-menu {
             position: absolute;
@@ -549,14 +428,9 @@
             border-left-color: var(--primary-color);
         }
         
-        .dropdown-item i {
-            color: var(--primary-color);
-            width: 20px;
-        }
+        .dropdown-item i { color: var(--primary-color); width: 20px; }
         
-        .dropdown-item-content {
-            flex: 1;
-        }
+        .dropdown-item-content { flex: 1; }
         
         .dropdown-item-title {
             font-size: var(--text-sm);
@@ -581,32 +455,67 @@
             font-weight: 600;
         }
         
-        .badge-easy {
-            background: rgba(39, 174, 96, 0.15);
-            color: var(--success-color);
+        .badge-easy { background: rgba(39, 174, 96, 0.15); color: var(--success-color); }
+        .badge-medium { background: rgba(243, 156, 18, 0.15); color: var(--warning-color); }
+        .badge-hard { background: rgba(231, 76, 60, 0.15); color: var(--error-color); }
+        
+        /* ============================================
+           代码补全下拉
+           ============================================ */
+        
+        .autocomplete-dropdown {
+            position: fixed;
+            background: #252526;
+            border: 1px solid #3c3c3c;
+            border-radius: var(--border-radius-sm);
+            box-shadow: var(--shadow-xl);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            min-width: 250px;
         }
         
-        .badge-medium {
-            background: rgba(243, 156, 18, 0.15);
-            color: var(--warning-color);
+        .autocomplete-dropdown.visible { display: block; }
+        
+        .autocomplete-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            cursor: pointer;
+            font-family: 'Consolas', monospace;
+            font-size: var(--text-sm);
+            color: #d4d4d4;
         }
         
-        .badge-hard {
-            background: rgba(231, 76, 60, 0.15);
-            color: var(--error-color);
+        .autocomplete-item:hover,
+        .autocomplete-item.selected { background: #094771; }
+        
+        .autocomplete-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
         }
+        
+        .autocomplete-icon.keyword { background: #569cd6; color: white; }
+        .autocomplete-icon.function { background: #dcdcaa; color: black; }
+        .autocomplete-icon.builtin { background: #c586c0; color: white; }
+        .autocomplete-icon.type { background: #4ec9b0; color: black; }
+        
+        .autocomplete-detail { color: #858585; font-size: var(--text-xs); margin-left: auto; }
         
         /* ============================================
            教程面板
            ============================================ */
         
-        .tutorial-panel {
-            display: none;
-        }
-        
-        .tutorial-panel.visible {
-            display: block;
-        }
+        .tutorial-panel { display: none; }
+        .tutorial-panel.visible { display: block; }
         
         .knowledge-grid {
             display: grid;
@@ -638,9 +547,7 @@
             margin-bottom: var(--space-3);
         }
         
-        .knowledge-item h4 i {
-            color: var(--primary-color);
-        }
+        .knowledge-item h4 i { color: var(--primary-color); }
         
         .knowledge-item p {
             color: var(--text-light);
@@ -659,54 +566,24 @@
             margin: 0;
         }
         
+        .code-panel.hidden { display: none; }
+        
         /* ============================================
-           响应式设计
+           响应式
            ============================================ */
         
         @media (max-width: 1024px) {
-            .sidebar {
-                position: static;
-            }
-            
-            .page-layout {
-                grid-template-columns: 1fr;
-            }
-            
-            .editor-content {
-                height: 300px;
-            }
-            
-            .output-area {
-                height: 200px;
-            }
+            .sidebar { position: static; }
+            .page-layout { grid-template-columns: 1fr; }
+            .editor-content { height: 300px; }
+            .output-area { height: 200px; }
         }
         
         @media (max-width: 768px) {
-            .controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .shortcut-hints {
-                margin-left: 0;
-                justify-content: center;
-            }
-            
-            .btn {
-                justify-content: center;
-            }
-            
-            .dropdown-menu {
-                position: fixed;
-                left: var(--space-4);
-                right: var(--space-4);
-                min-width: auto;
-            }
-        }
-        
-        /* 隐藏代码面板 */
-        .code-panel.hidden {
-            display: none;
+            .controls { flex-direction: column; align-items: stretch; }
+            .shortcut-hints { margin-left: 0; justify-content: center; }
+            .btn { justify-content: center; }
+            .dropdown-menu { position: fixed; left: var(--space-4); right: var(--space-4); min-width: auto; }
         }
     </style>
 </head>
@@ -769,7 +646,6 @@
                             <span>GDScript 基础</span>
                         </div>
                         
-                        <!-- 子菜单 -->
                         <div class="sidebar-submenu" id="tutorialSubmenu">
                             <div class="sidebar-submenu-item" onclick="scrollToSection('variables')">
                                 <i class="fas fa-tag"></i> 变量声明
@@ -818,16 +694,13 @@
                                 代码编辑器
                             </h2>
                             <div class="card-actions">
-                                <!-- 示例下拉 -->
                                 <div class="dropdown" id="exampleDropdown">
                                     <button class="btn btn-secondary btn-sm dropdown-toggle" onclick="toggleDropdown('exampleDropdown')">
                                         <i class="fas fa-file-code"></i>
                                         <span>示例代码</span>
                                         <i class="fas fa-chevron-down"></i>
                                     </button>
-                                    <div class="dropdown-menu" id="exampleMenu">
-                                        <div class="dropdown-header">选择示例代码</div>
-                                    </div>
+                                    <div class="dropdown-menu" id="exampleMenu"></div>
                                 </div>
                                 <button class="btn btn-secondary btn-sm" onclick="clearCode()" title="清空代码">
                                     <i class="fas fa-trash"></i>
@@ -838,7 +711,9 @@
                         <div class="editor-wrapper">
                             <div class="editor-content">
                                 <div class="line-numbers" id="lineNumbers">1</div>
-                                <textarea class="code-editor" id="codeEditor" placeholder="在这里输入你的GDScript代码..." spellcheck="false"># ==========================================
+                                <div class="editor-area">
+                                    <div class="highlight-layer" id="highlightLayer"></div>
+                                    <textarea class="code-editor" id="codeEditor" placeholder="在这里输入你的GDScript代码..." spellcheck="false"># ==========================================
 # GDScript 基础教程 - 变量与数据类型
 # ==========================================
 
@@ -864,10 +739,10 @@ print("物品数量: " + str(inventory.size()))
 print("第一个物品: " + inventory[0])
 
 # 尝试修改上面的代码，观察输出变化！</textarea>
+                                </div>
                             </div>
                         </div>
                         
-                        <!-- 代码补全下拉 -->
                         <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
                     </div>
                     
@@ -1063,18 +938,10 @@ int(3.9)      # 3 (截断)</pre>
                 preview: 'print("Hello Godot!")',
                 difficulty: "easy",
                 code: `# 示例1: 基础打印
-# print() 是GDScript中最常用的调试函数
-
 print("欢迎来到 Godot 游戏开发世界！")
 print("================================")
-
-# 打印多个值（使用逗号分隔）
 print("游戏名称:", "HD2D生存游戏")
-print("版本:", "1.0.0")
-
-# 打印空行分隔
-print()
-print("准备开始学习...")`
+print("版本:", "1.0.0")`
             },
             {
                 title: "变量与数据类型",
@@ -1082,24 +949,12 @@ print("准备开始学习...")`
                 preview: 'var name = "玩家"',
                 difficulty: "easy",
                 code: `# 示例2: 变量与数据类型
-# GDScript 支持多种数据类型
-
-# 字符串 (String)
 var game_title = "HD2D生存游戏"
-var developer = "nanobot工作室"
-
-# 数字 (int 和 float)
 var player_count = 100
 var version = 1.0
-var temperature = -5.5
-
-# 布尔值 (bool)
 var is_running = true
-var is_paused = false
 
-# 打印所有变量
 print("游戏名称:", game_title)
-print("开发者:", developer)
 print("玩家数量:", player_count)
 print("版本:", version)
 print("运行中:", is_running)`
@@ -1110,25 +965,13 @@ print("运行中:", is_running)`
                 preview: "var a = 10; print(a + 5)",
                 difficulty: "easy",
                 code: `# 示例3: 数学运算
-# GDScript 支持所有基本数学运算
-
 var a = 15
 var b = 4
 
-print("=== 基本运算 ===")
-print("a =", a, ", b =", b)
 print("加法: a + b =", a + b)
 print("减法: a - b =", a - b)
 print("乘法: a * b =", a * b)
 print("除法: a / b =", a / b)
-print("取余: a % b =", a % b)
-
-print()
-print("=== 数学函数 ===")
-print("绝对值:", abs(-10))
-print("最大值:", max(5, 10))
-print("最小值:", min(5, 10))
-print("平方根:", sqrt(16))
 print("随机数:", randi() % 100)`
             },
             {
@@ -1137,14 +980,8 @@ print("随机数:", randi() % 100)`
                 preview: "if health > 0: print('存活')",
                 difficulty: "medium",
                 code: `# 示例4: 条件语句
-# 使用 if/elif/else 控制程序流程
-
 var health = 75
-var max_health = 100
 
-print("玩家生命值:", health, "/", max_health)
-
-# 基本条件判断
 if health <= 0:
     print("玩家已死亡！")
 elif health < 30:
@@ -1160,27 +997,14 @@ else:
                 preview: "for i in range(5): print(i)",
                 difficulty: "medium",
                 code: `# 示例5: 循环语句
-# for 和 while 循环
-
 print("=== For 循环 ===")
-# 遍历数字范围
 for i in range(5):
     print("计数:", i)
 
 print()
-# 遍历数组
-var items = ["剑", "盾", "药水", "钥匙"]
+var items = ["剑", "盾", "药水"]
 for item in items:
-    print("物品:", item)
-
-print()
-print("=== While 循环 ===")
-# 条件循环
-var countdown = 3
-while countdown > 0:
-    print("倒计时:", countdown)
-    countdown -= 1
-print("发射！")`
+    print("物品:", item)`
             },
             {
                 title: "数组操作",
@@ -1188,24 +1012,14 @@ print("发射！")`
                 preview: 'var items = ["剑", "盾"]',
                 difficulty: "medium",
                 code: `# 示例6: 数组操作
-# 数组是存储多个值的容器
-
-# 创建数组
 var inventory = ["木剑", "布甲", "面包"]
 
-print("=== 背包内容 ===")
 print("物品数量:", inventory.size())
 print("背包:", inventory)
 
-print()
-print("=== 数组操作 ===")
-# 添加元素
 inventory.append("药水")
 print("添加药水后:", inventory)
-
-# 访问元素
-print("第一个物品:", inventory[0])
-print("最后一个物品:", inventory[-1])`
+print("第一个物品:", inventory[0])`
             },
             {
                 title: "函数定义",
@@ -1213,25 +1027,13 @@ print("最后一个物品:", inventory[-1])`
                 preview: "func add(a, b): return a + b",
                 difficulty: "medium",
                 code: `# 示例7: 函数定义
-# 函数是可重用的代码块
-
-# 基本函数
 func say_hello():
     print("你好，冒险者！")
 
-# 带参数的函数
-func greet(name):
-    print("欢迎你，", name, "!")
-
-# 带返回值的函数
 func add(a, b):
     return a + b
 
-# 调用函数
-print("=== 函数调用 ===")
 say_hello()
-greet("勇者")
-
 var sum = add(10, 20)
 print("10 + 20 =", sum)`
             },
@@ -1241,41 +1043,21 @@ print("10 + 20 =", sum)`
                 preview: "class_name Player",
                 difficulty: "hard",
                 code: `# 示例8: 玩家类定义
-# 类是面向对象编程的基础
-
-# 定义玩家类
 class_name Player
 
-# 属性
 var name: String = "冒险者"
 var health: int = 100
-var max_health: int = 100
 var attack_power: int = 25
-var defense: int = 10
 
-# 构造函数
 func _init(player_name = "勇者"):
     name = player_name
     print("玩家", name, "已创建！")
 
-# 方法
 func take_damage(amount: int):
-    var actual_damage = max(1, amount - defense)
-    health -= actual_damage
-    print(name, "受到了", actual_damage, "点伤害")
+    health -= amount
+    print(name, "受到了", amount, "点伤害")
 
-func heal(amount: int):
-    health = min(max_health, health + amount)
-    print(name, "恢复了", amount, "点生命值")
-
-# 创建并测试玩家
-print("=== 创建角色 ===")
-var hero = Player.new("艾登")
-
-print()
-print("=== 战斗测试 ===")
-hero.take_damage(30)
-hero.heal(20)`
+print("=== 创建角色 ===")`
             }
         ];
         
@@ -1283,7 +1065,6 @@ hero.heal(20)`
         // 代码补全数据
         // ============================================
         const completions = [
-            // 关键字
             { text: "var", type: "keyword", detail: "声明变量" },
             { text: "func", type: "keyword", detail: "定义函数" },
             { text: "class", type: "keyword", detail: "定义类" },
@@ -1304,7 +1085,6 @@ hero.heal(20)`
             { text: "not", type: "keyword", detail: "逻辑非" },
             { text: "const", type: "keyword", detail: "常量" },
             { text: "enum", type: "keyword", detail: "枚举" },
-            // 内置函数
             { text: "print", type: "builtin", detail: "输出到控制台" },
             { text: "str", type: "builtin", detail: "转字符串" },
             { text: "int", type: "builtin", detail: "转整数" },
@@ -1318,7 +1098,6 @@ hero.heal(20)`
             { text: "sqrt", type: "builtin", detail: "平方根" },
             { text: "randi", type: "builtin", detail: "随机整数" },
             { text: "randf", type: "builtin", detail: "随机浮点" },
-            // 类型
             { text: "String", type: "type", detail: "字符串类型" },
             { text: "int", type: "type", detail: "整数类型" },
             { text: "float", type: "type", detail: "浮点类型" },
@@ -1328,7 +1107,6 @@ hero.heal(20)`
             { text: "Vector2", type: "type", detail: "2D向量" },
             { text: "Vector3", type: "type", detail: "3D向量" },
             { text: "Color", type: "type", detail: "颜色" },
-            // Godot函数
             { text: "_ready", type: "function", detail: "节点进入场景树时调用" },
             { text: "_process", type: "function", detail: "每帧调用" },
             { text: "_physics_process", type: "function", detail: "物理帧调用" },
@@ -1342,6 +1120,7 @@ hero.heal(20)`
         let codeEditor = null;
         let outputArea = null;
         let lineNumbers = null;
+        let highlightLayer = null;
         let autocompleteDropdown = null;
         let autocompleteItems = [];
         let selectedIndex = 0;
@@ -1353,13 +1132,89 @@ hero.heal(20)`
             codeEditor = document.getElementById('codeEditor');
             outputArea = document.getElementById('outputArea');
             lineNumbers = document.getElementById('lineNumbers');
+            highlightLayer = document.getElementById('highlightLayer');
             autocompleteDropdown = document.getElementById('autocompleteDropdown');
             
             initEditor();
             initExampleDropdown();
             initBackToTop();
+            updateHighlight();
             updateLineNumbers();
         });
+        
+        // ============================================
+        // 语法高亮
+        // ============================================
+        
+        function highlightCode(code) {
+            // 转义HTML
+            let html = code
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            
+            // 注释 (# 开头到行尾)
+            html = html.replace(/(#.*$)/gm, '<span class="hl-comment">$1</span>');
+            
+            // 字符串 (双引号)
+            html = html.replace(/("(?:[^"\\]|\\.)*")/g, '<span class="hl-string">$1</span>');
+            
+            // 字符串 (单引号)
+            html = html.replace(/('(?:[^'\\]|\\.)*')/g, '<span class="hl-string">$1</span>');
+            
+            // 关键字
+            const keywords = ['var', 'func', 'class', 'class_name', 'extends', 'if', 'elif', 'else', 
+                           'for', 'while', 'return', 'pass', 'true', 'false', 'null', 'and', 'or', 
+                           'not', 'const', 'enum', 'export', 'onready', 'signal', 'static', 'break', 
+                           'continue', 'match', 'is', 'as', 'in'];
+            keywords.forEach(kw => {
+                const regex = new RegExp('\\b(' + kw + ')\\b', 'g');
+                html = html.replace(regex, '<span class="hl-keyword">$1</span>');
+            });
+            
+            // 内置类型
+            const types = ['String', 'int', 'float', 'bool', 'Array', 'Dictionary', 
+                          'Vector2', 'Vector3', 'Vector2i', 'Vector3i', 'Color', 'Rect2', 
+                          'Transform2D', 'Transform3D', 'NodePath', 'Object', 'Callable'];
+            types.forEach(t => {
+                const regex = new RegExp('\\b(' + t + ')\\b', 'g');
+                html = html.replace(regex, '<span class="hl-type">$1</span>');
+            });
+            
+            // 内置函数
+            const builtins = ['print', 'str', 'int', 'float', 'bool', 'range', 'len', 'abs', 
+                             'min', 'max', 'sqrt', 'pow', 'randi', 'randf', 'rand_range',
+                             'sin', 'cos', 'tan', 'round', 'floor', 'ceil', 'typeof', 'typeof'];
+            builtins.forEach(fn => {
+                const regex = new RegExp('\\b(' + fn + ')\\b', 'g');
+                html = html.replace(regex, '<span class="hl-builtin">$1</span>');
+            });
+            
+            // 数字
+            html = html.replace(/\b(\d+\.?\d*)\b/g, '<span class="hl-number">$1</span>');
+            
+            // 函数定义
+            html = html.replace(/\b(func\s+)(\w+)/g, '$1<span class="hl-function">$2</span>');
+            
+            // 类定义
+            html = html.replace(/\b(class_name\s+)(\w+)/g, '$1<span class="hl-class">$2</span>');
+            
+            return html;
+        }
+        
+        function updateHighlight() {
+            const code = codeEditor.value;
+            highlightLayer.innerHTML = highlightCode(code);
+        }
+        
+        function updateLineNumbers() {
+            const lines = codeEditor.value.split('\n').length;
+            let numbers = '';
+            for (let i = 1; i <= lines; i++) {
+                numbers += i + '\n';
+            }
+            lineNumbers.textContent = numbers;
+        }
         
         // ============================================
         // 编辑器功能
@@ -1368,38 +1223,37 @@ hero.heal(20)`
         function initEditor() {
             // 输入事件
             codeEditor.addEventListener('input', function() {
+                updateHighlight();
                 updateLineNumbers();
             });
             
             // 滚动同步
             codeEditor.addEventListener('scroll', function() {
+                highlightLayer.scrollTop = codeEditor.scrollTop;
+                highlightLayer.scrollLeft = codeEditor.scrollLeft;
                 lineNumbers.scrollTop = codeEditor.scrollTop;
             });
             
             // 键盘事件
             codeEditor.addEventListener('keydown', function(e) {
-                // Ctrl+Enter 运行代码
                 if (e.ctrlKey && e.key === 'Enter') {
                     e.preventDefault();
                     runCode();
                     return;
                 }
                 
-                // Ctrl+S 保存代码
                 if (e.ctrlKey && e.key === 's') {
                     e.preventDefault();
                     saveCode();
                     return;
                 }
                 
-                // Tab键处理
                 if (e.key === 'Tab') {
                     e.preventDefault();
                     insertAtCursor('    ');
                     return;
                 }
                 
-                // 处理自动补全导航
                 if (autocompleteDropdown.classList.contains('visible')) {
                     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
                         e.preventDefault();
@@ -1439,22 +1293,12 @@ hero.heal(20)`
             });
         }
         
-        // 更新行号
-        function updateLineNumbers() {
-            const lines = codeEditor.value.split('\n').length;
-            let numbers = '';
-            for (let i = 1; i <= lines; i++) {
-                numbers += i + '\n';
-            }
-            lineNumbers.textContent = numbers;
-        }
-        
-        // 在光标位置插入文本
         function insertAtCursor(text) {
             const start = codeEditor.selectionStart;
             const end = codeEditor.selectionEnd;
             codeEditor.value = codeEditor.value.substring(0, start) + text + codeEditor.value.substring(end);
             codeEditor.selectionStart = codeEditor.selectionEnd = start + text.length;
+            updateHighlight();
             updateLineNumbers();
         }
         
@@ -1490,7 +1334,6 @@ hero.heal(20)`
             
             autocompleteDropdown.innerHTML = html;
             
-            // 定位
             const rect = codeEditor.getBoundingClientRect();
             autocompleteDropdown.style.left = Math.min(rect.left + 60, window.innerWidth - 270) + 'px';
             autocompleteDropdown.style.top = (rect.top + 100) + 'px';
@@ -1531,6 +1374,7 @@ hero.heal(20)`
             codeEditor.selectionStart = codeEditor.selectionEnd = newPos;
             
             hideAutocomplete();
+            updateHighlight();
             updateLineNumbers();
             codeEditor.focus();
         }
@@ -1566,7 +1410,6 @@ hero.heal(20)`
             dropdown.classList.toggle('open');
         }
         
-        // 点击其他地方关闭下拉
         document.addEventListener('click', function(e) {
             document.querySelectorAll('.dropdown').forEach(d => {
                 if (!d.contains(e.target)) {
@@ -1578,6 +1421,7 @@ hero.heal(20)`
         function loadExample(index) {
             if (index >= 0 && index < examples.length) {
                 codeEditor.value = examples[index].code;
+                updateHighlight();
                 updateLineNumbers();
                 clearOutput();
                 addOutputLine("✅ 已加载示例: " + examples[index].title, "info");
@@ -1604,29 +1448,23 @@ hero.heal(20)`
                 for (let i = 0; i < lines.length; i++) {
                     let line = lines[i].trim();
                     
-                    // 跳过空行和注释
                     if (!line || line.startsWith('#')) continue;
                     
-                    // 处理 print 语句
                     if (line.startsWith('print(') || line.includes('print(')) {
                         handlePrint(line, variables);
                     }
-                    // 处理变量声明
                     else if (line.startsWith('var ')) {
                         handleVarDeclaration(line, variables);
                     }
-                    // 处理赋值
                     else if (line.match(/^\w+\s*[+\-*/]?=/) && !line.includes('==')) {
                         handleAssignment(line, variables);
                     }
-                    // 处理函数定义
                     else if (line.startsWith('func ')) {
                         const funcMatch = line.match(/func\s+(\w+)\s*\(([^)]*)\)/);
                         if (funcMatch) {
                             addOutputLine(`[函数定义] ${funcMatch[1]}(${funcMatch[2]})`, "info");
                         }
                     }
-                    // 处理类定义
                     else if (line.startsWith('class_name ')) {
                         addOutputLine(`[类定义] ${line.substring(11)}`, "info");
                     }
@@ -1647,7 +1485,6 @@ hero.heal(20)`
             
             let content = printMatch[1];
             
-            // 处理多参数
             if (content.includes(',')) {
                 const parts = splitPrintArgs(content);
                 let result = '';
@@ -1731,22 +1568,18 @@ hero.heal(20)`
         function evaluateExpression(expr, variables) {
             expr = expr.trim();
             
-            // 字符串字面量
             if ((expr.startsWith('"') && expr.endsWith('"')) || 
                 (expr.startsWith("'") && expr.endsWith("'"))) {
                 return expr.slice(1, -1);
             }
             
-            // 布尔值
             if (expr === 'true') return true;
             if (expr === 'false') return false;
             
-            // 数字
             if (!isNaN(expr) && expr !== '') {
                 return parseFloat(expr);
             }
             
-            // 内置函数
             if (expr.startsWith('str(')) {
                 const inner = expr.match(/str\((.+)\)/)?.[1];
                 return inner ? String(evaluateExpression(inner, variables)) : '';
@@ -1784,7 +1617,6 @@ hero.heal(20)`
                 return inner ? Math.sqrt(evaluateExpression(inner, variables)) : 0;
             }
             
-            // 字符串拼接
             if (expr.includes(' + ')) {
                 const parts = expr.split(' + ').map(p => evaluateExpression(p.trim(), variables));
                 if (parts.every(p => typeof p === 'string' || typeof p === 'number')) {
@@ -1792,12 +1624,10 @@ hero.heal(20)`
                 }
             }
             
-            // 数学运算
             if (/^[\d\s+\-*/.]+$/.test(expr)) {
                 try { return eval(expr); } catch (e) { return expr; }
             }
             
-            // 变量引用
             if (variables.hasOwnProperty(expr)) {
                 return variables[expr];
             }
@@ -1819,6 +1649,7 @@ hero.heal(20)`
         
         function clearCode() {
             codeEditor.value = '';
+            updateHighlight();
             updateLineNumbers();
             addOutputLine("📝 代码编辑器已清空", "info");
         }
@@ -1864,6 +1695,7 @@ hero.heal(20)`
             }
             
             codeEditor.value = formattedLines.join('\n');
+            updateHighlight();
             updateLineNumbers();
             addOutputLine("✨ 代码已格式化", "info");
         }
@@ -1920,9 +1752,7 @@ hero.heal(20)`
         function switchPanel(panel) {
             const codePanel = document.getElementById('codePanel');
             const tutorialPanel = document.getElementById('tutorialPanel');
-            const tutorialSubmenu = document.getElementById('tutorialSubmenu');
             
-            // 更新导航状态
             document.querySelectorAll('.sidebar-nav-item').forEach(item => {
                 item.classList.remove('active');
             });
@@ -1938,19 +1768,16 @@ hero.heal(20)`
         }
         
         function scrollToSection(sectionId) {
-            // 切换到教程面板
             const codePanel = document.getElementById('codePanel');
             const tutorialPanel = document.getElementById('tutorialPanel');
             
             codePanel.classList.add('hidden');
             tutorialPanel.classList.add('visible');
             
-            // 更新导航状态
             document.querySelectorAll('.sidebar-nav-item').forEach(item => item.classList.remove('active'));
             document.querySelectorAll('.sidebar-submenu-item').forEach(item => item.classList.remove('active'));
             event.target.classList.add('active');
             
-            // 滚动到指定部分
             setTimeout(() => {
                 const section = document.getElementById(sectionId);
                 if (section) {

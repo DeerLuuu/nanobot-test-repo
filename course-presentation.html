@@ -15,223 +15,394 @@
     
     <style>
         /* ============================================
-           课件特定样式
+           课件特定样式 - 教学演示文档格式
            ============================================ */
         
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background-attachment: fixed;
+        }
+        
         .course-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: var(--space-8);
+            padding: var(--space-6);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
         
-        /* 课程头部 */
-        .course-header {
-            text-align: center;
-            margin-bottom: var(--space-8);
-            padding-bottom: var(--space-6);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-        }
+        /* ============================================
+           顶部导航栏
+           ============================================ */
         
-        .course-title {
-            font-size: clamp(2rem, 5vw, 2.5rem);
-            color: white;
-            margin-bottom: var(--space-3);
-            font-weight: 800;
-        }
-        
-        .course-subtitle {
-            font-size: var(--text-lg);
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .course-meta {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-6);
-            margin-top: var(--space-4);
-            flex-wrap: wrap;
-        }
-
-        .meta-item {
+        .top-nav {
             display: flex;
             align-items: center;
-            gap: var(--space-2);
+            justify-content: space-between;
+            padding: var(--space-4) var(--space-6);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-lg);
+            margin-bottom: var(--space-6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-logo i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .nav-logo span {
+            font-size: var(--text-lg);
+            font-weight: 700;
+        }
+        
+        .nav-divider {
+            width: 1px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .course-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .course-name {
+            color: white;
+            font-weight: 600;
+            font-size: var(--text-base);
+        }
+        
+        .lesson-name {
             color: rgba(255, 255, 255, 0.7);
             font-size: var(--text-sm);
         }
         
-        /* 卡片容器 */
-        .card-container {
-            flex: 1;
+        .nav-right {
             display: flex;
             align-items: center;
-            justify-content: center;
-            position: relative;
-            min-height: 500px;
+            gap: var(--space-3);
         }
         
-        /* 幻灯片卡片 */
-        .slide {
-            background: var(--card-bg);
-            border-radius: var(--border-radius-lg);
-            padding: var(--space-10);
-            box-shadow: var(--shadow-xl);
-            border: 1px solid var(--border-color);
-            max-width: 900px;
-            width: 100%;
-            min-height: 450px;
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-size: var(--text-sm);
+            cursor: pointer;
+            transition: var(--transition-base);
+            text-decoration: none;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* ============================================
+           主内容区 - 大幻灯片卡片
+           ============================================ */
+        
+        .slide-container {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            transition: transform 0.4s ease, opacity 0.4s ease;
-            position: relative;
-            overflow: hidden;
+            gap: var(--space-6);
         }
-
-        .slide::before {
+        
+        .slide-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius-xl);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            min-height: calc(100vh - 200px);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        /* 幻灯片顶部装饰条 */
+        .slide-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
+            height: 6px;
             background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
         }
         
+        /* 幻灯片头部 */
         .slide-header {
-            margin-bottom: var(--space-6);
-            padding-bottom: var(--space-4);
+            padding: var(--space-8) var(--space-10);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
             border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        
+        .slide-header-left {
+            flex: 1;
+        }
+        
+        .slide-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--border-radius-sm);
+            font-weight: 800;
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-4);
+            box-shadow: var(--shadow-md);
         }
         
         .slide-title {
-            font-size: var(--text-2xl);
-            color: var(--primary-color);
-            margin-bottom: var(--space-2);
-            font-weight: 700;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            color: var(--text-color);
+            margin: 0 0 var(--space-2) 0;
+            font-weight: 800;
             display: flex;
             align-items: center;
             gap: var(--space-3);
         }
-
+        
         .slide-title i {
-            font-size: var(--text-xl);
+            color: var(--primary-color);
+            font-size: 0.9em;
         }
         
         .slide-subtitle {
-            font-size: var(--text-base);
+            font-size: var(--text-lg);
             color: var(--text-light);
+            margin: 0;
         }
         
+        .slide-header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: var(--space-3);
+        }
+        
+        .slide-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--primary-color);
+            border-radius: var(--border-radius-full);
+            font-size: var(--text-sm);
+            font-weight: 600;
+        }
+        
+        .slide-badge i {
+            font-size: 1rem;
+        }
+        
+        /* 幻灯片内容区 */
         .slide-content {
             flex: 1;
+            padding: var(--space-8) var(--space-10);
             overflow-y: auto;
-            padding-right: var(--space-2);
-            color: var(--text-color);
-        }
-        
-        .slide-content::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .slide-content::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-            border-radius: 3px;
-        }
-        
-        .slide-content::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 3px;
         }
         
         /* 内容区块 */
         .content-section {
-            margin-bottom: var(--space-6);
+            margin-bottom: var(--space-8);
         }
         
-        .content-title {
-            font-size: var(--text-lg);
+        .content-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-size: var(--text-xl);
             color: var(--text-color);
-            margin-bottom: var(--space-3);
-            font-weight: 600;
+            margin-bottom: var(--space-5);
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: var(--space-2);
+            gap: var(--space-3);
+            padding-bottom: var(--space-3);
+            border-bottom: 2px solid var(--border-color);
         }
         
-        .content-title i {
+        .section-title i {
             color: var(--primary-color);
+            font-size: 1.2em;
         }
         
+        /* 内容列表 */
         .content-list {
             list-style: none;
-            padding-left: var(--space-6);
+            padding: 0;
+            margin: 0;
         }
         
         .content-list li {
+            padding: var(--space-4) var(--space-6);
             margin-bottom: var(--space-3);
-            padding-left: var(--space-4);
-            position: relative;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.03), rgba(118, 75, 162, 0.03));
+            border-radius: var(--border-radius-sm);
+            border-left: 4px solid var(--primary-color);
+            color: var(--text-color);
+            font-size: var(--text-base);
             line-height: var(--leading-relaxed);
-            color: var(--text-light);
+            transition: var(--transition-base);
         }
         
-        .content-list li::before {
-            content: "▸";
-            color: var(--primary-color);
-            font-weight: bold;
-            position: absolute;
-            left: 0;
+        .content-list li:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08));
+            transform: translateX(4px);
         }
-
+        
+        .content-list li.completed {
+            border-left-color: var(--success-color);
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.05), rgba(39, 174, 96, 0.03));
+        }
+        
         .content-list li.completed::before {
-            content: "✓";
+            content: '✓';
             color: var(--success-color);
+            font-weight: 700;
+            margin-right: var(--space-3);
+        }
+        
+        /* 步骤标记 */
+        .step-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-radius: var(--border-radius-full);
+            font-size: var(--text-sm);
+            font-weight: 700;
+            margin-right: var(--space-3);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        /* 学习目标区块 */
+        .learning-objectives {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: var(--space-6);
+            border-radius: var(--border-radius-md);
+            margin-bottom: var(--space-6);
+        }
+        
+        .learning-objectives .section-title {
+            color: white;
+            border-bottom-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .learning-objectives .section-title i {
+            color: white;
+        }
+        
+        .learning-objectives .content-list li {
+            background: rgba(255, 255, 255, 0.1);
+            border-left-color: rgba(255, 255, 255, 0.5);
+            color: white;
+        }
+        
+        .learning-objectives .content-list li:hover {
+            background: rgba(255, 255, 255, 0.15);
         }
         
         /* 代码块 */
         .code-block {
-            background: var(--code-bg);
-            border-radius: var(--border-radius);
-            padding: var(--space-4);
-            margin: var(--space-4) 0;
+            background: #1e1e1e;
+            border-radius: var(--border-radius-md);
+            padding: var(--space-5);
+            margin: var(--space-5) 0;
             border-left: 4px solid var(--primary-color);
-            font-family: 'Consolas', 'Monaco', monospace;
             overflow-x: auto;
         }
         
         .code-block code {
-            color: var(--neutral-200);
+            font-family: 'Consolas', 'Monaco', 'Fira Code', monospace;
             font-size: var(--text-sm);
-            line-height: 1.6;
+            line-height: 1.7;
+            color: #d4d4d4;
+            white-space: pre;
         }
-
-        .code-comment {
-            color: #6a9955;
+        
+        .code-comment { color: #6a9955; }
+        .code-keyword { color: #569cd6; font-weight: 500; }
+        .code-string { color: #ce9178; }
+        .code-function { color: #dcdcaa; }
+        .code-type { color: #4ec9b0; }
+        .code-number { color: #b5cea8; }
+        
+        /* 提示框 */
+        .tip-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08));
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius-md);
+            padding: var(--space-5);
+            margin-top: var(--space-5);
         }
-
-        .code-keyword {
-            color: #569cd6;
+        
+        .tip-box.warning {
+            background: linear-gradient(135deg, rgba(243, 156, 18, 0.08), rgba(243, 156, 18, 0.04));
+            border-color: var(--warning-color);
         }
-
-        .code-string {
-            color: #ce9178;
+        
+        .tip-box.success {
+            background: linear-gradient(135deg, rgba(39, 174, 96, 0.08), rgba(39, 174, 96, 0.04));
+            border-color: var(--success-color);
         }
-
-        .code-function {
-            color: #dcdcaa;
+        
+        .tip-box h5 {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin: 0 0 var(--space-3) 0;
+            font-size: var(--text-base);
         }
+        
+        .tip-box h5 i { font-size: 1.1em; }
+        .tip-box p { margin: 0; color: var(--text-light); }
+        .tip-box p a { color: var(--primary-color); }
         
         /* 链接样式 */
         .link-item {
             color: var(--primary-color);
             text-decoration: none;
-            transition: color var(--transition-fast);
+            font-weight: 500;
             display: inline-flex;
             align-items: center;
             gap: var(--space-1);
+            transition: var(--transition-fast);
         }
         
         .link-item:hover {
@@ -239,44 +410,32 @@
             text-decoration: underline;
         }
         
-        /* 导航按钮 */
-        .nav-buttons {
+        /* ============================================
+           底部导航栏
+           ============================================ */
+        
+        .slide-footer {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-top: var(--space-8);
-            padding-top: var(--space-6);
+            justify-content: space-between;
+            padding: var(--space-5) var(--space-10);
+            background: var(--bg-secondary);
             border-top: 1px solid var(--border-color);
         }
         
         .nav-button {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: var(--space-3) var(--space-6);
-            border-radius: var(--border-radius);
-            font-size: var(--text-base);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition-smooth);
             display: flex;
             align-items: center;
-            gap: var(--space-2);
-            min-width: 120px;
+            gap: var(--space-3);
+            padding: var(--space-4) var(--space-8);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-size: var(--text-base);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            min-width: 140px;
             justify-content: center;
-        }
-        
-        .nav-button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .nav-button:disabled {
-            background: var(--bg-secondary);
-            color: var(--text-light);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
         }
         
         .nav-button.prev {
@@ -286,24 +445,49 @@
         }
         
         .nav-button.prev:hover:not(:disabled) {
-            background: var(--bg-secondary);
+            background: var(--bg-tertiary);
             border-color: var(--primary-color);
+            transform: translateX(-4px);
         }
         
-        /* 进度指示器 */
-        .progress-container {
+        .nav-button.next {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .nav-button.next:hover:not(:disabled) {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .nav-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        /* 进度区 */
+        .progress-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-3);
+            flex: 1;
+            max-width: 400px;
+        }
+        
+        .progress-bar-wrapper {
+            width: 100%;
             display: flex;
             align-items: center;
             gap: var(--space-4);
-            flex: 1;
-            justify-content: center;
-            max-width: 300px;
         }
         
         .progress-bar {
             flex: 1;
             height: 8px;
-            background: var(--bg-secondary);
+            background: var(--border-color);
             border-radius: var(--border-radius-full);
             overflow: hidden;
         }
@@ -318,322 +502,274 @@
         .progress-text {
             font-size: var(--text-sm);
             color: var(--text-light);
-            min-width: 50px;
+            font-weight: 600;
+            min-width: 60px;
             text-align: center;
         }
         
-        /* 幻灯片编号 */
-        .slide-number {
-            position: absolute;
-            top: var(--space-4);
-            right: var(--space-4);
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: var(--border-radius-full);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: var(--text-sm);
-            box-shadow: var(--shadow-md);
-        }
-
         /* 幻灯片指示器 */
         .slide-indicators {
             display: flex;
             justify-content: center;
             gap: var(--space-2);
-            margin-top: var(--space-4);
         }
-
+        
         .indicator {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: var(--border-radius-full);
-            background: rgba(255, 255, 255, 0.3);
+            background: var(--border-color);
             cursor: pointer;
             transition: var(--transition-base);
+            border: none;
         }
-
-        .indicator.active {
-            background: var(--primary-color);
+        
+        .indicator:hover {
+            background: var(--neutral-400);
             transform: scale(1.2);
         }
-
-        .indicator:hover {
-            background: rgba(255, 255, 255, 0.5);
-        }
         
-        /* 学习目标特殊样式 */
-        .learning-objectives {
+        .indicator.active {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            padding: var(--space-5);
-            border-radius: var(--border-radius);
-            margin-bottom: var(--space-6);
+            transform: scale(1.3);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
         }
         
-        .learning-objectives .content-title {
-            color: white;
-        }
-        
-        .learning-objectives .content-list li {
-            color: rgba(255, 255, 255, 0.95);
-        }
-
-        .learning-objectives .content-list li::before {
-            color: white;
-        }
-
-        /* 提示框 */
-        .tip-box {
-            background: rgba(102, 126, 234, 0.1);
-            border: 1px solid var(--primary-color);
-            border-radius: var(--border-radius);
-            padding: var(--space-4);
-            margin-top: var(--space-4);
-        }
-
-        .tip-box h5 {
-            color: var(--primary-color);
-            margin-bottom: var(--space-2);
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-
-        .tip-box p {
-            color: var(--text-light);
-            margin: 0;
-        }
-
-        /* 步骤标记 */
-        .step-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            background: var(--primary-color);
-            color: white;
-            border-radius: var(--border-radius-full);
-            font-size: var(--text-sm);
-            font-weight: 600;
-            margin-right: var(--space-2);
-        }
-        
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .course-container {
-                padding: var(--space-4);
-            }
-            
-            .course-title {
-                font-size: 1.75rem;
-            }
-            
-            .slide {
-                padding: var(--space-6);
-                min-height: 400px;
-            }
-            
-            .slide-title {
-                font-size: var(--text-xl);
-            }
-            
-            .nav-buttons {
-                flex-direction: column;
-                gap: var(--space-4);
-            }
-            
-            .progress-container {
-                order: -1;
-                width: 100%;
-                max-width: none;
-            }
-            
-            .nav-button {
-                width: 100%;
-            }
-
-            .course-meta {
-                flex-direction: column;
-                gap: var(--space-2);
-            }
-        }
-        
-        /* 动画效果 */
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideOut {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-        }
-        
-        .slide {
-            animation: slideIn 0.4s ease;
-        }
-
-        .slide.exit {
-            animation: slideOut 0.3s ease;
-        }
-
-        /* 键盘导航提示 */
+        /* 键盘快捷键提示 */
         .keyboard-hint {
             position: fixed;
-            bottom: var(--space-4);
+            bottom: var(--space-6);
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             color: white;
-            padding: var(--space-2) var(--space-4);
+            padding: var(--space-3) var(--space-6);
             border-radius: var(--border-radius-full);
             font-size: var(--text-sm);
             opacity: 0;
             transition: opacity var(--transition-base);
             pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            backdrop-filter: blur(10px);
+            z-index: 100;
         }
-
+        
         .keyboard-hint.visible {
             opacity: 1;
         }
         
-        /* 减少动画偏好 */
+        .keyboard-hint kbd {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: var(--text-xs);
+        }
+        
+        /* ============================================
+           响应式设计
+           ============================================ */
+        
+        @media (max-width: 1024px) {
+            .course-container {
+                padding: var(--space-4);
+            }
+            
+            .slide-header,
+            .slide-content,
+            .slide-footer {
+                padding-left: var(--space-6);
+                padding-right: var(--space-6);
+            }
+            
+            .slide-title {
+                font-size: 1.75rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .top-nav {
+                flex-direction: column;
+                gap: var(--space-4);
+                padding: var(--space-4);
+            }
+            
+            .nav-left,
+            .nav-right {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .slide-header {
+                flex-direction: column;
+                gap: var(--space-4);
+            }
+            
+            .slide-header-right {
+                align-items: flex-start;
+            }
+            
+            .slide-footer {
+                flex-direction: column;
+                gap: var(--space-4);
+                padding: var(--space-4);
+            }
+            
+            .progress-area {
+                order: -1;
+                max-width: 100%;
+            }
+            
+            .nav-button {
+                width: 100%;
+            }
+            
+            .content-list li {
+                padding: var(--space-3) var(--space-4);
+            }
+        }
+        
+        /* ============================================
+           动画效果
+           ============================================ */
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .slide-card {
+            animation: slideIn 0.4s ease-out;
+        }
+        
         @media (prefers-reduced-motion: reduce) {
-            .slide {
+            .slide-card {
                 animation: none;
             }
             
             .nav-button:hover:not(:disabled) {
                 transform: none;
             }
+            
+            .content-list li:hover {
+                transform: none;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
-    <div class="container" style="padding-bottom: 0;">
-        <nav class="navbar" role="navigation" aria-label="主导航">
-            <div class="logo">
-                <i class="fas fa-chalkboard-teacher logo-icon" aria-hidden="true"></i>
-                <div>
-                    <h1>课件演示</h1>
-                    <p class="subtitle">Godot HD2D生存游戏教程</p>
+    <div class="course-container">
+        <!-- 顶部导航栏 -->
+        <nav class="top-nav">
+            <div class="nav-left">
+                <a href="index.html" class="nav-logo">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>教学课件</span>
+                </a>
+                <div class="nav-divider"></div>
+                <div class="course-info">
+                    <span class="course-name">Godot HD2D生存游戏教程</span>
+                    <span class="lesson-name">第一课时：基础准备与环境搭建</span>
                 </div>
             </div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-link">
-                    <i class="fas fa-home" aria-hidden="true"></i>
-                    <span>项目库主页</span>
+            <div class="nav-right">
+                <a href="index.html" class="nav-btn">
+                    <i class="fas fa-home"></i>
+                    <span>主页</span>
                 </a>
-                <a href="godot-tutorial/index.html" class="nav-link">
-                    <i class="fas fa-gamepad" aria-hidden="true"></i>
-                    <span>教程主页</span>
+                <a href="godot-tutorial/index.html" class="nav-btn">
+                    <i class="fas fa-gamepad"></i>
+                    <span>教程</span>
                 </a>
-                <a href="godot-tutorial/interactive.html" class="nav-link">
-                    <i class="fas fa-code" aria-hidden="true"></i>
-                    <span>代码练习</span>
+                <a href="godot-tutorial/interactive.html" class="nav-btn">
+                    <i class="fas fa-code"></i>
+                    <span>练习</span>
                 </a>
-                <a href="https://github.com/DeerLuuu/nanobot-test-repo" class="nav-link" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-github" aria-hidden="true"></i>
+                <a href="https://github.com/DeerLuuu/nanobot-test-repo" target="_blank" class="nav-btn">
+                    <i class="fab fa-github"></i>
                     <span>GitHub</span>
                 </a>
             </div>
         </nav>
-    </div>
-
-    <div class="course-container">
-        <header class="course-header">
-            <h1 class="course-title">Godot HD2D生存游戏教程</h1>
-            <p class="course-subtitle">第一课时：基础准备与环境搭建</p>
-            <div class="course-meta">
-                <span class="meta-item">
-                    <i class="fas fa-clock"></i>
-                    预计时长：2-3小时
-                </span>
-                <span class="meta-item">
-                    <i class="fas fa-signal"></i>
-                    难度：初级
-                </span>
-                <span class="meta-item">
-                    <i class="fas fa-book"></i>
-                    课时：1/14
-                </span>
-            </div>
-        </header>
         
-        <main class="card-container">
-            <div class="slide" id="current-slide">
-                <div class="slide-number" id="slide-number">1</div>
+        <!-- 幻灯片容器 -->
+        <div class="slide-container">
+            <div class="slide-card" id="slideCard">
                 <div class="slide-header">
-                    <h2 class="slide-title" id="slide-title">
-                        <i class="fas fa-bullseye"></i>
-                        加载中...
-                    </h2>
-                    <p class="slide-subtitle" id="slide-subtitle">请稍候</p>
+                    <div class="slide-header-left">
+                        <div class="slide-number" id="slideNumber">1</div>
+                        <h1 class="slide-title" id="slideTitle">
+                            <i class="fas fa-bullseye"></i>
+                            <span id="titleText">加载中...</span>
+                        </h1>
+                        <p class="slide-subtitle" id="slideSubtitle">请稍候</p>
+                    </div>
+                    <div class="slide-header-right">
+                        <div class="slide-badge" id="slideBadge">
+                            <i class="fas fa-clock"></i>
+                            <span>预计2-3小时</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="slide-content" id="slide-content">
+                
+                <div class="slide-content" id="slideContent">
                     <p>课件内容正在加载...</p>
                 </div>
                 
-                <div class="nav-buttons">
-                    <button class="nav-button prev" id="prev-btn" disabled aria-label="上一张幻灯片">
-                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                        上一张
+                <div class="slide-footer">
+                    <button class="nav-button prev" id="prevBtn" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                        <span>上一页</span>
                     </button>
                     
-                    <div class="progress-container">
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                    <div class="progress-area">
+                        <div class="slide-indicators" id="indicators"></div>
+                        <div class="progress-bar-wrapper">
+                            <span class="progress-text" id="progressStart">1</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill" style="width: 10%"></div>
+                            </div>
+                            <span class="progress-text" id="progressEnd">10</span>
                         </div>
-                        <span class="progress-text" id="progress-text">1/10</span>
                     </div>
                     
-                    <button class="nav-button next" id="next-btn" aria-label="下一张幻灯片">
-                        下一张
-                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    <button class="nav-button next" id="nextBtn">
+                        <span>下一页</span>
+                        <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
-
-                <!-- 幻灯片指示器 -->
-                <div class="slide-indicators" id="slide-indicators"></div>
             </div>
-        </main>
-
-        <!-- 键盘导航提示 -->
-        <div class="keyboard-hint" id="keyboard-hint">
-            <i class="fas fa-keyboard"></i> 使用 ← → 方向键或空格键切换幻灯片
+        </div>
+        
+        <!-- 键盘快捷键提示 -->
+        <div class="keyboard-hint" id="keyboardHint">
+            <kbd>←</kbd> <kbd>→</kbd> 或 <kbd>Space</kbd> 切换页面
         </div>
     </div>
 
     <script>
+        // ============================================
         // 课件数据
+        // ============================================
         const slides = [
             {
                 id: 1,
                 title: "课程概述",
                 subtitle: "第一课时：基础准备与环境搭建",
                 icon: "fas fa-bullseye",
+                badge: { icon: "fas fa-clock", text: "预计2-3小时" },
                 content: `
                     <div class="content-section">
                         <div class="learning-objectives">
-                            <h3 class="content-title"><i class="fas fa-star"></i> 学习目标</h3>
+                            <h3 class="section-title"><i class="fas fa-star"></i> 学习目标</h3>
                             <ul class="content-list">
                                 <li>完成所有开发工具的安装和配置</li>
                                 <li>创建并初始化Godot项目</li>
@@ -643,53 +779,55 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="tip-box">
-                        <h5><i class="fas fa-lightbulb"></i> 学习建议</h5>
-                        <p>建议按照顺序完成每个步骤，遇到问题可以在GitHub Issues提问。</p>
+                    <div class="tip-box success">
+                        <h5><i class="fas fa-lightbulb" style="color: var(--success-color);"></i> 学习建议</h5>
+                        <p>建议按照顺序完成每个步骤，遇到问题可以在GitHub Issues提问。本课时是整个教程的基础，请务必完成所有练习。</p>
                     </div>
                 `
             },
             {
                 id: 2,
                 title: "安装 Godot 引擎",
-                subtitle: "方式1：从官网下载",
+                subtitle: "方式一：从官网下载",
                 icon: "fas fa-download",
+                badge: { icon: "fas fa-globe", text: "官网下载" },
                 content: `
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-globe"></i> 下载步骤</h3>
+                        <h3 class="section-title"><i class="fas fa-list-ol"></i> 下载步骤</h3>
                         <ul class="content-list">
-                            <li><span class="step-badge">1</span>访问 <a href="https://godotengine.org/download" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Godot官网</a></li>
+                            <li><span class="step-badge">1</span>访问 <a href="https://godotengine.org/download" class="link-item" target="_blank">Godot官网下载页 <i class="fas fa-external-link-alt"></i></a></li>
                             <li><span class="step-badge">2</span>选择 Godot 4.x 版本（推荐最新稳定版）</li>
-                            <li><span class="step-badge">3</span>下载 Standard version（标准版）</li>
-                            <li><span class="step-badge">4</span>解压到合适位置（如 C:\\Godot\\）</li>
-                            <li><span class="step-badge">5</span>双击 Godot_v4.x.x_stable_win64.exe 启动</li>
+                            <li><span class="step-badge">3</span>下载 Standard version（标准版），选择对应操作系统</li>
+                            <li><span class="step-badge">4</span>解压到合适位置（建议：D:\\Godot\\ 或 ~/Godot/）</li>
+                            <li><span class="step-badge">5</span>双击 Godot_v4.x.x_stable_win64.exe 启动引擎</li>
                         </ul>
                     </div>
                     <div class="tip-box">
-                        <h5><i class="fas fa-info-circle"></i> 提示</h5>
-                        <p>建议将Godot添加到系统PATH环境变量，方便从命令行启动。</p>
+                        <h5><i class="fas fa-info-circle" style="color: var(--primary-color);"></i> 提示</h5>
+                        <p>建议将Godot添加到系统PATH环境变量，方便从命令行启动。Windows用户可以将Godot文件夹添加到系统环境变量中。</p>
                     </div>
                 `
             },
             {
                 id: 3,
                 title: "安装 Godot 引擎",
-                subtitle: "方式2：通过Steam安装",
+                subtitle: "方式二：通过Steam安装",
                 icon: "fab fa-steam",
+                badge: { icon: "fab fa-steam", text: "Steam安装" },
                 content: `
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fab fa-steam"></i> Steam安装步骤</h3>
+                        <h3 class="section-title"><i class="fab fa-steam"></i> Steam安装步骤</h3>
                         <ul class="content-list">
                             <li><span class="step-badge">1</span>打开 Steam 客户端</li>
-                            <li><span class="step-badge">2</span>在商店中搜索 "Godot"</li>
-                            <li><span class="step-badge">3</span>点击"安装"按钮</li>
-                            <li><span class="step-badge">4</span>等待安装完成</li>
-                            <li><span class="step-badge">5</span>在游戏库中启动 Godot</li>
+                            <li><span class="step-badge">2</span>在商店中搜索 "Godot Engine"</li>
+                            <li><span class="step-badge">3</span>点击"安装"按钮（完全免费）</li>
+                            <li><span class="step-badge">4</span>等待下载和安装完成</li>
+                            <li><span class="step-badge">5</span>在游戏库中找到并启动 Godot</li>
                         </ul>
                     </div>
-                    <div class="tip-box">
-                        <h5><i class="fas fa-check-circle"></i> Steam安装优点</h5>
-                        <p>通过Steam安装可以自动更新，适合经常使用Steam的用户。</p>
+                    <div class="tip-box success">
+                        <h5><i class="fas fa-check-circle" style="color: var(--success-color);"></i> Steam安装优点</h5>
+                        <p>通过Steam安装可以自动更新到最新版本，方便管理，适合经常使用Steam的用户。Steam还会自动处理依赖项。</p>
                     </div>
                 `
             },
@@ -698,21 +836,23 @@
                 title: "安装 Git 和 SourceTree",
                 subtitle: "版本控制工具安装",
                 icon: "fab fa-git-alt",
+                badge: { icon: "fas fa-code-branch", text: "版本控制" },
                 content: `
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fab fa-git-alt"></i> 安装 Git</h3>
+                        <h3 class="section-title"><i class="fab fa-git-alt"></i> 安装 Git</h3>
                         <ul class="content-list">
-                            <li>访问 <a href="https://git-scm.com/" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> Git官网</a></li>
+                            <li>访问 <a href="https://git-scm.com/" class="link-item" target="_blank">Git官网 <i class="fas fa-external-link-alt"></i></a></li>
                             <li>下载对应操作系统的安装包</li>
                             <li>运行安装程序，使用默认设置即可</li>
+                            <li>安装完成后，打开命令行输入 <code>git --version</code> 验证</li>
                         </ul>
                     </div>
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-code-branch"></i> 安装 SourceTree（可选）</h3>
+                        <h3 class="section-title"><i class="fas fa-code-branch"></i> 安装 SourceTree（可选GUI工具）</h3>
                         <ul class="content-list">
-                            <li>访问 <a href="https://www.sourcetreeapp.com/" class="link-item" target="_blank"><i class="fas fa-external-link-alt"></i> SourceTree官网</a></li>
+                            <li>访问 <a href="https://www.sourcetreeapp.com/" class="link-item" target="_blank">SourceTree官网 <i class="fas fa-external-link-alt"></i></a></li>
                             <li>下载对应平台的版本</li>
-                            <li>安装并登录你的Git账户</li>
+                            <li>安装并登录你的Git账户（GitHub/GitLab/Bitbucket）</li>
                         </ul>
                     </div>
                 `
@@ -722,25 +862,33 @@
                 title: "Git 基础命令",
                 subtitle: "版本控制核心操作",
                 icon: "fas fa-terminal",
+                badge: { icon: "fas fa-terminal", text: "命令行" },
                 content: `
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-terminal"></i> 常用Git命令</h3>
+                        <h3 class="section-title"><i class="fas fa-terminal"></i> 常用Git命令</h3>
                         <div class="code-block">
-                            <code><span class="code-comment"># 克隆仓库</span>
+                            <code><span class="code-comment"># 克隆远程仓库到本地</span>
 <span class="code-function">git clone</span> https://github.com/用户名/项目名.git
 
-<span class="code-comment"># 查看状态</span>
+<span class="code-comment"># 查看当前状态</span>
 <span class="code-function">git status</span>
 
-<span class="code-comment"># 添加文件到暂存区</span>
+<span class="code-comment"># 添加所有修改到暂存区</span>
 <span class="code-function">git add</span> .
 
-<span class="code-comment"># 提交更改</span>
+<span class="code-comment"># 提交更改（附带说明）</span>
 <span class="code-function">git commit</span> -m <span class="code-string">"提交说明"</span>
 
-<span class="code-comment"># 推送到远程</span>
-<span class="code-function">git push</span> origin main</code>
+<span class="code-comment"># 推送到远程仓库</span>
+<span class="code-function">git push</span> origin main
+
+<span class="code-comment"># 拉取远程更新</span>
+<span class="code-function">git pull</span> origin main</code>
                         </div>
+                    </div>
+                    <div class="tip-box">
+                        <h5><i class="fas fa-info-circle" style="color: var(--primary-color);"></i> 记忆技巧</h5>
+                        <p>Git工作流程：修改 → add(添加) → commit(提交) → push(推送)。可以理解为：把文件放进盒子，封箱，寄出。</p>
                     </div>
                 `
             },
@@ -749,21 +897,22 @@
                 title: "创建 Godot 项目",
                 subtitle: "项目初始化步骤",
                 icon: "fas fa-folder-plus",
+                badge: { icon: "fas fa-folder-plus", text: "项目创建" },
                 content: `
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-folder-plus"></i> 项目创建步骤</h3>
+                        <h3 class="section-title"><i class="fas fa-list-ol"></i> 项目创建步骤</h3>
                         <ul class="content-list">
-                            <li><span class="step-badge">1</span>打开Godot引擎</li>
-                            <li><span class="step-badge">2</span>点击"新建项目"</li>
-                            <li><span class="step-badge">3</span>设置项目名称：godot-hd2d-survival</li>
-                            <li><span class="step-badge">4</span>选择项目保存路径</li>
-                            <li><span class="step-badge">5</span>选择渲染器：Forward+</li>
-                            <li><span class="step-badge">6</span>点击"创建并编辑"</li>
+                            <li><span class="step-badge">1</span>打开Godot引擎项目管理器</li>
+                            <li><span class="step-badge">2</span>点击右侧"新建项目"按钮</li>
+                            <li><span class="step-badge">3</span>设置项目名称：<code>godot-hd2d-survival</code></li>
+                            <li><span class="step-badge">4</span>选择项目保存路径（避免中文路径）</li>
+                            <li><span class="step-badge">5</span>选择渲染器：<strong>Forward+</strong>（推荐）</li>
+                            <li><span class="step-badge">6</span>点击"创建并编辑"进入编辑器</li>
                         </ul>
                     </div>
-                    <div class="tip-box">
-                        <h5><i class="fas fa-exclamation-triangle"></i> 注意</h5>
-                        <p>避免使用中文路径，可能导致资源加载问题。</p>
+                    <div class="tip-box warning">
+                        <h5><i class="fas fa-exclamation-triangle" style="color: var(--warning-color);"></i> 注意</h5>
+                        <p>避免使用中文路径和中文项目名称，可能导致资源加载问题和跨平台兼容性问题。</p>
                     </div>
                 `
             },
@@ -772,24 +921,32 @@
                 title: "项目文件夹结构",
                 subtitle: "标准化项目组织",
                 icon: "fas fa-folder-tree",
+                badge: { icon: "fas fa-folder-tree", text: "目录结构" },
                 content: `
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-folder-tree"></i> 推荐目录结构</h3>
+                        <h3 class="section-title"><i class="fas fa-folder-tree"></i> 推荐目录结构</h3>
                         <div class="code-block">
                             <code>godot-hd2d-survival/
-├── project.godot     <span class="code-comment"># 项目配置</span>
-├── scenes/           <span class="code-comment"># 场景文件</span>
+├── <span class="code-function">project.godot</span>     <span class="code-comment"># 项目配置文件</span>
+├── <span class="code-type">scenes/</span>           <span class="code-comment"># 场景文件</span>
+│   ├── player/      <span class="code-comment"># 玩家相关场景</span>
+│   ├── enemies/     <span class="code-comment"># 敌人相关场景</span>
+│   └── world/       <span class="code-comment"># 世界/关卡场景</span>
+├── <span class="code-type">scripts/</span>          <span class="code-comment"># GDScript脚本</span>
 │   ├── player/
 │   ├── enemies/
-│   └── world/
-├── scripts/          <span class="code-comment"># GDScript脚本</span>
-├── assets/           <span class="code-comment"># 资源文件</span>
-│   ├── sprites/
-│   ├── audio/
-│   └── fonts/
-├── resources/        <span class="code-comment"># Godot资源</span>
-└── addons/           <span class="code-comment"># 插件</span></code>
+│   └── utils/
+├── <span class="code-type">assets/</span>           <span class="code-comment"># 资源文件</span>
+│   ├── sprites/     <span class="code-comment"># 精灵图片</span>
+│   ├── audio/       <span class="code-comment"># 音效音乐</span>
+│   └── fonts/       <span class="code-comment"># 字体文件</span>
+├── <span class="code-type">resources/</span>        <span class="code-comment"># Godot资源</span>
+└── <span class="code-type">addons/</span>           <span class="code-comment"># 插件目录</span></code>
                         </div>
+                    </div>
+                    <div class="tip-box success">
+                        <h5><i class="fas fa-lightbulb" style="color: var(--success-color);"></i> 最佳实践</h5>
+                        <p>保持文件夹结构清晰有助于项目管理。建议按照功能模块组织文件，便于团队协作和后期维护。</p>
                     </div>
                 `
             },
@@ -798,26 +955,28 @@
                 title: "运行第一个程序",
                 subtitle: "Hello World in Godot",
                 icon: "fas fa-play-circle",
+                badge: { icon: "fas fa-play-circle", text: "实践操作" },
                 content: `
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-play-circle"></i> 创建第一个场景</h3>
+                        <h3 class="section-title"><i class="fas fa-list-ol"></i> 创建第一个场景</h3>
                         <ul class="content-list">
-                            <li>在场景面板中点击"2D场景"</li>
-                            <li>添加一个Label节点</li>
-                            <li>设置Label文本为"Hello Godot!"</li>
-                            <li>调整字体大小和颜色</li>
-                            <li>保存场景为 Main.tscn</li>
+                            <li>在场景面板中点击"2D场景"创建根节点</li>
+                            <li>右键点击根节点 → 添加子节点 → 搜索"Label"</li>
+                            <li>在检查器面板设置Label的Text属性为"Hello Godot!"</li>
+                            <li>调整Label的位置、字体大小和颜色</li>
+                            <li>保存场景：<code>scenes/Main.tscn</code></li>
                         </ul>
                     </div>
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-code"></i> 添加简单脚本</h3>
+                        <h3 class="section-title"><i class="fas fa-code"></i> 添加简单脚本</h3>
                         <div class="code-block">
                             <code><span class="code-keyword">extends</span> Label
 
+<span class="code-comment"># 当节点进入场景树时调用</span>
 <span class="code-keyword">func</span> <span class="code-function">_ready</span>():
-    <span class="code-comment"># 节点准备就绪时执行</span>
     <span class="code-function">print</span>(<span class="code-string">"Hello from Godot!"</span>)
-    text = <span class="code-string">"Welcome to HD2D Survival!"</span></code>
+    text = <span class="code-string">"Welcome to HD2D Survival!"</span>
+    modulate = Color.YELLOW  <span class="code-comment"># 设置文字颜色为黄色</span></code>
                         </div>
                     </div>
                 `
@@ -827,9 +986,10 @@
                 title: "课程总结",
                 subtitle: "第一课时完成",
                 icon: "fas fa-check-circle",
+                badge: { icon: "fas fa-clipboard-check", text: "课时总结" },
                 content: `
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-check-circle"></i> 本课时完成事项</h3>
+                        <h3 class="section-title"><i class="fas fa-check-circle"></i> 本课时完成事项</h3>
                         <ul class="content-list">
                             <li class="completed">安装了Godot引擎</li>
                             <li class="completed">安装了Git和SourceTree</li>
@@ -841,7 +1001,7 @@
                         </ul>
                     </div>
                     <div class="content-section">
-                        <h3 class="content-title"><i class="fas fa-forward"></i> 下一课时预告</h3>
+                        <h3 class="section-title"><i class="fas fa-forward"></i> 下一课时预告</h3>
                         <ul class="content-list">
                             <li>学习Godot节点系统</li>
                             <li>创建玩家角色</li>
@@ -856,189 +1016,203 @@
                 title: "恭喜完成！",
                 subtitle: "第一课时学习结束",
                 icon: "fas fa-trophy",
+                badge: { icon: "fas fa-trophy", text: "完成!" },
                 content: `
                     <div class="learning-objectives">
-                        <h3 class="content-title"><i class="fas fa-star"></i> 恭喜完成第一课时！</h3>
-                        <p style="color: rgba(255,255,255,0.9); margin-top: var(--space-3);">
-                            你已经成功搭建了开发环境，为后续的HD2D生存游戏开发打下了坚实基础。
+                        <h3 class="section-title"><i class="fas fa-star"></i> 恭喜完成第一课时！</h3>
+                        <p style="color: rgba(255,255,255,0.95); margin-top: var(--space-4); font-size: var(--text-lg); line-height: var(--leading-relaxed);">
+                            你已经成功搭建了开发环境，为后续的HD2D生存游戏开发打下了坚实基础。继续加油！
                         </p>
                     </div>
-                    <div class="content-section" style="margin-top: var(--space-6);">
-                        <h3 class="content-title"><i class="fas fa-rocket"></i> 继续学习</h3>
+                    <div class="content-section" style="margin-top: var(--space-8);">
+                        <h3 class="section-title"><i class="fas fa-rocket"></i> 继续学习</h3>
                         <ul class="content-list">
-                            <li><a href="godot-tutorial/index.html" class="link-item"><i class="fas fa-gamepad"></i> 返回教程主页</a></li>
-                            <li><a href="godot-tutorial/interactive.html" class="link-item"><i class="fas fa-code"></i> 练习代码</a></li>
-                            <li><a href="https://github.com/DeerLuuu/nanobot-test-repo" class="link-item" target="_blank"><i class="fab fa-github"></i> 查看GitHub仓库</a></li>
+                            <li><a href="godot-tutorial/index.html" class="link-item"><i class="fas fa-gamepad"></i> 返回教程主页 - 开始下一课时</a></li>
+                            <li><a href="godot-tutorial/interactive.html" class="link-item"><i class="fas fa-code"></i> 代码练习 - 巩固GDScript基础</a></li>
+                            <li><a href="https://github.com/DeerLuuu/nanobot-test-repo" class="link-item" target="_blank"><i class="fab fa-github"></i> GitHub仓库 - 查看完整代码</a></li>
+                            <li><a href="https://docs.godotengine.org/" class="link-item" target="_blank"><i class="fas fa-book"></i> Godot官方文档 - 深入学习</a></li>
                         </ul>
                     </div>
                 `
             }
         ];
 
-        // 当前幻灯片索引
-        let currentSlideIndex = 0;
+        // ============================================
+        // 状态管理
+        // ============================================
+        let currentSlide = 0;
         const totalSlides = slides.length;
+        
+        // DOM 元素
+        const slideNumber = document.getElementById('slideNumber');
+        const titleText = document.getElementById('titleText');
+        const slideTitle = document.getElementById('slideTitle');
+        const slideSubtitle = document.getElementById('slideSubtitle');
+        const slideContent = document.getElementById('slideContent');
+        const slideBadge = document.getElementById('slideBadge');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressFill = document.getElementById('progressFill');
+        const progressStart = document.getElementById('progressStart');
+        const indicators = document.getElementById('indicators');
+        const keyboardHint = document.getElementById('keyboardHint');
+        const slideCard = document.getElementById('slideCard');
 
-        // DOM元素
-        const slideNumberEl = document.getElementById('slide-number');
-        const slideTitleEl = document.getElementById('slide-title');
-        const slideSubtitleEl = document.getElementById('slide-subtitle');
-        const slideContentEl = document.getElementById('slide-content');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const progressFill = document.getElementById('progress-fill');
-        const progressText = document.getElementById('progress-text');
-        const slideIndicators = document.getElementById('slide-indicators');
-        const keyboardHint = document.getElementById('keyboard-hint');
+        // ============================================
+        // 初始化
+        // ============================================
+        function init() {
+            createIndicators();
+            updateSlide();
+            setupEventListeners();
+            showKeyboardHint();
+        }
 
-        // 创建幻灯片指示器
+        // 创建指示器
         function createIndicators() {
-            slideIndicators.innerHTML = '';
+            indicators.innerHTML = '';
             for (let i = 0; i < totalSlides; i++) {
-                const indicator = document.createElement('div');
-                indicator.className = 'indicator' + (i === 0 ? ' active' : '');
-                indicator.addEventListener('click', () => goToSlide(i));
-                indicator.setAttribute('aria-label', `跳转到第 ${i + 1} 张幻灯片`);
-                slideIndicators.appendChild(indicator);
+                const btn = document.createElement('button');
+                btn.className = 'indicator' + (i === 0 ? ' active' : '');
+                btn.setAttribute('aria-label', `跳转到第 ${i + 1} 页`);
+                btn.addEventListener('click', () => goToSlide(i));
+                indicators.appendChild(btn);
             }
         }
 
-        // 更新幻灯片内容
+        // 更新幻灯片
         function updateSlide() {
-            const slide = slides[currentSlideIndex];
+            const slide = slides[currentSlide];
+            
+            // 更新标题
+            slideNumber.textContent = slide.id;
+            titleText.textContent = slide.title;
+            slideTitle.querySelector('i').className = slide.icon;
+            slideSubtitle.textContent = slide.subtitle;
+            
+            // 更新徽章
+            slideBadge.innerHTML = `<i class="${slide.badge.icon}"></i><span>${slide.badge.text}</span>`;
             
             // 更新内容
-            slideNumberEl.textContent = slide.id;
-            slideTitleEl.innerHTML = `<i class="${slide.icon}"></i> ${slide.title}`;
-            slideSubtitleEl.textContent = slide.subtitle;
-            slideContentEl.innerHTML = slide.content;
+            slideContent.innerHTML = slide.content;
             
             // 更新进度
-            const progressPercentage = ((currentSlideIndex + 1) / totalSlides) * 100;
-            progressFill.style.width = `${progressPercentage}%`;
-            progressText.textContent = `${currentSlideIndex + 1}/${totalSlides}`;
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressFill.style.width = `${progress}%`;
+            progressStart.textContent = currentSlide + 1;
             
-            // 更新按钮状态
-            prevBtn.disabled = currentSlideIndex === 0;
-            nextBtn.innerHTML = currentSlideIndex === totalSlides - 1 
-                ? '完成 <i class="fas fa-check"></i>' 
-                : '下一张 <i class="fas fa-chevron-right"></i>';
+            // 更新按钮
+            prevBtn.disabled = currentSlide === 0;
+            if (currentSlide === totalSlides - 1) {
+                nextBtn.innerHTML = '<span>完成</span><i class="fas fa-check"></i>';
+            } else {
+                nextBtn.innerHTML = '<span>下一页</span><i class="fas fa-chevron-right"></i>';
+            }
             
             // 更新指示器
-            const indicators = slideIndicators.querySelectorAll('.indicator');
-            indicators.forEach((ind, index) => {
-                ind.classList.toggle('active', index === currentSlideIndex);
+            document.querySelectorAll('.indicator').forEach((ind, i) => {
+                ind.classList.toggle('active', i === currentSlide);
             });
-
-            // 滚动到内容顶部
-            slideContentEl.scrollTop = 0;
+            
+            // 滚动到顶部
+            slideContent.scrollTop = 0;
+            
+            // 触发动画
+            slideCard.style.animation = 'none';
+            slideCard.offsetHeight; // 强制重绘
+            slideCard.style.animation = 'slideIn 0.4s ease-out';
         }
 
-        // 切换到指定幻灯片
+        // 跳转到指定幻灯片
         function goToSlide(index) {
             if (index >= 0 && index < totalSlides) {
-                currentSlideIndex = index;
+                currentSlide = index;
                 updateSlide();
             }
         }
 
-        // 上一张
+        // 上一页
         function goToPrev() {
-            if (currentSlideIndex > 0) {
-                goToSlide(currentSlideIndex - 1);
+            if (currentSlide > 0) {
+                goToSlide(currentSlide - 1);
             }
         }
 
-        // 下一张
+        // 下一页
         function goToNext() {
-            if (currentSlideIndex < totalSlides - 1) {
-                goToSlide(currentSlideIndex + 1);
+            if (currentSlide < totalSlides - 1) {
+                goToSlide(currentSlide + 1);
             } else {
-                // 最后一张，显示完成提示
-                showCompletionMessage();
+                showCompletion();
             }
         }
 
-        // 显示完成消息
-        function showCompletionMessage() {
-            alert('🎉 恭喜！你已经完成了第一课时的所有内容！\n\n继续前往下一课时学习更多内容。');
+        // 显示完成提示
+        function showCompletion() {
+            alert('🎉 恭喜完成第一课时！\n\n你已经掌握了Godot开发环境的基础配置。\n继续前往教程主页开始下一课时的学习！');
         }
 
         // 显示键盘提示
         function showKeyboardHint() {
-            keyboardHint.classList.add('visible');
             setTimeout(() => {
-                keyboardHint.classList.remove('visible');
-            }, 3000);
+                keyboardHint.classList.add('visible');
+                setTimeout(() => {
+                    keyboardHint.classList.remove('visible');
+                }, 4000);
+            }, 1000);
         }
 
-        // 键盘导航
-        document.addEventListener('keydown', (event) => {
-            switch(event.key) {
-                case 'ArrowLeft':
-                    goToPrev();
-                    break;
-                case 'ArrowRight':
-                case ' ':
-                    event.preventDefault();
-                    goToNext();
-                    break;
-                case 'Home':
-                    event.preventDefault();
-                    goToSlide(0);
-                    break;
-                case 'End':
-                    event.preventDefault();
-                    goToSlide(totalSlides - 1);
-                    break;
-            }
-        });
-
-        // 触摸滑动支持
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        document.addEventListener('touchstart', (event) => {
-            touchStartX = event.changedTouches[0].screenX;
-        }, { passive: true });
-        
-        document.addEventListener('touchend', (event) => {
-            touchEndX = event.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
-        
-        function handleSwipe() {
-            const swipeThreshold = 50;
-            const diff = touchStartX - touchEndX;
+        // 设置事件监听
+        function setupEventListeners() {
+            // 按钮点击
+            prevBtn.addEventListener('click', goToPrev);
+            nextBtn.addEventListener('click', goToNext);
             
-            if (Math.abs(diff) > swipeThreshold) {
-                if (diff > 0) {
-                    goToNext();
-                } else {
-                    goToPrev();
+            // 键盘导航
+            document.addEventListener('keydown', (e) => {
+                switch (e.key) {
+                    case 'ArrowLeft':
+                        goToPrev();
+                        break;
+                    case 'ArrowRight':
+                    case ' ':
+                        e.preventDefault();
+                        goToNext();
+                        break;
+                    case 'Home':
+                        e.preventDefault();
+                        goToSlide(0);
+                        break;
+                    case 'End':
+                        e.preventDefault();
+                        goToSlide(totalSlides - 1);
+                        break;
                 }
-            }
+            });
+            
+            // 触摸滑动
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            document.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            
+            document.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                const diff = touchStartX - touchEndX;
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) {
+                        goToNext();
+                    } else {
+                        goToPrev();
+                    }
+                }
+            }, { passive: true });
         }
 
-        // 按钮事件
-        prevBtn.addEventListener('click', goToPrev);
-        nextBtn.addEventListener('click', goToNext);
-
-        // 初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            createIndicators();
-            updateSlide();
-
-            // 首次显示键盘提示
-            setTimeout(showKeyboardHint, 1000);
-        });
-
-        // 页面可见性变化时的处理
-        document.addEventListener('visibilitychange', () => {
-            if (!document.hidden) {
-                // 页面重新可见时，可以恢复某些状态
-            }
-        });
+        // 启动
+        init();
     </script>
 </body>
 </html>
