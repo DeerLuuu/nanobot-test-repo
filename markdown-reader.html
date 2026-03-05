@@ -207,9 +207,11 @@
                 if (task) {
                     const isChecked = checked ? 'checked' : '';
                     const checkedClass = checked ? 'task-list-item-checked' : '';
+                    // 移除 text 中可能存在的默认复选框，只保留纯文本
+                    const cleanText = text.replace(/<input[^>]*type=["']?checkbox["']?[^>]*>/gi, '').trim();
                     return `<li class="task-list-item ${checkedClass}">
                         <input type="checkbox" class="task-checkbox" ${isChecked} onclick="toggleTask(this)">
-                        <span class="task-text">${text}</span>
+                        <span class="task-text">${cleanText}</span>
                     </li>`;
                 }
                 return `<li>${text}</li>`;
