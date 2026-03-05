@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Markdown文档阅读器 - 浏览和阅读项目文档">
+    <meta name="keywords" content="Markdown, 文档, Godot, 教程">
+    <meta name="author" content="nanobot AI">
+    <meta name="theme-color" content="#667eea">
+    <title>文档阅读器 - nanobot网页项目库</title>
+    
+    <!-- 外部资源 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    
+    <!-- 项目样式 -->
+    <link rel="stylesheet" href="css/shared-theme.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/editor.css">
+    <link rel="stylesheet" href="css/markdown.css">
+    
+</head>
+<body>
+    <div class="container">
+        <!-- 统一导航栏 -->
+        <nav class="navbar card" role="navigation" aria-label="主导航">
+            <div class="logo">
+                <i class="fas fa-book logo-icon" aria-hidden="true"></i>
+                <div>
+                    <h1>文档阅读器</h1>
+                    <p class="subtitle">浏览项目技术文档</p>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                    <span>项目库主页</span>
+                </a>
+                <a href="godot-tutorial/index.html" class="nav-link">
+                    <i class="fas fa-gamepad" aria-hidden="true"></i>
+                    <span>Godot教程</span>
+                </a>
+                <a href="godot-tutorial/interactive.html" class="nav-link">
+                    <i class="fas fa-code" aria-hidden="true"></i>
+                    <span>代码练习</span>
+                </a>
+                <a href="https://github.com/DeerLuuu/nanobot-test-repo" class="nav-link" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-github" aria-hidden="true"></i>
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- 面包屑导航 -->
+        <nav class="breadcrumb card" aria-label="面包屑导航">
+            <a href="index.html">首页</a>
+            <span class="separator">/</span>
+            <span class="current" aria-current="page">文档阅读器</span>
+        </nav>
+        
+        <!-- 页面布局：侧边栏 + 主内容 -->
+        <div class="page-layout">
+            <!-- 左侧边栏 -->
+            <aside class="sidebar">
+                <div class="card">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-folder-open"></i>
+                        文档目录
+                    </h3>
+                    <nav class="sidebar-nav" id="docNav">
+                        <div class="sidebar-nav-item" style="justify-content: center;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <span>加载中...</span>
+                        </div>
+                    </nav>
+                </div>
+                
+                <div class="card">
+                    <h3 class="sidebar-title">
+                        <i class="fas fa-link"></i>
+                        快捷链接
+                    </h3>
+                    <div class="sidebar-links">
+                        <a href="index.html" class="sidebar-link">
+                            <i class="fas fa-home"></i> 返回项目主页
+                        </a>
+                        <a href="godot-tutorial/index.html" class="sidebar-link">
+                            <i class="fas fa-gamepad"></i> Godot教程
+                        </a>
+                        <a href="https://github.com/DeerLuuu/nanobot-test-repo" target="_blank" class="sidebar-link">
+                            <i class="fab fa-github"></i> GitHub 仓库
+                        </a>
+                    </div>
+                </div>
+            </aside>
+            
+            <!-- 主内容区域 -->
+            <main class="main-content">
+                <div class="card" id="markdownContainer">
+                    <!-- 文档头部 -->
+                    <div class="doc-header">
+                        <div class="doc-info">
+                            <span class="doc-badge">
+                                <i class="fas fa-file-alt"></i>
+                                <span id="docTitle">文档阅读器</span>
+                            </span>
+                            <span class="doc-meta" id="docMeta"></span>
+                        </div>
+                        <div class="doc-actions">
+                            <button class="btn btn-secondary btn-sm" onclick="scrollToTop()" title="返回顶部">
+                                <i class="fas fa-arrow-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Markdown内容区域 -->
+                    <div class="markdown-body" id="markdownBody">
+                        <div class="loading-state">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>正在扫描文档目录...</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>🐈 nanobot文档阅读器 | 自动扫描 doc 文件夹</p>
+            <p>GitHub仓库: <a href="https://github.com/DeerLuuu/nanobot-test-repo">https://github.com/DeerLuuu/nanobot-test-repo</a></p>
+            <div class="footer-links">
+                <a href="index.html">项目库主页</a>
+                <a href="godot-tutorial/index.html">Godot教程</a>
+                <a href="godot-tutorial/interactive.html">代码练习</a>
+                <a href="https://github.com/DeerLuuu/nanobot-test-repo/issues">报告问题</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" id="backToTop" aria-label="返回页面顶部">
+        <i class="fas fa-chevron-up" aria-hidden="true"></i>
+    </button>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/gdscript.min.js"></script>
+    
+    <script>
+        // ============================================
+        // 配置
+        // ============================================
+        const CONFIG = {
+            docPath: 'doc/',
+            indexFile: 'doc/index.json',
+            // GitHub 仓库信息（用于获取文件列表的备选方案）
+            github: {
+                owner: 'DeerLuuu',
+                repo: 'nanobot-test-repo'
+            }
+        };
+
+        // ============================================
+        // 全局状态
+        // ============================================
+        const docDict = {};  // 文档字典: { id: { title, path } }
+        
+        let docNav = null;
+        let markdownBody = null;
+        let docTitle = null;
+        let docMeta = null;
+        let currentDocId = null;
+
+        // ============================================
+        // 初始化
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            docNav = document.getElementById('docNav');
+            markdownBody = document.getElementById('markdownBody');
+            docTitle = document.getElementById('docTitle');
+            docMeta = document.getElementById('docMeta');
+            
+            configureMarked();
+            initBackToTop();
+            initDocIndex();
+        });
+
+        // ============================================
+        // 配置 Marked
+        // ============================================
+        function configureMarked() {
+            marked.setOptions({
+                highlight: function(code, lang) {
+                    if (lang && hljs.getLanguage(lang)) {
+                        try {
+                            return hljs.highlight(code, { language: lang }).value;
+                        } catch (e) {}
+                    }
+                    try {
+                        return hljs.highlight(code, { language: 'gdscript' }).value;
+                    } catch (e) {
+                        return hljs.highlightAuto(code).value;
+                    }
+                },
+                breaks: true,
+                gfm: true
+            });
+        }
+
+        // ============================================
+        // 初始化文档索引 - 获取文件列表
+        // ============================================
+        async function initDocIndex() {
+            try {
+                // 方案1: 从 index.json 获取文件列表
+                const files = await fetchFileListFromIndex();
+                
+                if (files && files.length > 0) {
+                    await buildDocDict(files);
+                    renderSidebar();
+                    loadDocument(Object.keys(docDict)[0]);
+                    return;
+                }
+            } catch (e) {
+                console.log('index.json 方案失败:', e.message);
+            }
+            
+            try {
+                // 方案2: 从 GitHub API 获取文件列表
+                const files = await fetchFileListFromGitHub();
+                
+                if (files && files.length > 0) {
+                    await buildDocDict(files);
+                    renderSidebar();
+                    loadDocument(Object.keys(docDict)[0]);
+                    return;
+                }
+            } catch (e) {
+                console.log('GitHub API 方案失败:', e.message);
+            }
+            
+            // 所有方案都失败
+            showError('无法获取文档列表，请确保使用本地服务器或部署在 GitHub Pages');
+        }
+
+        // ============================================
+        // 方案1: 从 index.json 获取文件列表
+        // ============================================
+        async function fetchFileListFromIndex() {
+            const response = await fetch(CONFIG.indexFile);
+            if (!response.ok) {
+                throw new Error(`index.json 加载失败: ${response.status}`);
+            }
+            const data = await response.json();
+            return data.files.map(f => f.file);  // 返回文件名列表
+        }
+
+        // ============================================
+        // 方案2: 从 GitHub API 获取文件列表
+        // ============================================
+        async function fetchFileListFromGitHub() {
+            const url = `https://api.github.com/repos/${CONFIG.github.owner}/${CONFIG.github.repo}/contents/${CONFIG.docPath.replace('/', '')}`;
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`GitHub API 失败: ${response.status}`);
+            }
+            const data = await response.json();
+            return data.filter(f => f.name.endsWith('.md')).map(f => f.name);
+        }
+
+        // ============================================
+        // 构建文档字典
+        // 根据 md 文件列表，提取标题并保存到字典
+        // ============================================
+        async function buildDocDict(fileList) {
+            for (let i = 0; i < fileList.length; i++) {
+                const fileName = fileList[i];
+                if (!fileName.endsWith('.md')) continue;
+                
+                // 根据顺序生成 id
+                const id = 'doc-' + (i + 1);
+                
+                // 获取文件内容并提取标题
+                const filePath = CONFIG.docPath + fileName;
+                const content = await fetch(filePath).then(r => r.text());
+                const title = extractTitle(content) || fileName.replace('.md', '');
+                
+                // 保存到字典
+                docDict[id] = {
+                    title: title,
+                    path: filePath
+                };
+            }
+        }
+
+        // ============================================
+        // 从 Markdown 内容提取标题
+        // ============================================
+        function extractTitle(content) {
+            const match = content.match(/^#\s+(.+)$/m);
+            return match ? match[1].trim() : null;
+        }
+
+        // ============================================
+        // 渲染侧边栏
+        // ============================================
+        function renderSidebar() {
+            const ids = Object.keys(docDict);
+            
+            if (ids.length === 0) {
+                docNav.innerHTML = '<div class="sidebar-nav-item">暂无文档</div>';
+                return;
+            }
+            
+            let html = '';
+            ids.forEach(id => {
+                const doc = docDict[id];
+                html += `
+                    <div class="sidebar-nav-item" 
+                         data-doc-id="${id}" 
+                         onclick="loadDocument('${id}')"
+                         role="button"
+                         tabindex="0">
+                        <i class="fas fa-file-alt"></i>
+                        <span>${doc.title}</span>
+                    </div>
+                `;
+            });
+            
+            docNav.innerHTML = html;
+            
+            // 键盘支持
+            docNav.querySelectorAll('.sidebar-nav-item').forEach(item => {
+                item.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        loadDocument(item.dataset.docId);
+                    }
+                });
+            });
+        }
+
+        // ============================================
+        // 加载文档
+        // 根据 id 从字典中获取路径，加载并渲染
+        // ============================================
+        async function loadDocument(id) {
+            const doc = docDict[id];
+            if (!doc) {
+                console.error('文档不存在:', id);
+                return;
+            }
+            
+            // 更新活动状态
+            document.querySelectorAll('.sidebar-nav-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.docId === id);
+            });
+            
+            currentDocId = id;
+            
+            // 显示加载状态
+            markdownBody.innerHTML = `
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>正在加载文档...</p>
+                </div>
+            `;
+            
+            try {
+                const response = await fetch(doc.path);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+                const content = await response.text();
+                const html = marked.parse(content);
+                
+                markdownBody.innerHTML = html;
+                docTitle.textContent = doc.title;
+                docMeta.textContent = '';
+                
+                scrollToTop();
+                
+            } catch (error) {
+                console.error('加载文档失败:', error);
+                markdownBody.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>加载失败</h3>
+                        <p>无法加载: ${doc.title}</p>
+                        <p class="error-detail">${error.message}</p>
+                        <button class="btn btn-primary" onclick="loadDocument('${id}')">
+                            <i class="fas fa-redo"></i> 重试
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================
+        // 显示错误
+        // ============================================
+        function showError(message) {
+            docNav.innerHTML = '<div class="sidebar-nav-item">加载失败</div>';
+            markdownBody.innerHTML = `
+                <div class="error-state">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>无法加载文档</h3>
+                    <p class="error-detail">${message}</p>
+                    <p class="error-hint">
+                        <i class="fas fa-info-circle"></i>
+                        请确保:<br>
+                        1. 使用 VS Code Live Server 打开<br>
+                        2. doc/index.json 文件存在<br>
+                        3. 或部署到 GitHub Pages
+                    </p>
+                    <button class="btn btn-primary" onclick="location.reload()">
+                        <i class="fas fa-redo"></i> 重试
+                    </button>
+                </div>
+            `;
+        }
+
+        // ============================================
+        // 工具函数
+        // ============================================
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initBackToTop() {
+            const btn = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                btn.classList.toggle('visible', window.scrollY > 300);
+            });
+            btn.addEventListener('click', scrollToTop);
+        }
+    </script>
+</body>
+</html>
